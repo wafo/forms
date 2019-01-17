@@ -1,5 +1,5 @@
 import React from 'react';
-import { WafoForm, WafoFormInput } from '../../../lib';
+import { WafoForm, WafoFormInput, WafoFormSelect } from '../../../lib';
 
 const initialState = {};
 
@@ -14,6 +14,12 @@ class SimpleForm extends React.Component {
   }
 
   render() {
+    const select = [
+      { value: '0', display: 'Item One' },
+      { value: '1', display: 'Item Two' },
+      { value: '2', display: 'Item Three' },
+    ];
+
     return (
       <div className="simple-form">
         <WafoForm buttonText="Submit" onSubmit={this.handleFormSubmit}>
@@ -21,6 +27,7 @@ class SimpleForm extends React.Component {
           <WafoFormInput
             type="text"
             name="example"
+            customClass="mycustomclass"
             placeholder="A placeholder"
             label="An input field"
             validations={{ required: true, minLength: 2, maxLength: 255 }}
@@ -29,9 +36,18 @@ class SimpleForm extends React.Component {
           <WafoFormInput
             type="text"
             name="exampledos"
+            customClass="mycustomclass"
             placeholder="A placeholder"
             label="Another input field"
             validations={{ minLength: 2, maxLength: 255 }}
+          />
+
+          <WafoFormSelect
+            name="exampleselect"
+            customClass="mycustomclass"
+            label="A select field"
+            options={select}
+            validations={{ required: true }}
           />
 
         </WafoForm>
