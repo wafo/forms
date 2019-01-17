@@ -1,5 +1,7 @@
 import React from 'react';
 import { WafoForm, WafoFormInput, WafoFormSelect } from '../../../lib';
+import WafoFormTextArea from '../../lib/textarea';
+import '../styles.css';
 
 const initialState = {};
 
@@ -48,6 +50,14 @@ class SimpleForm extends React.Component {
             label="A select field"
             options={select}
             validations={{ required: true }}
+          />
+
+          <WafoFormTextArea
+            name="textarea"
+            placeholder="A textarea placeholder"
+            customClass="full-width"
+            label="A textarea field"
+            validations={{ required: true, minLength: 5 }}
           />
 
         </WafoForm>

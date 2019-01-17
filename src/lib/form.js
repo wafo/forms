@@ -3,15 +3,6 @@ import validateField from './validation';
 import styles from './styles';
 
 /**
- * @typedef initialState
- * @type {Object}
- * @property {initialInputState} form One for every props.children (input) in the form. The "name" of the input is the key.
- */
-const initialState = {
-  form: {},
-};
-
-/**
  * @typedef initialInputState
  * @type {Object}
  * @property {string} value The value of the input
@@ -26,6 +17,15 @@ const initialInputState = {
   valid: false,
   errors: [],
   validations: {},
+};
+
+/**
+ * @typedef initialState
+ * @type {Object}
+ * @property {initialInputState} form One for every props.children (input) in the form. The "name" of the input is the key.
+ */
+const initialState = {
+  form: {},
 };
 
 class WafoForm extends React.Component {
