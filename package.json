@@ -1,7 +1,7 @@
 {
-  "name": "react-component-example-project",
+  "name": "wafo-forms",
   "version": "0.1.0",
-  "description": "A minimal boilerplate for building a react component for npm, including a demo page.",
+  "description": "No quiero volver a configurar states para inputs, ni hacer validaciones. Esta en React.",
   "main": "lib/index.js",
   "scripts": {
     "dev": "concurrently \"npm run lib:watch\" \"npm run docs\"",
@@ -13,8 +13,8 @@
   "keywords": [],
   "license": "MIT",
   "peerDependencies": {
-    "react": "^15.3.0 || ^16.2.0",
-    "react-dom": "^15.3.0 || ^16.2.0"
+    "react": "^16.7",
+    "react-dom": "^16.7"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.46",
@@ -27,17 +27,17 @@
     "concurrently": "^4.0.1",
     "css-loader": "^1.0.0",
     "html-webpack-plugin": "^3.2.0",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
+    "react": "^16.7",
+    "react-dom": "^16.7",
     "style-loader": "^0.23.1",
     "webpack": "^4.6.0",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.3"
+    "webpack-dev-server": "^3.1.14"
   },
-  "author": "Markus Englund <markus.s.englund@gmail.com>",
-  "homepage": "https://github.com/yogaboll/react-npm-component-starter",
+  "author": "Jose Luis Vega <joseluisvb@outlook.com>",
+  "homepage": "http://gitlab.rosolutionsdev.com.mx/wafo/wafo-forms",
   "repository": {
     "type": "git",
-    "url": "git@github.com:yogaboll/react-npm-component-starter.git"
+    "url": "git@gitlab.rosolutionsdev.com.mx:wafo/wafo-forms.git"
   }
 }
