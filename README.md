@@ -41,6 +41,44 @@ const ExampleComponent = () => {
 };
 ```
 
+## Componentes
+Además del componente principal `WafoForm`, existen otros componentes que son los que permiten al usuario final introducir valores a la forma. La forma más común de utilizar estos componentes es dentro del componente principal, sin embargo, es posible utilizarlos de manera individual y cada uno es capaz de ofrecer todas las funcionalidades en ambos casos.
+
+### WafoFormInput
+El componente más básico de todos, puede ser utilizado para introducir casi cualquier tipo de carácter y ofrece todas las funciones de la etiqueta `<input>` de HTML.
+
+Ejemplo:
+```javascript
+import React from 'react';
+import { WafoFormInput } from 'wafo-forms';
+
+const Example = () => (
+	<WafoFormInput
+		type="text"
+		name="example"
+		customClass="custom-class"
+		placeholder="A placeholder"
+		label="An input field"
+	/>
+);
+```
+
+#### Props
+| Prop | Type | Required | Default value | Description |
+|--|--|--|--|--|
+| type | String | No | "text" |  |
+| customClass | String | No | "" |  |
+| name | String | Yes |  |  |
+| label | String | No | "" |  |
+| placeholder | String | No | "" |  |
+| value | String | No | "" |  |
+| handleInputChange | Function | No | f => f |  |
+| valid | Bool | No | false |  |
+| touched | Bool | No | false |  |
+| errors | Array | No | [] |  |
+| validations | Object | No | {} |  |
+
+
 ## TODO
 
  - Soporte para imágenes.
