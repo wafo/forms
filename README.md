@@ -37,7 +37,7 @@ const ExampleComponent = () => {
 				placeholder="A placeholder"
 				label="An input field"
 			/>
-		</WafoForm>
+		</WafoForm >
 	);
 };
 ```
