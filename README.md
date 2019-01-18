@@ -47,5 +47,5 @@ const ExampleComponent = () => {
  - Soporte para fechas.
  - Soporte para Rich Text  (WYSIWYG).
  
- ### Limitaciones
- Las validaciones disponibles son muy especificas y no cubren todos los casos. Como solución momentánea y para permitir mayor flexibilidad se permite validar mediante expresiones regulares.
+### Limitaciones
+Las validaciones disponibles son muy especificas y no cubren todos los casos. Como solución momentánea y para permitir mayor flexibilidad se permite validar mediante expresiones regulares.
