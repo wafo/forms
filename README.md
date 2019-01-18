@@ -3,7 +3,8 @@ UI Component hecho en React 16.7, hecho con la intención de agilizar y facilita
 
 ## Demo
 Prueba el componente en vivo aquí.
-to-do: Imagen de ejemplo
+
+**To-do**: Link a ejemplo. Imagen de ejemplo
 
 ## Primeros pasos
 
@@ -246,7 +247,7 @@ Este componente comparte propiedades con otros componentes de la librería. Las 
 | customClass | String | No | "" | Clase que será agregada al componente. |
 | label | String | No | "" | Texto que se muestra junto con el `<input>`. De omitirse no se mostrara nada.|
 | **defaultValue** | String | No | "Select an option" | Es la opción que estará seleccionada por default al iniciar (similar a placeholder) y de no seleccionar otra opción retornara un String vacio como valor. |
-| **options** | [Array](#arreglo-options) | No | [] | Array con las opciones a mostrar, entre las cuales podrá elegir el usuario. Este arreglo puede ser modificado incluso después de que el componente sea iniciado, como en el caso de provenir de una fuente asíncrona. |
+| **options** | [Array](#array-options) | No | [] | Array con las opciones a mostrar, entre las cuales podrá elegir el usuario. Este arreglo puede ser modificado incluso después de que el componente sea iniciado, como en el caso de provenir de una fuente asíncrona. |
 | validations | Object | No | {} | Objeto con las validaciones a las que se sometera el valor actual. La validación se realiza cada vez que este cambia o al momento de dispararse *onSubmit* de [`WafoForm`](#wafoform). |
 
 #### Array options
