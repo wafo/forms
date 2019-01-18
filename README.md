@@ -66,17 +66,17 @@ const Example = () => (
 #### Props
 | Prop | Type | Required | Default value | Description |
 |--|--|--|--|--|
-| type | String | No | "text" |  |
-| customClass | String | No | "" |  |
-| name | String | Yes |  |  |
-| label | String | No | "" |  |
-| placeholder | String | No | "" |  |
-| value | String | No | "" |  |
-| handleInputChange | Function | No | f => f |  |
-| valid | Bool | No | false |  |
-| touched | Bool | No | false |  |
-| errors | Array | No | [] |  |
-| validations | Object | No | {} |  |
+| type | String | No | "text" | Se especifica el tipo de `<input>` que va manejar el componente. Más sobre [Input Types.](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) |
+| customClass | String | No | "" | Clase que sera agregada al componente. |
+| name | String | Yes |  | Esta propiedad es utilizada como la llave que identifica al componente dentro de la forma y debe ser único. |
+| label | String | No | "" | Texto que se muestra junto con el `<input>`. De omitirse no se mostrara nada.|
+| placeholder | String | No | "" | Texto que se muestra cuando `<input>` esta vacío. De omitirse no se mostrara nada. |
+| value | String | No | "" | *Debe omitirse si el componente es utilizado como hijo de `WafoForm`.* Representa el valor que contiene el componente. |
+| handleInputChange | Function | No | f => f | *Debe omitirse si el componente es utilizado como hijo de `WafoForm`.* Callback que se dispara cada vez que hay un cambio en *value* (Puede utilizarse para actualizar el *state*). |
+| valid | Bool | No | false | Representa el estado de la validación. *Solo es relevante si se utiliza dentro de `WafoForm`.* |
+| touched | Bool | No | false | Indica si el *value* de la forma ha sido modificado. *Solo es relevante si se utiliza dentro de `WafoForm`.* |
+| errors | Array | No | [] | Array que lista los errores retornados de la validación. Estos son devueltos durante el *onSubmit* de `WafoForm`. *Solo es relevante si se utiliza dentro de `WafoForm`.* |
+| validations | Object | No | {} | Objeto con las validaciones a las que se sometera el *value*. La validación se realiza cada vez que este cambia o al momento de dispararse *onSubmit* de `WafoForm`. *Funciona de manera automática si se utiliza dentro de `WafoForm`.* |
 
 
 ## TODO
