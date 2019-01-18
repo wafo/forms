@@ -37,7 +37,7 @@ const ExampleComponent = () => {
 				placeholder="A placeholder"
 				label="An input field"
 			/>
-		</WafoForm >
+		</WafoForm>
 	);
 };
 ```
@@ -171,7 +171,7 @@ Esto podría no ser necesario si hay un componente padre que se encarge de obten
 
 #### Disparar onSubmit manualmente
 
-onSubmit es una función de [`WafoForm`](#wafoform) que se ejecuta al momento de realizar la acción de submit (presionando *Enter* en el teclado o el Botón de la forma, etc.). Esta función valida cada uno de los [`WafoForm Element`](#wafoform-element) y genera un objeto [`formValue`](#objeto-formvalue) que sera devuelto a la función que se haya especificado en la propiedad `onSubmit`.
+onSubmit es una función de [`WafoForm`](#wafoform) que se ejecuta al momento de realizar la acción de submit (presionando *Enter* en el teclado o el botón de la forma, etc.). Esta función valida cada uno de los [`WafoForm Element`](#wafoform-element) y genera un objeto [`formValue`](#objeto-formvalue) que sera devuelto a la función que se haya especificado en la propiedad `onSubmit`.
 
 Una posible alternativa en el caso que se desee disparar esta función desde otro componente, o desde otra función, es utilizar un [Ref](https://reactjs.org/docs/refs-and-the-dom.html) y así acceder directamente a la funcion onSubmit.
 
@@ -198,18 +198,14 @@ class Example extends React.Component {
 					buttonText="Save changes"
 					onSubmit={this.handleSubmit}
 				>
-
 				{/* WafoForm Elements... */}
-				
 				</WafoForm>
 
 				{/* Botón fuera de Wafo Forms */}
 				<button
 					type="button"
 					onClick={() => { this.formRef.current.onSubmit(); }}
-				>
-					onSubmit
-				</button>
+				>onSubmit</button>
 			</div>
 		);
 	}
@@ -243,7 +239,7 @@ Este componente comparte propiedades con otros componentes de la librería. Las 
 |--|--|--|--|--|
 | name | String | Yes |  | Esta propiedad es utilizada como la llave que identifica al componente dentro de la forma y debe ser único. |
 | **type** | String | No | "text" | Se especifica el tipo de `<input>` que va manejar el componente. Más sobre [Input Types.](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) |
-| placeholder | String | No | "" | Texto que se muestra cuando `<input>` esta vacío. De omitirse no se mostrara nada. |
+| placeholder | String | No | "" | Texto que se muestra cuando el valor esta vacío. De omitirse no se mostrara nada. |
 | customClass | String | No | "" | Clase que será agregada al componente. |
 | label | String | No | "" | Texto que se muestra junto con el `<input>`. De omitirse no se mostrara nada.|
 | validations | Object | No | {} | Objeto con las validaciones a las que se sometera el valor actual. La validación se realiza cada vez que este cambia o al momento de dispararse *onSubmit* de [`WafoForm`](#wafoform). |
@@ -288,7 +284,7 @@ Este componente comparte propiedades con otros componentes de la librería. Las 
 |--|--|--|--|--|
 | name | String | Yes |  | Esta propiedad es utilizada como la llave que identifica al componente dentro de la forma y debe ser único. |
 | customClass | String | No | "" | Clase que será agregada al componente. |
-| label | String | No | "" | Texto que se muestra junto con el `<input>`. De omitirse no se mostrara nada.|
+| label | String | No | "" | Texto que se muestra junto con el `<select>`. De omitirse no se mostrara nada.|
 | **defaultValue** | String | No | "Select an option" | Es la opción que estará seleccionada por default al iniciar (similar a placeholder) y de no seleccionar otra opción retornara un String vacio como valor. |
 | **options** | [Array](#array-options) | No | [] | Array con las opciones a mostrar, entre las cuales podrá elegir el usuario. Este arreglo puede ser modificado incluso después de que el componente sea iniciado, como en el caso de provenir de una fuente asíncrona. |
 | validations | Object | No | {} | Objeto con las validaciones a las que se sometera el valor actual. La validación se realiza cada vez que este cambia o al momento de dispararse *onSubmit* de [`WafoForm`](#wafoform). |
@@ -310,7 +306,42 @@ Ejemplo:
 ];
 ```
 
+
+### WafoFormTextArea
+Este componente permite introducir grandes cantidades de texto con soporte para multiples lineas. Ofrece funciones similares a las de la etiqueta [`<textarea>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea) de HTML.
+
+Ejemplo:
+```javascript
+import React from 'react';
+import { WafoFormTextArea } from 'wafo-forms';
+
+const Example = () => (
+	<WafoFormTextArea
+		name="example"
+		customClass="custom-class"
+		placeholder="Insert your text here..."
+		label="A text area field"
+	/>
+);
+
+```
+
+#### Props
+Este componente comparte propiedades con otros componentes de la librería.
+
+| Prop | Type | Required | Default value | Description |
+|--|--|--|--|--|
+| name | String | Yes |  | Esta propiedad es utilizada como la llave que identifica al componente dentro de la forma y debe ser único. |
+| placeholder | String | No | "" | Texto que se muestra cuando el valor esta vacio. De omitirse no se mostrara nada. |
+| customClass | String | No | "" | Clase que será agregada al componente. |
+| label | String | No | "" | Texto que se muestra junto con el `<textarea>`. De omitirse no se mostrara nada. |
+| validations | Object | No | {} | Objeto con las validaciones a las que se sometera el valor actual. La validación se realiza cada vez que este cambia o al momento de dispararse *onSubmit* de [`WafoForm`](#wafoform). |
+
 ### Componentes personalizados
+
+**To-do:** Escribir esto.
+
+## Validación
 
 **To-do:** Escribir esto.
 
