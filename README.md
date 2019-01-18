@@ -64,6 +64,9 @@ const Example = () => (
 ```
 
 #### Props
+
+Este componente comparte propiedades con otros componentes de la librería. Ir a [`WafoFormElement`](#wafoformelement)
+
 | Prop | Type | Required | Default value | Description |
 |--|--|--|--|--|
 | type | String | No | "text" | Se especifica el tipo de `<input>` que va manejar el componente. Más sobre [Input Types.](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) |
@@ -78,6 +81,9 @@ const Example = () => (
 | errors | Array | No | [] | Array que lista los errores retornados de la validación. Estos son devueltos durante el *onSubmit* de `WafoForm`. *Solo es relevante si se utiliza dentro de `WafoForm`.* |
 | validations | Object | No | {} | Objeto con las validaciones a las que se sometera el *value*. La validación se realiza cada vez que este cambia o al momento de dispararse *onSubmit* de `WafoForm`. *Funciona de manera automática si se utiliza dentro de `WafoForm`.* |
 
+
+### WafoFormElement
+Ayylmao dijo el Gaytis.
 
 ## TODO
 
