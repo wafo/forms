@@ -157,7 +157,7 @@ class Example extends React.Component {
 					label="User email"
 				/>
 
-				{/* Other WafoFormElements... */}
+				{/* Other WafoForm Elements... */}
 
 			</WafoForm>
 		);
@@ -171,7 +171,50 @@ Esto podría no ser necesario si hay un componente padre que se encarge de obten
 
 #### Disparar onSubmit manualmente
 
-**To-do:** Escribir esto.
+onSubmit es una función de [`WafoForm`](#wafoform) que se ejecuta al momento de realizar la acción de submit (presionando *Enter* en el teclado o el Botón de la forma, etc.). Esta función valida cada uno de los [`WafoForm Element`](#wafoform-element) y genera un objeto [`formValue`](#objeto-formvalue) que sera devuelto a la función que se haya especificado en la propiedad `onSubmit`.
+
+Una posible alternativa en el caso que se desee disparar esta función desde otro componente, o desde otra función, es utilizar un [Ref](https://reactjs.org/docs/refs-and-the-dom.html) y así acceder directamente a la funcion onSubmit.
+
+Ejemplo:
+```javascript
+import React from 'react';
+import { WafoForm } from 'wafo-forms';
+
+class Example extends React.Component {
+	constructor(props) {
+		super(props);
+		this.formRef = React.createRef();
+	}
+
+	handleSubmit = (formValue) => {
+		// do something with the values...
+	}
+
+	render() {
+		return (
+			<div>
+				<WafoForm
+					ref={this.formRef}
+					buttonText="Save changes"
+					onSubmit={this.handleSubmit}
+				>
+
+				{/* WafoForm Elements... */}
+				
+				</WafoForm>
+
+				{/* Botón fuera de Wafo Forms */}
+				<button
+					type="button"
+					onClick={() => { this.formRef.current.onSubmit(); }}
+				>
+					onSubmit
+				</button>
+			</div>
+		);
+	}
+}
+```
 
 
 ### WafoFormInput
