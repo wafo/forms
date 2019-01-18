@@ -21,7 +21,7 @@ import styles from './styles';
  * @param {array} errors array of errors. Check validation.js
  */
 const WafoFormSelect = ({
-  customClass = '', name, label = undefined, defaultValue = 'Selecciona una opción', options = [],
+  customClass = '', name, label = undefined, defaultValue = 'Select an option', options = [],
   value = '', handleInputChange = f => f, valid = false, touched = false, errors = [],
 }) => (
   <div className={`form-group wafo-input ${customClass}`} style={styles['form-group']}>
