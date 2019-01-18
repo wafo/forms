@@ -66,11 +66,102 @@ const Example = ({ handleFormSubmit }) => (
 | Prop | Type | Required | Default value | Description |
 |--|--|--|--|--|
 | buttonText | String | No | "" | Texto que se mostrara en el botón *submit* de la forma. Si se omite, el botón no será mostrado. |
-| onSubmit | Function | No | f => f | Función (callback) que se dispara al hacer submit. Recibe como prop un objeto tipo [`formValue`](#formvalue). |
-| values | Object | No | *undefined* | Objeto que permite introducir valores iniciales para uno o todos los [`WafoFormElement`](#wafoformelement) que se encuentren en la forma. Útil para edición. |
+| onSubmit | Function | No | f => f | Función (callback) que se dispara al hacer submit. Recibe como prop un objeto tipo [`formValue`](#objeto-formvalue). |
+| values | [Object](#objeto-values-y-edición-en-wafoform) | No | *undefined* | Objeto que permite introducir valores iniciales para uno o todos los [`WafoFormElement`](#wafoformelement) que se encuentren en la forma. Útil para edición. |
 
 > **Nota:** Existe otra forma de disparar el evento *onSubmit* en caso de no querer utilizar el botón default.
 
+#### Objeto formValue
+Este objeto es la respuesta que entrega el componente al momento de realizar un submit, sin importar como este se realice. Indica la validez general de la forma y el valor actual de todos los [`WafoFormElement`](#wafoformelement); cada uno representado por su llave (*name*), especificando además su estado de validez y errores en caso de existir.
+
+> **Nota:** Cada valor viene representado por su llave, la cual proviene de la propiedad *name* de los `WafoFormElement`.
+
+Ejemplo:
+```javascript
+{
+	valid: false, // validation status of the entire form
+	name: {
+		errors: [
+			// error objects from validation...
+			{
+				error: "required",
+				message: "This field is required.",
+			},
+		],
+		valid: false, // validation status of this field.
+		value: "", // current value of the field.
+	},
+	age: {
+		errors: [],
+		valid: true,
+		value: "25",
+	},
+}
+```
+
+#### Objeto values y edición en WafoForm
+Es común que cuando tengamos una forma no solo la utilicemos para introducir información nueva sino también para la edición de la misma. `WafoForm` no hace distinción especifica a la edición de información, pero si permite la carga de valores iniciales para uno o todos de sus hijos mediante la propiedad *values*.
+
+El objeto *values* similar al objeto *formValue* representa cada uno de los `WafoFormElement` mediante su llave (*name*). Cada una de estas llaves debe ser un `String` que será utilizado como el valor inicial.
+
+Ejemplo:
+```javascript
+{
+	name: "Ramón Guerrero",
+	email: "ramon@gmail.com",
+}
+```
+
+Ejemplo de uso:
+```javascript
+import React from 'react';
+import { WafoForm, WafoFormInput } = 'wafo-forms';
+
+class Example extends React.Component {
+	state = {
+		user: {
+			id: 0
+		},
+	}
+
+	componentDidMount() {
+		// logic / api call to get values...
+	}
+
+	handleSubmit = (formValue) => {
+		// do something with the values...
+	}
+
+	render() {
+		const { user } = this.state;
+
+		return (
+			<WafoForm
+				key={user.id}
+				buttonText="Save changes"
+				onSubmit={this.handleSubmit}
+				values={user}
+			>
+
+				<WafoFormInput
+					type="email"
+					name="email"
+					label="User email"
+				/>
+
+				{/* Other WafoFormElements... */}
+
+			</WafoForm>
+		);
+	}
+}
+```
+
+Es importante mencionar que `WafoForm` solo considera estos valores durante su creación por lo que si la obtención de los valores es asíncrona puede ser útil asignarle un `key` que este relacionado (como el id, o algún otro identificador único) para que se actualice el componente una vez que llegan estos valores.
+
+Esto podría no ser necesario si hay un componente padre que se encarge de obtener esta información o provenga de algún otro lugar del sistema como [Redux](https://redux.js.org/).
+
+ 
 ### WafoFormInput
 El componente más básico de todos, puede ser utilizado para introducir casi cualquier tipo de carácter y ofrece todas las funciones de la etiqueta `<input>` de HTML.
 
