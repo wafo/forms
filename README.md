@@ -434,6 +434,7 @@ class ImageSelector extends React.Component {
 ```
 
 #### Ejemplo Functional Component
+Este componente nos va permitir introducir hora y minutos por separado y al final recibir el resultado en un objeto con ambos valores.
 
 ```javascript
 import React from 'react';
