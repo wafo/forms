@@ -53,7 +53,7 @@ Este no es realmente un componente, pero con la intención de fácilitar la desc
 Existe la posibilidad de crear `Componentes` personalizados y más complejos que funcionen dentro de [`WafoForm`](#wafoform), teniendo un par de consideraciones en mente. Más información al respecto en [`Componentes personalizados`](#componentes-personalizados).
 
 ### WafoForm
-El componente principal, es el equivalente a la etiqueta `<form>` de *HTML*. Es quien se encarga de manejar el *state*, *validaciones* y entregar los *valores* al momento de hacer el *submit*.
+El componente principal, es el equivalente a la etiqueta [`<form>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form) de *HTML*. Es quien se encarga de manejar el *state*, *validaciones* y entregar los *valores* al momento de hacer el *submit*.
 
 Ejemplo:
 ```javascript
@@ -323,7 +323,6 @@ const Example = () => (
 		label="A text area field"
 	/>
 );
-
 ```
 
 #### Props
@@ -339,7 +338,177 @@ Este componente comparte propiedades con otros componentes de la librería.
 
 ### Componentes personalizados
 
-**To-do:** Escribir esto.
+Los `WafoForm Element` incluidos cubren una gran parte de las necesidades que pudieran presentarse, desde fechas hasta opciones mutiples, aún así, pueden presentarse situaciones donde no sean suficiente y necesitemos una solución más especifica. En estos casos, lo recomendado sería crear nuestro propio componente.
+
+Para que un componente funcione dentro de [`WafoForm`](#wafoform) debe aceptar algunos props en especifico. Estos le permiten al componente padre manejar el *State* y comunicarse con el.
+
+#### Props
+Las propiedades que son 100% necesarias estan marcadas en negritas. El resto puede ser omitido pero se perderían funcionalidades como la validación.
+
+| Prop | Type | Description |
+|--|--|--|
+| **name** | String | Esta propiedad es utilizada como llave que identifica al componente dentro de [`WafoForm`](#wafoform) y debe ser único. |
+| **handleInputChange** | Function | Es la forma de comunicación entre el componente y [`WafoForm`](#wafoform). Debe ser llamada en alguna parte de la logica de actualización de tu componente y recibir como parametro un [Objeto](#objeto-handleinputchange) que sera recibido por `WafoForm`. |
+| value | `any` | Indica el valor actual en el *State* de `WafoForm` para este componente. Puede ser útil para introducir el valor inicial o en caso de crear un Functional Component. |
+| valid | Boolean | Indica el valor actual de la validación. De no recibir un Objeto de validaciones, siempre retornará como *True* |
+| touched | Boolean | Indica si el valor ha sido modificado. Solo retorna *False* si el valor inicial no ha cambiado nunca. |
+| errors | Array | Array con los objetos de error provenientes de la validación. De no recibir un Objeto de validaciones, siempre retornará vacío. |
+| validations | Object | Objeto con las validaciones a las que se someterá el valor actual. La validación se realiza cada vez que este cambia o al momento de dispararse onSubmit de [`WafoForm`](#wafoform). |
+
+#### Objeto handeInputChange
+Este es el objeto que debe recibir la función `handleInputChange`:
+```
+{
+	target: {
+		name,
+		value: "Something."
+	}
+}
+```
+ - **name:** Debe ser el `name` recibido como prop.
+ - **value:** El valor actual que contenga el componente. Podría tratarse de un `WafoForm Element` compuesto de multiples entradas y el valor que se desea manejar sea la combinación de ellas.
+
+#### Ejemplo Class Component
+Vamos a crear un componente `WafoForm Element` que nos permita agregar archivos de imagen y previsualizar la imagen. Nos interesa que la imagen se vaya en conjunto con otros campos y además tenemos la ventaja de que podremos usarlo en cualquier otro formulario `WafoForm`.
+
+```javascript
+import React from 'react';
+
+class ImageSelector extends React.Component {
+	state = {
+		value: '',
+		filename: '',
+		fileUrl: '',
+	}
+
+	handleOnChange = (event) => {
+		const { target: { files, value } } = event;
+		const { name, handleInputChange } = this.props;
+
+		this.setState({
+			value,
+			filename: files[0].name,
+			fileUrl: URL.createObjectURL(files[0]),
+		}, () => {
+			handleInputChange({
+				target: {
+					name,
+					value: files[0],
+				}
+			});
+		});
+	}
+
+	render() {
+		const { name, valid, touched, errors } = this.props;
+		const { value, fileUrl, filename } = this.state;
+
+		return (
+			<div>
+				<div className="preview">
+					<img src={fileUrl} alt="Preview" />
+					<p>{filename}</p>
+				</div>
+
+				<div className="input">
+					<label htmlFor={name}>Selecciona una imagen</label>
+					<input
+						type="file"
+						id={name}
+						name={name}
+						onChange={this.handleOnChange}
+						value={value}
+						accept=".png, .jpg, .jpeg"
+					/>
+				</div>
+
+				<ul className="errors">
+					{!valid && touched
+						errors.map(error => (<li key={error.error}>{error.message}</li>))
+					}
+				</ul>
+			</div>
+		);
+	}
+}
+```
+
+#### Ejemplo Functional Component
+
+```javascript
+import React from 'react';
+
+const TimeSelector = ({ name, handleInputChange, value }) => {
+	const handleOnChange = (event) => {
+		const { target: { name: targetName, value: targetValue } } = event;
+		handleInputChange({
+			target: {
+				name,
+				value: {
+					...value,
+					[targetName]: targetValue,
+				},
+			},
+		});
+	};
+
+	return (
+		<div>
+			<label>Introduce hora y minutos</label>
+			<div>
+					<input
+						type="number"
+						name="hours"
+						value={value.hours}
+						onChange={handleOnChange}
+						min="1"
+						max="12"
+					/>
+					<span>:</span>
+					<input
+						type="number"
+						name="minutes"
+						value={value.minutes}
+						onChange={handleOnChange}
+						min="0"
+						max="59"
+					/>
+			</div>
+		</div>
+	);
+};
+```
+
+#### Como utilizarlos
+Su utilización es muy similar a como se utilizaría cualquier otro `WafoForm Element`.
+
+```javascript
+import React from 'react';
+import { WafoForm } from 'wafo-forms';
+import { TimeSelector, ImageSelector } from './example';
+
+const Example = () => {
+	const handleSubmit = (values) => {
+		// Do something with the values...
+	};
+	
+	return (
+		<WafoForm buttonText="Submit" onSubmit={handleSubmit}>
+			<TimeSelector
+				name="time"
+			/>
+
+			<ImageSelector
+				name="image"
+			/>
+		</WafoForm>
+	);
+};
+```
+
+Los puntos clave a notar en los ejemplos anteriores son el uso de las propiedades **name** y **handleInputChange**, además de el uso de las propiedades que nos permiten mostrar los errores de validación. Otra de las ventajas es que los componentes `WafoForm Element` pueden ser Class Componentes (primer ejemplo) o Functional Components (segundo ejemplo). Puedes ver más sobre los tipos de Componentes en React [aquí.](https://reactjs.org/docs/components-and-props.html)
+
+> **Nota:** No olvides considerar utilizar la propiedad **value** para inicializar el State de tu componente, de lo contrario no podras utilizarlo para editar valores.
 
 ## Validación
 
