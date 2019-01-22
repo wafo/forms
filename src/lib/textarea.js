@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './styles';
 
 /**
  * @param {string} customClass html class
@@ -16,12 +15,11 @@ const WafoFormTextArea = ({
   customClass = '', name, label = undefined, placeholder = '',
   value = '', handleInputChange = f => f, valid = false, touched = false, errors = [],
 }) => (
-  <div className={`form-group wafo-input ${customClass}`} style={styles['form-group']}>
-    {label && <label htmlFor={name} style={styles.label}>{label}</label>}
+  <div className={`form-group wafo-input ${customClass}`}>
+    {label && <label htmlFor={name}>{label}</label>}
     <textarea
       className="form-control"
       name={name}
-      style={styles['form-control']}
       placeholder={placeholder}
       value={value}
       onChange={handleInputChange}
@@ -29,7 +27,7 @@ const WafoFormTextArea = ({
     {
       !valid && touched
       && (
-        <div className="form-text error-message" style={{ ...styles['form-text'], ...styles['error-message'] }}>
+        <div className="form-text error-message">
           {
             errors.map(error => (
               <span key={error.error}>

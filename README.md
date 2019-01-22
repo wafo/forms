@@ -515,6 +515,10 @@ Los puntos clave a notar en los ejemplos anteriores son el uso de las propiedade
 
 **To-do:** Escribir esto.
 
+## Estilos
+
+**To-do:** Escribir esto... ¿Cómo añadir estilos default?
+
 ## TODO
 
  - Soporte para imágenes.

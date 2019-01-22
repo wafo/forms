@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './styles';
 
 /**
  * @typedef options
@@ -24,11 +23,10 @@ const WafoFormSelect = ({
   customClass = '', name, label = undefined, defaultValue = 'Select an option', options = [],
   value = '', handleInputChange = f => f, valid = false, touched = false, errors = [],
 }) => (
-  <div className={`form-group wafo-input ${customClass}`} style={styles['form-group']}>
-    {label && <label htmlFor={name} style={styles.label}>{label}</label>}
+  <div className={`form-group wafo-input ${customClass}`}>
+    {label && <label htmlFor={name}>{label}</label>}
     <select
       className="form-control"
-      style={styles['form-control']}
       name={name}
       value={value}
       onChange={handleInputChange}
@@ -43,7 +41,7 @@ const WafoFormSelect = ({
     {
       !valid && touched
       && (
-        <div className="form-text error-message" style={{ ...styles['form-text'], ...styles['error-message'] }}>
+        <div className="form-text error-message">
           {
             errors.map(error => (
               <span key={error.error}>

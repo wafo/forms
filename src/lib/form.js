@@ -1,6 +1,5 @@
 import React from 'react';
 import validateField from './validation';
-import styles from './styles';
 
 /**
  * @typedef initialInputState
@@ -149,7 +148,7 @@ class WafoForm extends React.Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <div className="row" style={styles.row}>
+        <div className="row">
           {children}
         </div>
         {/** Only show the button if text is provided */}
