@@ -136,6 +136,11 @@ class WafoForm extends React.Component {
 
     /** Modifying children props */
     children = React.Children.map(children, (child) => {
+      // If child !== WafoFormElement
+      if (!Object.prototype.hasOwnProperty.call(child.props, 'name')) {
+        return child;
+      }
+
       const { form: { [child.props.name]: { value, valid, touched, errors } } } = this.state;
       return React.cloneElement(child, {
         handleInputChange: this.handleInputChange,
