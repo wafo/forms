@@ -511,6 +511,10 @@ Los puntos clave a notar en los ejemplos anteriores son el uso de las propiedade
 
 > **Nota:** No olvides considerar utilizar la propiedad **value** para inicializar el State de tu componente, de lo contrario no podras utilizarlo para editar valores.
 
+### Componentes no WafoFormElement
+
+**To-do:** Escribir esto.
+
 ## Validación
 
 **To-do:** Escribir esto.
