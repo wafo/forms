@@ -38,19 +38,11 @@ const WafoFormSelect = ({
         ))
       }
     </select>
-    {
-      !valid && touched
+    {!valid && touched
       && (
-        <div className="form-text error-message">
-          {
-            errors.map(error => (
-              <span key={error.error}>
-                *
-                {error.message}
-              </span>
-            ))
-          }
-        </div>
+        <ul className="errors">
+          {errors.map(error => (<li key={error.error}>{error.message}</li>))}
+        </ul>
       )
     }
   </div>

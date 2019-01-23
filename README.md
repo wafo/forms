@@ -422,11 +422,13 @@ class ImageSelector extends React.Component {
 					/>
 				</div>
 
-				<ul className="errors">
-					{!valid && touched
-						errors.map(error => (<li key={error.error}>{error.message}</li>))
-					}
-				</ul>
+				{!valid && touched
+					&& (
+						<ul className="errors">
+							{errors.map(error => (<li key={error.error}>{error.message}</li>))}
+						</ul>
+					)
+				}
 			</div>
 		);
 	}
