@@ -54,6 +54,16 @@ function validateField(value, validations) {
         }
         break;
       }
+      case 'text-spanish': {
+        if (!validations.required && !value) { break; }
+        if (validations[validation]) { // if number required true
+          const regEx = RegExp(/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü ]*$/);
+          if (!regEx.test(value)) {
+            return { error: 'number', message: 'Solo texto (no números o simbolos).' };
+          }
+        }
+        break;
+      }
       case 'email': {
         if (!validations.required && !value) { break; }
         if (validations[validation]) { // if email required true
