@@ -59,7 +59,57 @@ function validateField(value, validations) {
         if (validations[validation]) { // if email required true
           const regEx = RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
           if (!regEx.test(value)) {
-            return { error: 'email', message: 'El valor debe ser un correo electrónico valido.' };
+            return { error: 'email', message: 'Correo electrónico inválido.' };
+          }
+        }
+        break;
+      }
+      case 'phone': {
+        if (!validations.required && !value) { break; }
+        if (validations[validation]) { // if phone required true
+          const regEx = RegExp(/^\d{7,10}$/);
+          if (!regEx.test(value)) {
+            return { error: 'number', message: 'Número de teléfono inválido.' };
+          }
+        }
+        break;
+      }
+      case 'curp': {
+        if (!validations.required && !value) { break; }
+        if (validations[validation]) { // if curp required true
+          const regEx = RegExp(/^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$/);
+          if (!regEx.test(value)) {
+            return { error: 'number', message: 'CURP inválida.' };
+          }
+        }
+        break;
+      }
+      case 'rfc': {
+        if (!validations.required && !value) { break; }
+        if (validations[validation]) { // if rfc required true
+          const regEx = RegExp(/^([A-Z,Ñ,&]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z|\d]{3})$/);
+          if (!regEx.test(value)) {
+            return { error: 'number', message: 'RFC inválido.' };
+          }
+        }
+        break;
+      }
+      case 'nss': {
+        if (!validations.required && !value) { break; }
+        if (validations[validation]) { // if nss required true
+          const regEx = RegExp(/^(\d{2})(\d{2})(\d{2})\d{5}$/);
+          if (!regEx.test(value)) {
+            return { error: 'number', message: 'Número de Seguridad Social inválido.' };
+          }
+        }
+        break;
+      }
+      case 'ife': {
+        if (!validations.required && !value) { break; }
+        if (validations[validation]) { // if ife required true
+          const regEx = RegExp(/^\d{12,13}$/);
+          if (!regEx.test(value)) {
+            return { error: 'number', message: 'Número de identificación inválido.' };
           }
         }
         break;
