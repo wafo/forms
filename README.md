@@ -520,6 +520,7 @@ Los puntos clave a notar en los ejemplos anteriores son el uso de las propiedade
 ## Validación
 
 **To-do:** Escribir esto.
+**To-do:** Escribir sobre custom errors.
 
 ## Estilos
 

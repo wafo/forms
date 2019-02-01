@@ -142,12 +142,15 @@ class WafoForm extends React.Component {
       }
 
       const { form: { [child.props.name]: { value, valid, touched, errors } } } = this.state;
+      // Check if custom errors are provided (not from wafo-forms validation).
+      const hasCustomErrors = Object.prototype.hasOwnProperty.call(child.props, 'customErrors');
+
       return React.cloneElement(child, {
         handleInputChange: this.handleInputChange,
         value,
-        valid,
-        touched,
-        errors,
+        valid: hasCustomErrors ? false : valid,
+        touched: hasCustomErrors ? true : touched,
+        errors: hasCustomErrors ? [...errors, ...child.props.customErrors] : errors,
       });
     });
 
