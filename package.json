@@ -41,9 +41,9 @@
     "webpack-dev-server": "^3.1.14"
   },
   "author": "Jose Luis Vega <joseluisvb@outlook.com>",
-  "homepage": "http://gitlab.rosolutionsdev.com.mx/wafo/wafo-forms",
+  "homepage": "https://github.com/elWafo/wafo-forms",
   "repository": {
     "type": "git",
-    "url": "git@gitlab.rosolutionsdev.com.mx:wafo/wafo-forms.git"
+    "url": "git@github.com:elWafo/wafo-forms.git"
   }
 }
