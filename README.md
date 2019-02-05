@@ -2,9 +2,7 @@
 UI Component hecho en React 16.7, hecho con la intención de agilizar y facilitar el trabajo mio y de mis compañeritos de RO a la hora de hacer paneles o interfaces web.
 
 ## Demo
-Prueba el componente en vivo aquí.
-
-**To-do**: Link a ejemplo. Imagen de ejemplo
+**To-do**: Página demo.
 
 ## Primeros pasos
 
