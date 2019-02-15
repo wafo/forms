@@ -57,7 +57,7 @@ function validateField(value, validations) {
       case 'text-spanish': {
         if (!validations.required && !value) { break; }
         if (validations[validation]) { // if number required true
-          const regEx = RegExp(/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü ]*$/);
+          const regEx = RegExp(/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü 0-9.,:;¿?¡!]*$/);
           if (!regEx.test(value)) {
             return { error: 'number', message: 'Solo texto (no números o simbolos).' };
           }
