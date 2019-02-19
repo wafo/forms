@@ -133,29 +133,27 @@ export default class WafoFormAutocomplete extends React.Component {
     } = this.props;
 
     return (
-      <div className={`wafoformautocomplete ${customClass}`}>
-        <div className="form-group wafo-input">
-          {label && <label htmlFor={name}>{label}</label>}
-          <input
-            type="text"
-            className="form-control"
-            name={name}
-            placeholder={placeholder}
-            value={query}
-            onChange={this.handleQueryChange}
-            onKeyDown={this.handleKeys}
-            onBlur={this.handleBlur}
-            onClick={this.onInputFocus}
-            autoComplete="off"
-          />
-          {!valid && touched
-            && (
-              <ul className="errors">
-                {errors.map(error => (<li key={error.error}>{error.message}</li>))}
-              </ul>
-            )
-          }
-        </div>
+      <div className={`wafoformautocomplete form-group wafo-input ${customClass}`}>
+        {label && <label htmlFor={name}>{label}</label>}
+        <input
+          type="text"
+          className="form-control"
+          name={name}
+          placeholder={placeholder}
+          value={query}
+          onChange={this.handleQueryChange}
+          onKeyDown={this.handleKeys}
+          onBlur={this.handleBlur}
+          onClick={this.onInputFocus}
+          autoComplete="off"
+        />
+        {!valid && touched
+          && (
+            <ul className="errors">
+              {errors.map(error => (<li key={error.error}>{error.message}</li>))}
+            </ul>
+          )
+        }
         {
           suggestions.length > 0
           && (
