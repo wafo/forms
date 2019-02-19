@@ -77,3 +77,15 @@ label {
 .wafoformautocomplete>.results ul li:focus {
   background-color: #eee;
 }
+
+.wafoformautocomplete>.results ul .footer {
+  font-size: 0.8em;
+  font-weight: bold;
+  color: #777;
+  padding: .25rem;
+  background-color: #f5f5f5;
+}
+
+.wafoformautocomplete>.results ul .footer:hover {
+  background-color: #f5f5f5;
+}

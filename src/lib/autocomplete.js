@@ -14,18 +14,19 @@ export default class WafoFormAutocomplete extends React.Component {
   };
 
   handleQueryChange = (event) => {
+    const { selected } = this.state;
     const { items, filterItemsFN } = this.props;
     const { target: { value } } = event;
 
-    if (value.length === 0) {
-      return this.setState({
+    if (value.length === 0 && selected) {
+      this.setState({
         ...defaultState,
       }, this.sendToWafoForm);
     }
 
     const suggestions = filterItemsFN(items, value.toLowerCase());
 
-    return this.setState({
+    this.setState({
       query: value,
       suggestions,
       cursor: -1,
@@ -68,17 +69,28 @@ export default class WafoFormAutocomplete extends React.Component {
     }
   }
 
-  handleQueryBlur = (event) => {
+  handleBlur = (event) => {
     const { relatedTarget } = event;
     const { selected } = this.state;
-    const { onBlurClear } = this.props;
+    const { onBlurClear, customInputFN } = this.props;
 
     if (
       (!relatedTarget || (relatedTarget && relatedTarget.tagName !== 'LI'))
-      && onBlurClear
       && !selected
+      && onBlurClear
     ) {
-      this.setState({ ...defaultState });
+      this.setState({ ...defaultState }, this.sendToWafoForm);
+    } else if (
+      selected
+      && (!relatedTarget || (relatedTarget && relatedTarget.tagName !== 'LI'))
+      && onBlurClear
+    ) {
+      this.setState(prevState => ({
+        ...prevState,
+        query: customInputFN(prevState.selected),
+        suggestions: [],
+        cursor: -1,
+      }));
     }
   }
 
@@ -89,6 +101,16 @@ export default class WafoFormAutocomplete extends React.Component {
       query: customInputFN(item),
       selected: item,
     }, this.sendToWafoForm);
+  }
+
+  onInputFocus = (event) => {
+    event.target.select();
+    const { query } = this.state;
+    this.handleQueryChange({
+      target: {
+        value: query,
+      },
+    });
   }
 
   sendToWafoForm = () => {
@@ -107,7 +129,7 @@ export default class WafoFormAutocomplete extends React.Component {
     const { query, suggestions } = this.state;
     const {
       customClass, name, label, placeholder,
-      valid, touched, errors, customItemFN,
+      valid, touched, errors, customItemFN, itemsLimit, showLimit,
     } = this.props;
 
     return (
@@ -122,8 +144,8 @@ export default class WafoFormAutocomplete extends React.Component {
             value={query}
             onChange={this.handleQueryChange}
             onKeyDown={this.handleKeys}
-            onBlur={this.handleQueryBlur}
-            onClick={(e) => { e.target.select(); }}
+            onBlur={this.handleBlur}
+            onClick={this.onInputFocus}
             autoComplete="off"
           />
         </div>
@@ -140,9 +162,11 @@ export default class WafoFormAutocomplete extends React.Component {
             <Suggestions
               suggestions={suggestions}
               handleKeys={this.handleKeys}
-              handleBlur={this.handleQueryBlur}
+              handleBlur={this.handleBlur}
               onSelected={this.itemSelected}
               customItem={customItemFN}
+              itemsLimit={itemsLimit}
+              showLimit={showLimit}
             />
           )
         }
@@ -168,6 +192,8 @@ WafoFormAutocomplete.propTypes = {
   customInputFN: PropTypes.func,
   customItemFN: PropTypes.func,
   onBlurClear: PropTypes.bool,
+  itemsLimit: PropTypes.number,
+  showLimit: PropTypes.bool,
 };
 
 WafoFormAutocomplete.defaultProps = {
@@ -186,14 +212,16 @@ WafoFormAutocomplete.defaultProps = {
   customInputFN: item => (typeof item === 'string' ? item : 'Item selected'),
   customItemFN: item => (typeof item === 'string' ? item : 'Item option'),
   onBlurClear: true,
+  itemsLimit: 5,
+  showLimit: true,
 };
 
 /** Lista de sugerencias */
 
 const Suggestions = ({
-  suggestions, handleKeys, handleBlur, onSelected, customItem,
+  suggestions, handleKeys, handleBlur, onSelected, customItem, itemsLimit, showLimit,
 }) => {
-  const list = suggestions.map((item, index) => (
+  const list = suggestions.slice(0, itemsLimit).map((item, index) => (
     <li key={index} tabIndex="-1" onKeyDown={handleKeys} onBlur={handleBlur} onClick={() => { onSelected(item); }}>
       {customItem(item)}
     </li>
@@ -203,6 +231,11 @@ const Suggestions = ({
     <div className="results">
       <ul id="wafoformautocomplete-list">
         {list}
+        {showLimit && (
+          <li className="footer">
+            <span>Showing {list.length} of {suggestions.length} matches</span>
+          </li>
+        )}
       </ul>
     </div>
   );
@@ -214,6 +247,8 @@ Suggestions.propTypes = {
   handleBlur: PropTypes.func,
   onSelected: PropTypes.func,
   customItem: PropTypes.func,
+  itemsLimit: PropTypes.number,
+  showLimit: PropTypes.bool,
 };
 
 Suggestions.defaultProps = {
@@ -222,4 +257,6 @@ Suggestions.defaultProps = {
   handleBlur: f => f,
   onSelected: f => f,
   customItem: f => f,
+  itemsLimit: 5,
+  showLimit: true,
 };

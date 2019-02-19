@@ -3,31 +3,54 @@ import { WafoForm, WafoFormAutocomplete } from '../../../lib';
 
 const items = [
   {
-    id_overseer: 0,
+    id: 1,
+    name: 'Lalo',
+    email: 'lalo@gmail.com',
+  },
+  {
+    id: 2,
     name: 'Lalocion',
-    last_name: 'string',
-    email: 'string',
-    disabled: true,
-    createdAt: 'string',
-    updatedAt: 'string',
+    email: 'lalocion@gmail.com',
   },
   {
-    id_overseer: 0,
+    id: 3,
     name: 'Lalocomotora',
-    last_name: 'string',
-    email: 'string',
-    disabled: true,
-    createdAt: 'string',
-    updatedAt: 'string',
+    email: 'lalocomotora@gmail.com',
   },
   {
-    id_overseer: 0,
-    name: 'Lalobuki',
-    last_name: 'string',
+    id: 4,
+    name: 'Lalocura',
+    email: 'lalocura@gmail.com',
+  },
+  {
+    id: 5,
+    name: 'Laloteria',
+    email: 'laloteria@gmail.com',
+  },
+  {
+    id: 6,
+    name: 'Laloma',
+    email: 'laloma@gmail.com',
+  },
+  {
+    id: 7,
+    name: 'Wafo',
     email: 'wafo@gmail.com',
-    disabled: true,
-    createdAt: 'string',
-    updatedAt: 'string',
+  },
+  {
+    id: 8,
+    name: 'Gaytan',
+    email: 'gaytan@gmail.com',
+  },
+  {
+    id: 9,
+    name: 'Saul',
+    email: 'saul@gmail.com',
+  },
+  {
+    id: 10,
+    name: 'Jorge',
+    email: 'jorge@gmail.com',
   },
 ];
 
@@ -65,6 +88,7 @@ export default class AutocompleteForm extends React.Component {
             customInputFN={this.customInput}
             customItemFN={this.customItem}
             validations={{ required: true }}
+            onBlurClear={false}
           />
 
         </WafoForm>
