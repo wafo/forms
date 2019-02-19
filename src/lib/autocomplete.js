@@ -148,14 +148,14 @@ export default class WafoFormAutocomplete extends React.Component {
             onClick={this.onInputFocus}
             autoComplete="off"
           />
+          {!valid && touched
+            && (
+              <ul className="errors">
+                {errors.map(error => (<li key={error.error}>{error.message}</li>))}
+              </ul>
+            )
+          }
         </div>
-        {!valid && touched
-          && (
-            <ul className="errors">
-              {errors.map(error => (<li key={error.error}>{error.message}</li>))}
-            </ul>
-          )
-        }
         {
           suggestions.length > 0
           && (
