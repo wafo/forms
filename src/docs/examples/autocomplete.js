@@ -31,6 +31,8 @@ const items = [
   },
 ];
 
+/* const items = ['Lalocion', 'Lalocomotora', 'Lalobuki', 'Lalocura', 'Lalobarredora']; */
+
 export default class AutocompleteForm extends React.Component {
   handleFormSubmit = (form) => {
     console.log(form);
@@ -62,7 +64,6 @@ export default class AutocompleteForm extends React.Component {
             filterItemsFN={this.filterItems}
             customInputFN={this.customInput}
             customItemFN={this.customItem}
-            onBlurClear={false}
             validations={{ required: true }}
           />
 

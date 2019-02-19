@@ -1,27 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-/**
- * @typedef options
- * @type {Object}
- * @property {string} value the value the select returns.
- * @property {string} display the text the option will show.
- */
-
-/**
- * @param {string} customClass html class
- * @param {string} name name for the input and key to the state of the form
- * @param {string} label text for the label
- * @param {string} defaultValue default field
- * @param {options} options array of options for the select
- * @param {string} value the value of the select
- * @param {function} handleInputChange runs when the value changes
- * @param {boolean} valid based on validations
- * @param {boolean} touched true if the value has changed
- * @param {array} errors array of errors. Check validation.js
- */
 const WafoFormSelect = ({
-  customClass = '', name, label = undefined, defaultValue = 'Select an option', options = [],
-  value = '', handleInputChange = f => f, valid = false, touched = false, errors = [],
+  customClass, name, label, defaultValue, options,
+  value, handleInputChange, valid, touched, errors,
 }) => (
   <div className={`form-group wafo-input ${customClass}`}>
     {label && <label htmlFor={name}>{label}</label>}
@@ -47,5 +29,38 @@ const WafoFormSelect = ({
     }
   </div>
 );
+
+WafoFormSelect.propTypes = {
+  customClass: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  defaultValue: PropTypes.string,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string,
+    display: PropTypes.node,
+  })),
+  value: PropTypes.string,
+  handleInputChange: PropTypes.func,
+  valid: PropTypes.bool,
+  touched: PropTypes.bool,
+  errors: PropTypes.arrayOf(PropTypes.any),
+  validations: PropTypes.shape({
+    required: PropTypes.bool,
+    pattern: PropTypes.object,
+  }),
+};
+
+WafoFormSelect.defaultProps = {
+  customClass: '',
+  label: undefined,
+  defaultValue: 'Select an option',
+  options: [],
+  value: '',
+  handleInputChange: f => f,
+  valid: false,
+  touched: false,
+  errors: [],
+  validations: {},
+};
 
 export default WafoFormSelect;

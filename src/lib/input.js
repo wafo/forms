@@ -1,20 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-/**
- * @param {string} type type of input Ej. text, password, email...
- * @param {string} customClass html class
- * @param {string} name name for the input and key to the state of the form
- * @param {string} label text for the label
- * @param {string} placeholder text that shows on the input
- * @param {string} value the value of the select
- * @param {function} handleInputChange runs when the value changes
- * @param {boolean} valid based on validations
- * @param {boolean} touched true if the value has changed
- * @param {array} errors array of errors. Check validation.js
- */
 const WafoFormInput = ({
-  type = 'text', customClass = '', name, label = undefined, placeholder = '',
-  value = '', handleInputChange = f => f, valid = false, touched = false, errors = [],
+  type, customClass, name, label, placeholder,
+  value, handleInputChange, valid, touched, errors,
 }) => (
   <div className={`form-group wafo-input ${customClass}`}>
     {label && <label htmlFor={name}>{label}</label>}
@@ -35,5 +24,35 @@ const WafoFormInput = ({
     }
   </div>
 );
+
+WafoFormInput.propTypes = {
+  type: PropTypes.string,
+  customClass: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  value: PropTypes.string,
+  handleInputChange: PropTypes.func,
+  valid: PropTypes.bool,
+  touched: PropTypes.bool,
+  errors: PropTypes.arrayOf(PropTypes.any),
+  validations: PropTypes.shape({
+    required: PropTypes.bool,
+    pattern: PropTypes.object,
+  }),
+};
+
+WafoFormInput.defaultProps = {
+  type: 'text',
+  customClass: '',
+  label: undefined,
+  placeholder: '',
+  value: '',
+  handleInputChange: f => f,
+  valid: false,
+  touched: false,
+  errors: [],
+  validations: {},
+};
 
 export default WafoFormInput;

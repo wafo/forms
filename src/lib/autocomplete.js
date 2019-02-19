@@ -1,22 +1,5 @@
 import React from 'react';
-
-/**
- * @typedef Props
- * @type {object}
- * @property {string} customClass html class
- * @property {string} name name for the input and key to the state of the form
- * @property {string} label text for the label
- * @property {string} placeholder text that shows on the input
- * @property {string} value the value of wafo form for this autocomplete
- * @property {function} handleInputChange runs when the value changes
- * @property {boolean} valid based on validations
- * @property {boolean} touched true if the value has changed
- * @property {array} errors array of errors. Check validation.js
- * @property {func} filterItemsFN this function filters the items array
- * @property {func} customInputFN this function returns whats going to show inside input on selection
- * @property {func} customItemFN this functions returns whats going to show for each item in the list
- * @property {boolean} onBlurClear if everything should be cleared on blur or not.
- */
+import PropTypes from 'prop-types';
 
 const defaultState = {
   query: '',
@@ -31,7 +14,7 @@ export default class WafoFormAutocomplete extends React.Component {
   };
 
   handleQueryChange = (event) => {
-    const { items, filterItemsFN = this.filterItems } = this.props;
+    const { items, filterItemsFN } = this.props;
     const { target: { value } } = event;
 
     if (value.length === 0) {
@@ -100,7 +83,7 @@ export default class WafoFormAutocomplete extends React.Component {
   }
 
   itemSelected = (item) => {
-    const { customInputFN = this.customInput } = this.props;
+    const { customInputFN } = this.props;
     this.setState({
       ...defaultState,
       query: customInputFN(item),
@@ -120,35 +103,16 @@ export default class WafoFormAutocomplete extends React.Component {
     });
   }
 
-  /**
-   * Default function to filter the items.
-   * @param {array} items string or any.
-   * @param {string} query string from the input.
-   */
-  filterItems = (items, query) => items.filter(item => item.toLowerCase().indexOf(query.toLowerCase()) !== -1);
-
-  /**
-   * Returns whats going to show as the input value, once an item is selected.
-   * @param {any} item the item selected
-   */
-  customInput = item => (typeof item === 'string' ? item : 'Item selected');
-
-  /**
-   * Returns whats going to show for each item in the list.
-   * @param {any} item the item to display.
-   */
-  customItem = item => (typeof item === 'string' ? item : 'Item option');
-
   render() {
     const { query, suggestions } = this.state;
     const {
-      customClass = '', name, label = undefined, placeholder = '',
-      valid = false, touched = false, errors = [], customItemFN = this.customItem,
+      customClass, name, label, placeholder,
+      valid, touched, errors, customItemFN,
     } = this.props;
 
     return (
-      <div className="wafoformautocomplete">
-        <div className={`form-group wafo-input ${customClass}`}>
+      <div className={`wafoformautocomplete ${customClass}`}>
+        <div className="form-group wafo-input">
           {label && <label htmlFor={name}>{label}</label>}
           <input
             type="text"
@@ -187,6 +151,43 @@ export default class WafoFormAutocomplete extends React.Component {
   }
 }
 
+WafoFormAutocomplete.propTypes = {
+  customClass: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  value: PropTypes.any,
+  handleInputChange: PropTypes.func,
+  valid: PropTypes.bool,
+  touched: PropTypes.bool,
+  errors: PropTypes.arrayOf(PropTypes.any),
+  validations: PropTypes.any,
+  // autocomplete
+  items: PropTypes.arrayOf(PropTypes.any),
+  filterItemsFN: PropTypes.func,
+  customInputFN: PropTypes.func,
+  customItemFN: PropTypes.func,
+  onBlurClear: PropTypes.bool,
+};
+
+WafoFormAutocomplete.defaultProps = {
+  customClass: '',
+  label: undefined,
+  placeholder: '',
+  value: '',
+  handleInputChange: f => f,
+  valid: false,
+  touched: false,
+  errors: [],
+  validations: {},
+  // autocomplete
+  items: [],
+  filterItemsFN: (items, query) => items.filter(item => item.toLowerCase().indexOf(query.toLowerCase()) !== -1),
+  customInputFN: item => (typeof item === 'string' ? item : 'Item selected'),
+  customItemFN: item => (typeof item === 'string' ? item : 'Item option'),
+  onBlurClear: true,
+};
+
 /** Lista de sugerencias */
 
 const Suggestions = ({
@@ -205,4 +206,20 @@ const Suggestions = ({
       </ul>
     </div>
   );
+};
+
+Suggestions.propTypes = {
+  suggestions: PropTypes.arrayOf(PropTypes.any),
+  handleKeys: PropTypes.func,
+  handleBlur: PropTypes.func,
+  onSelected: PropTypes.func,
+  customItem: PropTypes.func,
+};
+
+Suggestions.defaultProps = {
+  suggestions: [],
+  handleKeys: f => f,
+  handleBlur: f => f,
+  onSelected: f => f,
+  customItem: f => f,
 };

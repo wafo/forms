@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import validateField from './validation';
 
 /**
@@ -28,12 +29,6 @@ const initialState = {
 };
 
 class WafoForm extends React.Component {
-  static defaultProps = {
-    buttonText: '',
-    onSubmit: f => f,
-    values: undefined,
-  };
-
   constructor(props) {
     super(props);
     this.state = initialState;
@@ -165,5 +160,21 @@ class WafoForm extends React.Component {
     );
   }
 }
+
+WafoForm.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element).isRequired,
+    PropTypes.element.isRequired,
+  ]).isRequired,
+  buttonText: PropTypes.string,
+  onSubmit: PropTypes.func,
+  values: PropTypes.any,
+};
+
+WafoForm.defaultProps = {
+  buttonText: '',
+  onSubmit: f => f,
+  values: undefined,
+};
 
 export default WafoForm;
