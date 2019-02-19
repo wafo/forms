@@ -9,9 +9,21 @@ const defaultState = {
 };
 
 export default class WafoFormAutocomplete extends React.Component {
-  state = {
-    ...defaultState,
-  };
+  constructor(props) {
+    super(props);
+
+    if (props.value) {
+      this.state = {
+        ...defaultState,
+        query: props.customInputFN(props.value) || '',
+        selected: props.value,
+      };
+    } else {
+      this.state = {
+        ...defaultState,
+      };
+    }
+  }
 
   handleQueryChange = (event) => {
     const { selected } = this.state;

@@ -54,7 +54,13 @@ const items = [
   },
 ];
 
-/* const items = ['Lalocion', 'Lalocomotora', 'Lalobuki', 'Lalocura', 'Lalobarredora']; */
+const values = {
+  exampleautocomplete: {
+    id: 6,
+    name: 'Laloma',
+    email: 'laloma@gmail.com',
+  },
+};
 
 export default class AutocompleteForm extends React.Component {
   handleFormSubmit = (form) => {
@@ -76,7 +82,7 @@ export default class AutocompleteForm extends React.Component {
   render() {
     return (
       <div className="autocomplete-form">
-        <WafoForm onSubmit={this.handleFormSubmit}>
+        <WafoForm onSubmit={this.handleFormSubmit} values={values}>
 
           <WafoFormAutocomplete
             name="exampleautocomplete"
