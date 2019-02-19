@@ -1,13 +1,13 @@
 import React from 'react';
 import { render } from 'react-dom';
-import SimpleForm from './examples/simpleForm';
-import './styles.css';
+import AutocompleteForm from './examples/autocomplete';
+import '../lib/wafo-forms.css';
 
 function Demo() {
   return (
     <div>
       <h1>Wafo-form!</h1>
-      <SimpleForm />
+      <AutocompleteForm />
     </div>
   );
 }
