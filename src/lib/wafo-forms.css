@@ -50,7 +50,7 @@ label {
 
 .wafoformautocomplete>.results {
   position: absolute;
-  z-index: 100;
+  z-index: 100000;
   width: 100%;
   top: 65px;
   /*padding: 0 15px;*/

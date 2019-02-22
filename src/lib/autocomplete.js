@@ -137,6 +137,10 @@ export default class WafoFormAutocomplete extends React.Component {
     });
   }
 
+  clearForm = () => this.setState({
+    ...defaultState,
+  }, this.sendToWafoForm);
+
   render() {
     const { query, suggestions } = this.state;
     const {

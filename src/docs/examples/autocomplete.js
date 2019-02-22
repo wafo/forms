@@ -54,17 +54,16 @@ const items = [
   },
 ];
 
-const values = {
-  exampleautocomplete: {
-    id: 6,
-    name: 'Laloma',
-    email: 'laloma@gmail.com',
-  },
-};
-
 export default class AutocompleteForm extends React.Component {
-  handleFormSubmit = (form) => {
-    console.log(form);
+  constructor(props) {
+    super(props);
+    this.state = {
+      form: {
+        exampleautocomplete: '',
+      },
+    };
+
+    this.autocomplete = React.createRef();
   }
 
   filterItems = (itemsToFilter, query) => itemsToFilter.filter(item => item.name.toLowerCase().indexOf(query) !== -1);
@@ -79,25 +78,34 @@ export default class AutocompleteForm extends React.Component {
     </p>
   );
 
+  handleChange = ({ target: { value } }) => this.setState({ form: { exampleautocomplete: value } });
+
+  clear = () => {
+    this.autocomplete.current.clearForm();
+  }
+
   render() {
+    const { form } = this.state;
+
     return (
       <div className="autocomplete-form">
-        <WafoForm onSubmit={this.handleFormSubmit} values={values}>
 
-          <WafoFormAutocomplete
-            name="exampleautocomplete"
-            customClass="mycustomclass"
-            label="Autocomplete"
-            placeholder="Escribele compa..."
-            items={items}
-            filterItemsFN={this.filterItems}
-            customInputFN={this.customInput}
-            customItemFN={this.customItem}
-            validations={{ required: true }}
-            onBlurClear={false}
-          />
+        <WafoFormAutocomplete
+          ref={this.autocomplete}
+          name="exampleautocomplete"
+          customClass="mycustomclass"
+          label="Autocomplete"
+          placeholder="Escribele compa..."
+          items={items}
+          filterItemsFN={this.filterItems}
+          customInputFN={this.customInput}
+          customItemFN={this.customItem}
+          onBlurClear={false}
+          value={form.exampleautocomplete}
+          handleInputChange={this.handleChange}
+        />
 
-        </WafoForm>
+        <button type="button" onClick={this.clear}>Clear</button>
       </div>
     );
   }
