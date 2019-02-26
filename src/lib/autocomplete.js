@@ -161,7 +161,7 @@ export default class WafoFormAutocomplete extends React.Component {
           onKeyDown={this.handleKeys}
           onBlur={this.handleBlur}
           onClick={this.onInputFocus}
-          autoComplete="off"
+          autoComplete="none"
         />
         {!valid && touched
           && (
