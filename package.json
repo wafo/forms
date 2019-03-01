@@ -1,6 +1,6 @@
 {
   "name": "wafo-forms",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "No quiero volver a configurar states para inputs, ni hacer validaciones. Esta en React.",
   "main": "lib/index.js",
   "scripts": {
