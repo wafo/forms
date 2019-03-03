@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const WafoFormTextArea = ({
-  customClass, name, label, placeholder,
+  customClass, name, label, placeholder, extraProps,
   value, handleInputChange, valid, touched, errors,
 }) => (
   <div className={`form-group wafo-input ${customClass}`}>
@@ -13,6 +13,7 @@ const WafoFormTextArea = ({
       placeholder={placeholder}
       value={value}
       onChange={handleInputChange}
+      {...extraProps}
     />
     {!valid && touched
       && (
@@ -29,6 +30,7 @@ WafoFormTextArea.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   placeholder: PropTypes.string,
+  extraProps: PropTypes.any,
   value: PropTypes.string,
   handleInputChange: PropTypes.func,
   valid: PropTypes.bool,
@@ -44,6 +46,7 @@ WafoFormTextArea.defaultProps = {
   customClass: '',
   label: undefined,
   placeholder: '',
+  extraProps: {},
   value: '',
   handleInputChange: f => f,
   valid: false,

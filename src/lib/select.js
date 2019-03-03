@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const WafoFormSelect = ({
-  customClass, name, label, defaultValue, options,
+  customClass, name, label, defaultValue, options, extraProps,
   value, handleInputChange, valid, touched, errors,
 }) => (
   <div className={`form-group wafo-input ${customClass}`}>
@@ -12,6 +12,7 @@ const WafoFormSelect = ({
       name={name}
       value={value}
       onChange={handleInputChange}
+      {...extraProps}
     >
       <option value="" disabled>{defaultValue}</option>
       {
@@ -39,6 +40,7 @@ WafoFormSelect.propTypes = {
     value: PropTypes.string,
     display: PropTypes.node,
   })),
+  extraProps: PropTypes.any,
   value: PropTypes.string,
   handleInputChange: PropTypes.func,
   valid: PropTypes.bool,
@@ -55,6 +57,7 @@ WafoFormSelect.defaultProps = {
   label: undefined,
   defaultValue: 'Select an option',
   options: [],
+  extraProps: {},
   value: '',
   handleInputChange: f => f,
   valid: false,

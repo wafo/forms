@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const WafoFormInput = ({
-  type, customClass, name, label, placeholder,
+  type, customClass, name, label, placeholder, extraProps,
   value, handleInputChange, valid, touched, errors,
 }) => (
   <div className={`form-group wafo-input ${customClass}`}>
@@ -14,14 +14,15 @@ const WafoFormInput = ({
       placeholder={placeholder}
       value={value}
       onChange={handleInputChange}
+      {...extraProps}
     />
     {!valid && touched
-      && (
-        <ul className="errors">
-          {errors.map(error => (<li key={error.error}>{error.message}</li>))}
-        </ul>
-      )
-    }
+        && (
+          <ul className="errors">
+            {errors.map(error => (<li key={error.error}>{error.message}</li>))}
+          </ul>
+        )
+      }
   </div>
 );
 
@@ -31,6 +32,7 @@ WafoFormInput.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   placeholder: PropTypes.string,
+  extraProps: PropTypes.any,
   value: PropTypes.string,
   handleInputChange: PropTypes.func,
   valid: PropTypes.bool,
@@ -47,6 +49,7 @@ WafoFormInput.defaultProps = {
   customClass: '',
   label: undefined,
   placeholder: '',
+  extraProps: {},
   value: '',
   handleInputChange: f => f,
   valid: false,

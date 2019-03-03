@@ -144,7 +144,7 @@ export default class WafoFormAutocomplete extends React.Component {
   render() {
     const { query, suggestions } = this.state;
     const {
-      customClass, name, label, placeholder,
+      customClass, name, label, placeholder, extraProps,
       valid, touched, errors, customItemFN, itemsLimit, showLimit,
     } = this.props;
 
@@ -162,6 +162,7 @@ export default class WafoFormAutocomplete extends React.Component {
           onBlur={this.handleBlur}
           onClick={this.onInputFocus}
           autoComplete="none"
+          {...extraProps}
         />
         {!valid && touched
           && (
@@ -194,6 +195,7 @@ WafoFormAutocomplete.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   placeholder: PropTypes.string,
+  extraProps: PropTypes.any,
   value: PropTypes.any,
   handleInputChange: PropTypes.func,
   valid: PropTypes.bool,
@@ -214,6 +216,7 @@ WafoFormAutocomplete.defaultProps = {
   customClass: '',
   label: undefined,
   placeholder: '',
+  extraProps: {},
   value: '',
   handleInputChange: f => f,
   valid: false,

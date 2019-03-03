@@ -38,6 +38,7 @@ class SimpleForm extends React.Component {
             label="An input field"
             validations={{ required: true, minLength: 2, maxLength: 255 }}
             customErrors={[{ error: 'custom', message: 'Error customizado' }]}
+            extraProps={{ maxLength: 5 }}
           />
 
           <WafoFormInput
