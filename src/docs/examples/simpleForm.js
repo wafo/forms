@@ -26,6 +26,10 @@ class SimpleForm extends React.Component {
       <div className="simple-form">
         <WafoForm buttonText="Submit" onSubmit={this.handleFormSubmit}>
 
+          <div style={{ width: '100%' }}>
+            <p>A ver al cine dijo el gaytis</p>
+          </div>
+
           <WafoFormInput
             type="text"
             name="example"

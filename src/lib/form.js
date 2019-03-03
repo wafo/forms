@@ -39,19 +39,21 @@ class WafoForm extends React.Component {
       // setting up each children state
       for (let i = 0; i < children.length; i++) {
         const { form } = this.state;
-        this.state = {
-          form: {
-            ...form,
-            [children[i].props.name]: {
-              ...initialInputState,
-              // cheking if initial values exist
-              value: (values && values[children[i].props.name]) ? values[children[i].props.name] : initialInputState.value,
-              validations: children[i].props.validations,
+        if (children[i].props.name) {
+          this.state = {
+            form: {
+              ...form,
+              [children[i].props.name]: {
+                ...initialInputState,
+                // cheking if initial values exist
+                value: (values && values[children[i].props.name]) ? values[children[i].props.name] : initialInputState.value,
+                validations: children[i].props.validations,
+              },
             },
-          },
-        };
+          };
+        }
       }
-    } else {
+    } else if (children.props.name) {
       this.state = {
         form: {
           [children.props.name]: {
