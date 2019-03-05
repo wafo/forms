@@ -103,6 +103,10 @@ export default class AutocompleteForm extends React.Component {
           onBlurClear={false}
           value={form.exampleautocomplete}
           handleInputChange={this.handleChange}
+          onSelectCallback={() => { console.log('callback'); }}
+          extraProps={{
+            autoComplete: 'off',
+          }}
         />
 
         <button type="button" onClick={this.clear}>Clear</button>

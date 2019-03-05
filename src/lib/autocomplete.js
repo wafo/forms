@@ -126,7 +126,7 @@ export default class WafoFormAutocomplete extends React.Component {
   }
 
   sendToWafoForm = () => {
-    const { name, handleInputChange } = this.props;
+    const { name, handleInputChange, onSelectCallback } = this.props;
     const { selected } = this.state;
 
     handleInputChange({
@@ -135,6 +135,8 @@ export default class WafoFormAutocomplete extends React.Component {
         value: selected,
       },
     });
+    // callback que puede ser disparado desde fuera de wafoforms al seleccionar algo.
+    onSelectCallback();
   }
 
   clearForm = () => this.setState({
