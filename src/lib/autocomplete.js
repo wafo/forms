@@ -205,6 +205,7 @@ WafoFormAutocomplete.propTypes = {
   errors: PropTypes.arrayOf(PropTypes.any),
   validations: PropTypes.any,
   // autocomplete
+  onSelectCallback: PropTypes.func,
   items: PropTypes.arrayOf(PropTypes.any),
   filterItemsFN: PropTypes.func,
   customInputFN: PropTypes.func,
@@ -226,6 +227,7 @@ WafoFormAutocomplete.defaultProps = {
   errors: [],
   validations: {},
   // autocomplete
+  onSelectCallback: f => f,
   items: [],
   filterItemsFN: (items, query) => items.filter(item => item.toLowerCase().indexOf(query.toLowerCase()) !== -1),
   customInputFN: item => (typeof item === 'string' ? item : 'Item selected'),
