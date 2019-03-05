@@ -136,7 +136,7 @@ export default class WafoFormAutocomplete extends React.Component {
       },
     });
     // callback que puede ser disparado desde fuera de wafoforms al seleccionar algo.
-    onSelectCallback();
+    onSelectCallback(selected);
   }
 
   clearForm = () => this.setState({
