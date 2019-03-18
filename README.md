@@ -1,22 +1,23 @@
-# Wafo-form
-UI Component hecho en React 16.7, hecho con la intención de agilizar y facilitar el trabajo mio y de mis compañeritos de RO a la hora de hacer paneles o interfaces web.
+# Wafo-forms
+UI Component made in React 16.8 and with one purpose in mind: To make my and my co-workers life easier.
 
 ## Demo
-**To-do**: Página demo.
+**To-do**: Demo page.
 
-## Primeros pasos
+## First steps
 
     $ npm install --save wafo-forms
 
-**To-do:** Alguna pequeña descripción de esta librería
+**To-do:** Small description
 
-### Dependencias
-Este componente es completamente independiente y no requiere de ningún otro paquete o librería (Además de *react* y *react-dom*).
+### Dependencies
+This component has one dependency *[prop-types](https://www.npmjs.com/package/prop-types)* (besides *react* and *react-dom*).
 
-> **Nota:** El componente esta pensado en su uso en conjunto a *[Bootstrap](https://getbootstrap.com/)* y a pesar de no ser requerido, se puede beneficiar de que este sea incluido.
+> **Note:** The component is designed to be used with *[Bootstrap](https://getbootstrap.com/)* and although it is not required, it can benefit from it being included.
 
-### Ejemplo de uso
-Este ejemplo de uso muestra una de las formas más sencillas en que se puede utilizar el componente. Para casos más específicos, continué leyendo.
+### Use example
+This example shows one of the easiest way this component can be used. For more specific use cases, keep scrolling.
+
 ```javascript
 import React from 'react';
 import { WafoForm, WafoFormInput } from 'wafo-forms';
@@ -40,15 +41,15 @@ const ExampleComponent = () => {
 };
 ```
 
-## Componentes
-Además del componente principal [`WafoForm`](#wafoform), existen otros componentes que son los que permiten al usuario final introducir valores a la forma. La forma recomendada de utilizar estos componentes es dentro del componente principal, sin embargo, es posible utilizarlos de manera individual.
+## Components
+Besides the main component [`WafoForm`](#wafoform), there are other components, the input components. The recomended way to use this components it is inside of the main component, however, it is posible to use them individually.
 
-> **Nota:** Utilizar los componentes fuera de `WafoForm` no es recomendado ya que se pierde la mayor parte de la funcionalidad. En estos casos se recomienda utilizar los componentes default. Más información sobre formas en React [aquí](https://reactjs.org/docs/forms.html).
+> **Note:** Using components outside of `WafoForm` is not recommended as most of the functionality is lost. In these cases it is recommended to use the default components. More information on forms in React [here](https://reactjs.org/docs/forms.html).
 
 ### WafoForm Element
-Este no es realmente un componente, pero con la intención de fácilitar la descripción de la librería y sus funciones nos referiremos a cualquier `Componente` que pueda ser hijo de [`WafoForm`](#wafoform) como un `WafoForm Element`. La mayoría de los componentes incluidos comparten gran parte de sus propiedades.
+This is not really a component, but with the intention of explaining how the components work and the functionality of the library, we will refer to any `Component` that can be a child of [`WafoForm`](#wafoform) as a `WafoForm Element`. Most of the components included share a large part of their properties.
 
-Existe la posibilidad de crear `Componentes` personalizados y más complejos que funcionen dentro de [`WafoForm`](#wafoform), teniendo un par de consideraciones en mente. Más información al respecto en [`Componentes personalizados`](#componentes-personalizados).
+Besides the included components, you can create your own custom `Components` that work within [`WafoForm`](#wafoform), having a couple of considerations in mind. More information on this in [`Custom components`](#componentes-personalizados).
 
 ### WafoForm
 El componente principal, es el equivalente a la etiqueta [`<form>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form) de *HTML*. Es quien se encarga de manejar el *state*, *validaciones* y entregar los *valores* al momento de hacer el *submit*.
