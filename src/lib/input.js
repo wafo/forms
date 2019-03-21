@@ -27,6 +27,7 @@ const WafoFormInput = ({
 );
 
 WafoFormInput.propTypes = {
+  wafoformelement: PropTypes.bool,
   type: PropTypes.string,
   customClass: PropTypes.string,
   name: PropTypes.string.isRequired,
@@ -45,6 +46,7 @@ WafoFormInput.propTypes = {
 };
 
 WafoFormInput.defaultProps = {
+  wafoformelement: true,
   type: 'text',
   customClass: '',
   label: undefined,
