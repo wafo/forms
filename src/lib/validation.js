@@ -44,12 +44,23 @@ function validateField(value, validations) {
           return { error: 'maxLength', message: `Máximo de caracteres ${validations[validation]}` };
         }
         break;
-      case 'number': {
+      case 'number':
+      case 'integer-number': {
         if (!validations.required && !value) { break; }
         if (validations[validation]) { // if number required true
           const regEx = RegExp(/^\d+$/);
           if (!regEx.test(value)) {
-            return { error: 'number', message: 'El valor debe ser un número entero.' };
+            return { error: 'integer-number', message: 'El valor debe ser un número entero.' };
+          }
+        }
+        break;
+      }
+      case 'decimal-number': {
+        if (!validations.required && !value) { break; }
+        if (validations[validation]) { // if decimal required true
+          const regEx = RegExp(/^\d{1,6}(\.\d{1,2})?$/g);
+          if (!regEx.test(value)) {
+            return { error: 'decimal-number', message: 'El valor debe ser un número decimal. Ejemplos: 30 o 15.50.' };
           }
         }
         break;
