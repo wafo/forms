@@ -35,35 +35,22 @@ class WafoForm extends React.Component {
 
     // values = initial values to preload children
     const { children, values } = props;
-    if (children.length > 1) {
-      // setting up each children state
-      for (let i = 0; i < children.length; i++) {
-        const { form } = this.state;
-        if (children[i] && children[i].props && children[i].props.name) {
-          this.state = {
-            form: {
-              ...form,
-              [children[i].props.name]: {
-                ...initialInputState,
-                // cheking if initial values exist
-                value: (values && values[children[i].props.name]) ? values[children[i].props.name] : initialInputState.value,
-                validations: children[i].props.validations,
-              },
+    React.Children.forEach(children, (child) => {
+      const { form } = this.state;
+      if (child && child.props && child.props.name) {
+        this.state = {
+          form: {
+            ...form,
+            [child.props.name]: {
+              ...initialInputState,
+              // cheking if initial values exist
+              value: (values && values[child.props.name]) ? values[child.props.name] : initialInputState.value,
+              validations: child.props.validations,
             },
-          };
-        }
-      }
-    } else if (children && children.props && children.props.name) {
-      this.state = {
-        form: {
-          [children.props.name]: {
-            ...initialInputState,
-            value: (values && values[children.props.name]) ? values[children.props.name] : initialInputState.value,
-            validations: children.props.validations,
           },
-        },
-      };
-    }
+        };
+      }
+    });
 
     this.onSubmit = this.onSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -137,7 +124,6 @@ class WafoForm extends React.Component {
       if (!child || !Object.prototype.hasOwnProperty.call(child.props, 'name')) {
         return child;
       }
-
       const { form: { [child.props.name]: { value, valid, touched, errors } } } = this.state;
       // Check if custom errors are provided (not from wafo-forms validation).
       const hasCustomErrors = Object.prototype.hasOwnProperty.call(child.props, 'customErrors');
@@ -167,6 +153,7 @@ WafoForm.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element).isRequired,
     PropTypes.element.isRequired,
+    () => null,
   ]).isRequired,
   buttonText: PropTypes.string,
   onSubmit: PropTypes.func,
