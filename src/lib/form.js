@@ -39,7 +39,7 @@ class WafoForm extends React.Component {
       // setting up each children state
       for (let i = 0; i < children.length; i++) {
         const { form } = this.state;
-        if (children[i].props.name) {
+        if (children[i] && children[i].props && children[i].props.name) {
           this.state = {
             form: {
               ...form,
@@ -53,7 +53,7 @@ class WafoForm extends React.Component {
           };
         }
       }
-    } else if (children.props.name) {
+    } else if (children && children.props && children.props.name) {
       this.state = {
         form: {
           [children.props.name]: {
@@ -133,8 +133,8 @@ class WafoForm extends React.Component {
 
     /** Modifying children props */
     children = React.Children.map(children, (child) => {
-      // If child !== WafoFormElement
-      if (!Object.prototype.hasOwnProperty.call(child.props, 'name')) {
+      // If !child || child !== WafoFormElement
+      if (!child || !Object.prototype.hasOwnProperty.call(child.props, 'name')) {
         return child;
       }
 
