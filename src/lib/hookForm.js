@@ -12,11 +12,12 @@ const initialInputState = {
 
 function setUpState(payload) {
   const { state, children, values } = payload;
-  let initialState = state;
+  let newState = state;
+  // Setting up state object.
   React.Children.forEach(children, (child) => {
-    if (child && child.props && child.props.name && !initialState[child.props.name]) {
-      initialState = {
-        ...initialState,
+    if (child && child.props && child.props.name && !newState[child.props.name]) {
+      newState = {
+        ...newState,
         [child.props.name]: {
           ...initialInputState,
           // cheking if initial values exist
@@ -26,7 +27,16 @@ function setUpState(payload) {
       };
     }
   });
-  return initialState;
+  // Removing elements that no longer are in children.
+  const childrenKeys = React.Children.map(children, child => child.props.name);
+  Object.keys(newState).forEach((key) => {
+    // Elemento ya no es un hijo.
+    if (childrenKeys.findIndex(x => x === key) === -1) {
+      delete newState[key];
+    }
+  });
+  // Returning new state object.
+  return newState;
 }
 
 function reducer(state, action) {
