@@ -115,7 +115,7 @@ class WafoForm extends React.Component {
   }
 
   render() {
-    const { buttonText } = this.props;
+    const { formId, buttonText } = this.props;
     let { children } = this.props;
 
     /** Modifying children props */
@@ -138,7 +138,7 @@ class WafoForm extends React.Component {
     });
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <form id={formId} onSubmit={this.onSubmit}>
         <div className="row">
           {children}
         </div>
@@ -155,12 +155,14 @@ WafoForm.propTypes = {
     PropTypes.element.isRequired,
     () => null,
   ]).isRequired,
+  formId: PropTypes.string,
   buttonText: PropTypes.string,
   onSubmit: PropTypes.func,
   values: PropTypes.any,
 };
 
 WafoForm.defaultProps = {
+  formId: 'wafoform',
   buttonText: '',
   onSubmit: f => f,
   values: undefined,

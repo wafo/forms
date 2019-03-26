@@ -58,7 +58,7 @@ function reducer(state, action) {
   }
 }
 
-function WafoForm({ children, buttonText, onSubmit, values }) {
+function WafoForm({ children, formId, buttonText, onSubmit, values }) {
   const [state, dispatch] = useReducer(reducer, {});
 
   useEffect(() => {
@@ -142,7 +142,7 @@ function WafoForm({ children, buttonText, onSubmit, values }) {
   });
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form id={formId} onSubmit={handleSubmit}>
       <div className="row">
         {renderChildren}
       </div>
@@ -158,12 +158,14 @@ WafoForm.propTypes = {
     PropTypes.element.isRequired,
     () => null,
   ]).isRequired,
+  formId: PropTypes.string,
   buttonText: PropTypes.string,
   onSubmit: PropTypes.func,
   values: PropTypes.any,
 };
 
 WafoForm.defaultProps = {
+  formId: 'wafoform',
   buttonText: '',
   onSubmit: f => f,
   values: undefined,
