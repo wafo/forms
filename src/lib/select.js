@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const WafoFormSelect = ({
-  customClass, name, label, defaultValue, options, extraProps,
-  value, handleInputChange, valid, touched, errors,
+  customClass, name, label, defaultValue, options, extraProps, children,
+  value, handleInputChange, onChangeCallback, onBlurCallback,
+  valid, touched, errors,
 }) => (
   <div className={`form-group wafo-input ${customClass}`}>
     {label && <label htmlFor={name}>{label}</label>}
@@ -11,7 +12,11 @@ const WafoFormSelect = ({
       className="form-control"
       name={name}
       value={value}
-      onChange={handleInputChange}
+      onChange={(event) => {
+        handleInputChange(event);
+        onChangeCallback(event);
+      }}
+      onBlur={onBlurCallback}
       {...extraProps}
     >
       <option value="" disabled>{defaultValue}</option>
@@ -21,6 +26,7 @@ const WafoFormSelect = ({
         ))
       }
     </select>
+    {children}
     {!valid && touched
       && (
         <ul className="errors">
@@ -41,8 +47,15 @@ WafoFormSelect.propTypes = {
     display: PropTypes.node,
   })),
   extraProps: PropTypes.any,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element).isRequired,
+    PropTypes.element.isRequired,
+    () => null,
+  ]),
   value: PropTypes.string,
   handleInputChange: PropTypes.func,
+  onChangeCallback: PropTypes.func,
+  onBlurCallback: PropTypes.func,
   valid: PropTypes.bool,
   touched: PropTypes.bool,
   errors: PropTypes.arrayOf(PropTypes.any),
@@ -58,8 +71,11 @@ WafoFormSelect.defaultProps = {
   defaultValue: 'Select an option',
   options: [],
   extraProps: {},
+  children: null,
   value: '',
   handleInputChange: f => f,
+  onChangeCallback: f => f,
+  onBlurCallback: f => f,
   valid: false,
   touched: false,
   errors: [],

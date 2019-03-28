@@ -17,7 +17,11 @@ const SimpleForm = () => {
           placeholder="Nombre"
           label="Nombre"
           validations={{ required: true, minLength: 5, maxLength: 255 }}
-        />
+          onChangeCallback={event => console.log(event)}
+          onBlurCallback={event => console.log(event)}
+        >
+          <small>Esta forma esta bien fea</small>
+        </WafoFormInput>
 
         <WafoFormInput
           type="text"
