@@ -27,7 +27,7 @@ class SimpleForm extends React.Component {
 
     return (
       <div className="simple-form">
-        <WafoForm buttonText="Submit" onSubmit={this.handleFormSubmit}>
+        <WafoForm buttonText="Submit" onSubmit={this.handleFormSubmit} locale="es">
 
           <div style={{ width: '100%' }}>
             <p>A ver al cine dijo el gaytis</p>

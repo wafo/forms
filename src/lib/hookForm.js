@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import validateField from './validation';
+import validateField, { setLocale } from './validation';
 
 const initialInputState = {
   value: '',
@@ -58,9 +58,8 @@ function reducer(state, action) {
   }
 }
 
-function WafoForm({ children, formId, buttonText, onSubmit, values }) {
+function WafoForm({ children, formId, buttonText, onSubmit, values, locale }) {
   const [state, dispatch] = useReducer(reducer, {});
-
   useEffect(() => {
     dispatch({
       type: 'reset',
@@ -71,6 +70,10 @@ function WafoForm({ children, formId, buttonText, onSubmit, values }) {
       },
     });
   }, [children]);
+
+  useEffect(() => {
+    setLocale(locale);
+  }, []);
 
   function handleSubmit(event) {
     if (event) { event.preventDefault(); }
@@ -165,6 +168,7 @@ WafoForm.propTypes = {
   buttonText: PropTypes.string,
   onSubmit: PropTypes.func,
   values: PropTypes.any,
+  locale: PropTypes.string,
 };
 
 WafoForm.defaultProps = {
@@ -172,6 +176,7 @@ WafoForm.defaultProps = {
   buttonText: '',
   onSubmit: f => f,
   values: undefined,
+  locale: 'en',
 };
 
 export default WafoForm;
