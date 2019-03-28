@@ -2,7 +2,7 @@
 UI Component made in React 16.8 and with one purpose in mind: To make my and my co-workers life easier.
 
 ## Demo
-**To-do**: Demo page.
+**To-do**: Demo page and examples.
 
 ## First steps
 
