@@ -76,6 +76,7 @@ function WafoForm({ children, formId, buttonText, onSubmit, values }) {
     if (event) { event.preventDefault(); }
 
     const form = { valid: true };
+    const formValues = {};
     const newState = {};
 
     Object.keys(state).forEach((field) => {
@@ -89,6 +90,8 @@ function WafoForm({ children, formId, buttonText, onSubmit, values }) {
         errors: validation.errors,
       };
 
+      formValues[field] = inputState.value;
+
       newState[field] = {
         ...inputState,
         touched: true,
@@ -101,7 +104,7 @@ function WafoForm({ children, formId, buttonText, onSubmit, values }) {
       type: 'formChange',
       payload: newState,
     });
-    onSubmit(form);
+    onSubmit(form, formValues);
   }
 
   function handleInputChange(event) {

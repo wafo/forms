@@ -64,6 +64,7 @@ class WafoForm extends React.Component {
 
     // checking every input validation
     const form = { valid: true };
+    const formValues = {};
     const newState = {};
     Object.keys(formState).forEach((field) => {
       const { form: { [field]: inputState } } = this.state;
@@ -76,6 +77,8 @@ class WafoForm extends React.Component {
         errors: validation.errors,
       };
 
+      formValues[field] = inputState.value;
+
       newState[field] = {
         ...inputState,
         touched: true,
@@ -86,7 +89,7 @@ class WafoForm extends React.Component {
 
     // updating state and sending values through callback
     this.setState({ form: newState }, () => {
-      onSubmit(form);
+      onSubmit(form, formValues);
     });
   }
 

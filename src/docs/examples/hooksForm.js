@@ -2,8 +2,9 @@ import React from 'react';
 import { WafoFormHooks, WafoFormInput } from '../../../lib';
 
 const SimpleForm = () => {
-  const onSubmit = (form) => {
+  const onSubmit = (form, values) => {
     console.log(form);
+    console.log(values);
   };
 
   return (

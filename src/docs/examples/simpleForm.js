@@ -11,8 +11,9 @@ class SimpleForm extends React.Component {
     this.state = initialState;
   }
 
-  handleFormSubmit(form) {
+  handleFormSubmit = (form, values) => {
     console.log(form);
+    console.log(values);
   }
 
   render() {
