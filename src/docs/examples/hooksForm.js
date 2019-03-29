@@ -9,7 +9,7 @@ const SimpleForm = () => {
 
   return (
     <div className="hooks-form">
-      <WafoFormHooks buttonText="Submit" onSubmit={onSubmit} locale="es">
+      <WafoFormHooks buttonText="Submit" onSubmit={onSubmit} locale="es" ignoreEmpty>
         <WafoFormInput
           type="text"
           name="name"

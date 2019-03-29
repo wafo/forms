@@ -61,7 +61,7 @@ class WafoForm extends React.Component {
   onSubmit(event) {
     if (event) { event.preventDefault(); } // event can be undefined if the function is not called normally
 
-    const { onSubmit } = this.props;
+    const { onSubmit, ignoreEmpty } = this.props;
     const { form: formState } = this.state;
 
     // checking every input validation
@@ -79,7 +79,9 @@ class WafoForm extends React.Component {
         errors: validation.errors,
       };
 
-      formValues[field] = inputState.value;
+      if (!ignoreEmpty || (ignoreEmpty && inputState.value)) {
+        formValues[field] = inputState.value;
+      }
 
       newState[field] = {
         ...inputState,
@@ -160,19 +162,21 @@ WafoForm.propTypes = {
     PropTypes.element.isRequired,
     () => null,
   ]).isRequired,
+  values: PropTypes.any,
+  onSubmit: PropTypes.func,
   formId: PropTypes.string,
   buttonText: PropTypes.string,
-  onSubmit: PropTypes.func,
-  values: PropTypes.any,
   locale: PropTypes.string,
+  ignoreEmpty: PropTypes.bool,
 };
 
 WafoForm.defaultProps = {
+  values: undefined,
+  onSubmit: f => f,
   formId: 'wafoform',
   buttonText: '',
-  onSubmit: f => f,
-  values: undefined,
   locale: 'en',
+  ignoreEmpty: false,
 };
 
 export default WafoForm;

@@ -58,7 +58,7 @@ function reducer(state, action) {
   }
 }
 
-function WafoForm({ children, formId, buttonText, onSubmit, values, locale }) {
+function WafoForm({ children, values, onSubmit, formId, buttonText, locale, ignoreEmpty }) {
   const [state, dispatch] = useReducer(reducer, {});
   useEffect(() => {
     dispatch({
@@ -93,7 +93,9 @@ function WafoForm({ children, formId, buttonText, onSubmit, values, locale }) {
         errors: validation.errors,
       };
 
-      formValues[field] = inputState.value;
+      if (!ignoreEmpty || (ignoreEmpty && inputState.value)) {
+        formValues[field] = inputState.value;
+      }
 
       newState[field] = {
         ...inputState,
@@ -164,19 +166,21 @@ WafoForm.propTypes = {
     PropTypes.element.isRequired,
     () => null,
   ]).isRequired,
+  values: PropTypes.any,
+  onSubmit: PropTypes.func,
   formId: PropTypes.string,
   buttonText: PropTypes.string,
-  onSubmit: PropTypes.func,
-  values: PropTypes.any,
   locale: PropTypes.string,
+  ignoreEmpty: PropTypes.bool,
 };
 
 WafoForm.defaultProps = {
+  values: undefined,
+  onSubmit: f => f,
   formId: 'wafoform',
   buttonText: '',
-  onSubmit: f => f,
-  values: undefined,
   locale: 'en',
+  ignoreEmpty: false,
 };
 
 export default WafoForm;

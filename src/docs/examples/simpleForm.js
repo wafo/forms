@@ -1,6 +1,5 @@
 import React from 'react';
-import { WafoForm, WafoFormInput, WafoFormSelect } from '../../../lib';
-import WafoFormTextArea from '../../lib/textarea';
+import { WafoForm, WafoFormInput, WafoFormSelect, WafoFormTextArea } from '../../../lib';
 import '../styles.css';
 
 const initialState = {};
@@ -27,7 +26,7 @@ class SimpleForm extends React.Component {
 
     return (
       <div className="simple-form">
-        <WafoForm buttonText="Submit" onSubmit={this.handleFormSubmit} locale="es">
+        <WafoForm buttonText="Submit" onSubmit={this.handleFormSubmit} locale="es" ignoreEmpty>
 
           <div style={{ width: '100%' }}>
             <p>A ver al cine dijo el gaytis</p>
