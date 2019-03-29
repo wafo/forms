@@ -22,7 +22,7 @@ function setUpState(payload) {
           ...initialInputState,
           // cheking if initial values exist
           value: (values && values[child.props.name]) ? values[child.props.name] : initialInputState.value,
-          validations: child.props.validations,
+          validations: child.props.validations || {},
         },
       };
     }
