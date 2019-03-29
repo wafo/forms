@@ -175,7 +175,7 @@ At its core [`WafoForm`](#wafoform) it's just an HTML form, which can be submitt
 Example:
 ```javascript
 import React from 'react';
-import { WafoForm } from 'wafo-forms;
+import { WafoForm } from 'wafo-forms';
 
 const Example = ({ handleSubmit }) => (
 	<div>
