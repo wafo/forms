@@ -23,8 +23,9 @@ import React from 'react';
 import { WafoForm, WafoFormInput } from 'wafo-forms';
 
 const ExampleComponent = () => {
-	const handleSubmit = (values) => {
-		// Do something with the values...
+	const handleSubmit = (form, values) => {
+		// form returns values, validation info and more.
+		// values is a simple object key: value.
 	};
 	
 	return (
@@ -47,14 +48,14 @@ Besides the main component [`WafoForm`](#wafoform), there are other components, 
 > **Note:** Using components outside of `WafoForm` is not recommended as most of the functionality is lost. In these cases it is recommended to use the default components. More information on forms in React [here](https://reactjs.org/docs/forms.html).
 
 ### WafoForm Element
-This is not really a component, but with the intention of explaining how the components work and the functionality of the library, we will refer to any `Component` that can be a child of [`WafoForm`](#wafoform) as a `WafoForm Element`. Most of the components included share a large part of their properties.
+For the sake of explaining how the components work we will refer to any `Component` that can be a child of [`WafoForm`](#wafoform) as a `WafoForm Element`. Most of the components included share a large part of their properties.
 
 Besides the included components, you can create your own custom `Components` that work within [`WafoForm`](#wafoform), having a couple of considerations in mind. More information on this in [`Custom components`](#componentes-personalizados).
 
 ### WafoForm
-El componente principal, es el equivalente a la etiqueta [`<form>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form) de *HTML*. Es quien se encarga de manejar el *state*, *validaciones* y entregar los *valores* al momento de hacer el *submit*.
+The main component, is the equivalent to the [`<form>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form) tag of *HTML*. This component handles the *state*, *validations* and returning the *values* when we *submit* the form.
 
-Ejemplo:
+Example:
 ```javascript
 import React from 'react';
 import { WafoForm } from 'wafo-forms';
@@ -72,18 +73,21 @@ const Example = ({ handleFormSubmit }) => (
 #### Props
 | Prop | Type | Required | Default value | Description |
 |--|--|--|--|--|
-| buttonText | String | No | "" | Texto que se mostrara en el botón *submit* de la forma. Si se omite, el botón no será mostrado. |
-| onSubmit | Function | No | f => f | Función (callback) que se dispara al hacer submit. Recibe como prop un objeto tipo [`formValue`](#objeto-formvalue). |
-| values | [Object](#objeto-values-y-edición-en-wafoform) | No | *undefined* | Objeto que permite introducir valores iniciales para uno o todos los [`WafoForm Element`](#wafoform-element) que se encuentren en la forma. Útil para edición. |
+| values | [Object](#objeto-values-y-edición-en-wafoform) | No | *undefined* | Object that allows to enter initial values for the [`WafoForm Elements`](#wafoform-element) inside the form. Useful for editing. |
+| onSubmit | Function | No | f => f | Callback function fired on submit. It gets two props: a [`formValue`](#objeto-formvalue) object and a *{key: value}* object. |
+| formId | String | No | "wafoform" | id attribute to be passed onto the HTML *form* tag. |
+| buttonText | String | No | "" | Text to be displayed on the submit button. If omitted, the button will not be rendered. |
+| locale | String | No | "en" | Language of the validation error messages. Only 2 languages available at the moment: English and Spanish. (This may change in the future). |
+| ignoreEmpty | Boolean | No | false | If true, the second prop of *onSubmit* only returns fields that have a value. |
 
-> **Nota:** Existe otra forma de disparar el evento *onSubmit* en caso de no querer utilizar el botón default.
+> **Note:** It exist another way of firing the *onSubmit* if needed.
 
-#### Objeto formValue
-Este objeto es la respuesta que entrega el componente al momento de realizar un submit, sin importar como este se realice. Indica la validez general de la forma y el valor actual de todos los [`WafoForm Element`](#wafoform-element); cada uno representado por su llave (*name*), especificando además su estado de validez y errores en caso de existir.
+#### Object formValue
+This is one of the props returned on the submit event (it doesn't matter how it's fired). It shows the validity of the form (as a whole) aswell as the validity and value of each of the [`WafoForm Element`](#wafoform-element); each one it's represented by it's key (the *name* prop of the component).
 
-> **Nota:** Cada valor viene representado por su llave, la cual proviene de la propiedad *name* de los [`WafoForm Element`](#wafoform-element).
+> **Note:** Each value it's represented by its key, which comes from the *name* prop of the [`WafoForm Element`](#wafoform-element).
 
-Ejemplo:
+Example:
 ```javascript
 {
 	valid: false, // validation status of the entire form
@@ -106,111 +110,87 @@ Ejemplo:
 }
 ```
 
-#### Objeto values y edición en WafoForm
-Es común que cuando tengamos una forma no solo la utilicemos para introducir información nueva sino también para la edición de la misma. `WafoForm` no hace distinción especifica a la edición de información, pero si permite la carga de valores iniciales para uno o todos de sus hijos mediante la propiedad *values*.
+#### Object key:value
+This is the second prop returned on the submit event (it doesn't matter how it's fired). It returns a key:value object of each of the [`WafoForm Element`](#wafoform-element).
 
-El objeto *values* similar al objeto *formValue* representa cada uno de los [`WafoForm Element`](#wafoform-element) mediante su llave (*name*). Cada una de estas llaves debe ser un `String` que será utilizado como el valor inicial.
+> **Note:** Each value it's represented by its key, which comes from the *name* prop of the [`WafoForm Element`](#wafoform-element).
 
-Ejemplo:
+Example:
 ```javascript
 {
-	name: "Ramón Guerrero",
-	email: "ramon@gmail.com",
+	name: value,
+	otherName: value,
 }
 ```
 
-Ejemplo de uso:
+#### Object values and editing in WafoForm
+It's fairly common that when we have a form we need it for more than just input new values, we also use them for editing. For this and other use cases, `WafoForm` allows the input of initial values for one or more of its children with the *values* prop.
+
+The *values* object it's basically the same as the [`Object key:value`](#Object-key:value) from earlier, where each key (*name*) represents one of the [`WafoForm Element`](#wafoform-element).
+
+Example:
+```javascript
+{
+	name: "Benito camela",
+	email: "benito@gmail.com",
+}
+```
+
+Usage example:
 ```javascript
 import React from 'react';
 import { WafoForm, WafoFormInput } = 'wafo-forms';
 
-class Example extends React.Component {
-	state = {
-		user: {
-			id: 0
-		},
-	}
+const Example = () => {
+	const user = {
+		email: 'ayy@lmao.com',
+	};
 
-	componentDidMount() {
-		// logic / api call to get values...
-	}
+	return (
+		<WafoForm
+			key={user.id}
+			buttonText="Save changes"
+			values={user}
+		>
 
-	handleSubmit = (formValue) => {
-		// do something with the values...
-	}
+			<WafoFormInput
+				type="email"
+				name="email"
+				label="User email"
+			/>
 
-	render() {
-		const { user } = this.state;
+			{/* Other WafoForm Elements... */}
 
-		return (
-			<WafoForm
-				key={user.id}
-				buttonText="Save changes"
-				onSubmit={this.handleSubmit}
-				values={user}
-			>
-
-				<WafoFormInput
-					type="email"
-					name="email"
-					label="User email"
-				/>
-
-				{/* Other WafoForm Elements... */}
-
-			</WafoForm>
-		);
-	}
-}
+		</WafoForm>
+	);
+};
 ```
 
-Es importante mencionar que `WafoForm` solo considera estos valores durante su creación por lo que si la obtención de los valores es asíncrona puede ser útil asignarle un `key` que este relacionado (como el id, o algún otro identificador único) para que se actualice el componente una vez que llegan estos valores.
+> **Note:** It's important to mention that `WafoForm` only considers this values on the first render. If this initial values are obtained for example by an async method, adding a `key` to the component, that changes when the values arrive, could be useful.
 
-Esto podría no ser necesario si hay un componente padre que se encarge de obtener esta información o provenga de algún otro lugar del sistema como [Redux](https://redux.js.org/).
+#### Firing onSubmit manually
 
-#### Disparar onSubmit manualmente
+At its core [`WafoForm`](#wafoform) it's just an HTML form, which can be submitted as any other form can. For example a type submit button pointing to the form id (remember the *formId* prop?).
 
-onSubmit es una función de [`WafoForm`](#wafoform) que se ejecuta al momento de realizar la acción de submit (presionando *Enter* en el teclado o el botón de la forma, etc.). Esta función valida cada uno de los [`WafoForm Element`](#wafoform-element) y genera un objeto [`formValue`](#objeto-formvalue) que sera devuelto a la función que se haya especificado en la propiedad `onSubmit`.
-
-Una posible alternativa en el caso que se desee disparar esta función desde otro componente, o desde otra función, es utilizar un [Ref](https://reactjs.org/docs/refs-and-the-dom.html) y así acceder directamente a la funcion onSubmit.
-
-Ejemplo:
+Example:
 ```javascript
 import React from 'react';
-import { WafoForm } from 'wafo-forms';
+import { WafoForm } from 'wafo-forms;
 
-class Example extends React.Component {
-	constructor(props) {
-		super(props);
-		this.formRef = React.createRef();
-	}
+const Example = ({ handleSubmit }) => (
+	<div>
+		<WafoForm
+			formId="exampleForm"
+			onSubmit={handleSubmit}
+		>
+		{/* WafoForm Elements... */}
+		</WafoForm>
 
-	handleSubmit = (formValue) => {
-		// do something with the values...
-	}
-
-	render() {
-		return (
-			<div>
-				<WafoForm
-					ref={this.formRef}
-					buttonText="Save changes"
-					onSubmit={this.handleSubmit}
-				>
-				{/* WafoForm Elements... */}
-				</WafoForm>
-
-				{/* Botón fuera de Wafo Forms */}
-				<button
-					type="button"
-					onClick={() => { this.formRef.current.onSubmit(); }}
-				>onSubmit</button>
-			</div>
-		);
-	}
-}
+		{/* Button outside of WafoForm */}
+		<button type="submit" form="exampleForm">onSubmit</button>
+	</div>
+)
 ```
-
 
 ### WafoFormInput
 El componente más básico de todos, puede ser utilizado para introducir casi cualquier tipo de carácter. Ofrece funciones similares a las de la etiqueta [`<input>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input) de HTML.
@@ -530,7 +510,6 @@ Los puntos clave a notar en los ejemplos anteriores son el uso de las propiedade
  - Soporte para imágenes.
  - Soporte para fechas.
  - Soporte para Rich Text  (WYSIWYG).
- - Mejorar validaciones.
  
 ### Limitaciones
 Las validaciones disponibles son muy especificas y no cubren todos los casos. Como solución momentánea y para permitir mayor flexibilidad se permite validar mediante expresiones regulares.
