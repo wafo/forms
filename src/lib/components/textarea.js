@@ -49,10 +49,7 @@ WafoFormTextArea.propTypes = {
   valid: PropTypes.bool,
   touched: PropTypes.bool,
   errors: PropTypes.arrayOf(PropTypes.any),
-  validations: PropTypes.shape({
-    required: PropTypes.bool,
-    pattern: PropTypes.object,
-  }),
+  validations: PropTypes.object,
 };
 
 WafoFormTextArea.defaultProps = {

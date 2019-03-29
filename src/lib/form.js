@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import validateField from './validation';
+import validateField, { setLocale } from './validation';
 
 /**
  * @typedef initialInputState
@@ -32,6 +32,8 @@ class WafoForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = initialState;
+
+    setLocale(props.locale);
 
     // values = initial values to preload children
     const { children, values } = props;
@@ -162,6 +164,7 @@ WafoForm.propTypes = {
   buttonText: PropTypes.string,
   onSubmit: PropTypes.func,
   values: PropTypes.any,
+  locale: PropTypes.string,
 };
 
 WafoForm.defaultProps = {
@@ -169,6 +172,7 @@ WafoForm.defaultProps = {
   buttonText: '',
   onSubmit: f => f,
   values: undefined,
+  locale: 'en',
 };
 
 export default WafoForm;

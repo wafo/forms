@@ -203,7 +203,7 @@ WafoFormAutocomplete.propTypes = {
   valid: PropTypes.bool,
   touched: PropTypes.bool,
   errors: PropTypes.arrayOf(PropTypes.any),
-  validations: PropTypes.any,
+  validations: PropTypes.object,
   // autocomplete
   onSelectCallback: PropTypes.func,
   items: PropTypes.arrayOf(PropTypes.any),
