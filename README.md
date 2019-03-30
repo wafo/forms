@@ -50,7 +50,7 @@ Besides the main component [`WafoForm`](#wafoform), there are other components, 
 ### WafoForm Element
 For the sake of explaining how the components work we will refer to any `Component` that can be a child of [`WafoForm`](#wafoform) as a `WafoForm Element`. Most of the components included share a large part of their properties.
 
-Besides the included components, you can create your own custom `Components` that work within [`WafoForm`](#wafoform), having a couple of considerations in mind. More information on this in [`Custom components`](#componentes-personalizados).
+Besides the included components, you can create your own custom `Components` that work within [`WafoForm`](#wafoform), having a couple of considerations in mind. More information on this in [`Custom components`](#custom-components).
 
 ### WafoForm
 The main component, is the equivalent to the [`<form>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form) tag of *HTML*. This component handles the *state*, *validations* and returning the *values* when we *submit* the form.
@@ -73,8 +73,8 @@ const Example = ({ handleFormSubmit }) => (
 #### Props
 | Prop | Type | Required | Default value | Description |
 |--|--|--|--|--|
-| values | [Object](#objeto-values-y-edición-en-wafoform) | No | *undefined* | Object that allows to enter initial values for the [`WafoForm Elements`](#wafoform-element) inside the form. Useful for editing. |
-| onSubmit | Function | No | f => f | Callback function fired on submit. It gets two props: a [`formValue`](#objeto-formvalue) object and a *{key: value}* object. |
+| values | [Object](#object-values-and-editing-in-wafoform) | No | *undefined* | Object that allows to enter initial values for the [`WafoForm Elements`](#wafoform-element) inside the form. Useful for editing. |
+| onSubmit | Function | No | f => f | Callback function fired on submit. It gets two props: a [`formValue`](#object-formvalue) object and a *{key: value}* object. |
 | formId | String | No | "wafoform" | id attribute to be passed onto the HTML *form* tag. |
 | buttonText | String | No | "" | Text to be displayed on the submit button. If omitted, the button will not be rendered. |
 | locale | String | No | "en" | Language of the validation error messages. Only 2 languages available at the moment: English and Spanish. (This may change in the future). |
@@ -126,7 +126,7 @@ Example:
 #### Object values and editing in WafoForm
 It's fairly common that when we have a form we need it for more than just input new values, we also use them for editing. For this and other use cases, `WafoForm` allows the input of initial values for one or more of its children with the *values* prop.
 
-The *values* object it's basically the same as the [`Object key:value`](#Object-key:value) from earlier, where each key (*name*) represents one of the [`WafoForm Element`](#wafoform-element).
+The *values* object it's basically the same as the [`Object key:value`](#object-key:value) from earlier, where each key (*name*) represents one of the [`WafoForm Element`](#wafoform-element).
 
 Example:
 ```javascript
@@ -193,9 +193,9 @@ const Example = ({ handleSubmit }) => (
 ```
 
 ### WafoFormInput
-El componente más básico de todos, puede ser utilizado para introducir casi cualquier tipo de carácter. Ofrece funciones similares a las de la etiqueta [`<input>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input) de HTML.
+Probably the component that will be used the most; it can be used to input any type of character. It offers similar functionality to the [`<input>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input) tag of HTML.
 
-Ejemplo:
+Example:
 ```javascript
 import React from 'react';
 import { WafoFormInput } from 'wafo-forms';
@@ -211,23 +211,25 @@ const Example = () => (
 );
 ```
 #### Props
-
-Este componente comparte propiedades con otros componentes de la librería. Las propiedades que no se comparten con el resto estan marcadas en negrita.
+This component shares props with other components of this library. Unique props to this component will be marked in bold.
 
 | Prop | Type | Required | Default value | Description |
 |--|--|--|--|--|
-| name | String | Yes |  | Esta propiedad es utilizada como la llave que identifica al componente dentro de la forma y debe ser único. |
-| **type** | String | No | "text" | Se especifica el tipo de `<input>` que va manejar el componente. Más sobre [Input Types.](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) |
-| placeholder | String | No | "" | Texto que se muestra cuando el valor esta vacío. De omitirse no se mostrara nada. |
-| customClass | String | No | "" | Clase que será agregada al componente. |
-| label | String | No | "" | Texto que se muestra junto con el `<input>`. De omitirse no se mostrara nada.|
-| validations | Object | No | {} | Objeto con las validaciones a las que se sometera el valor actual. La validación se realiza cada vez que este cambia o al momento de dispararse *onSubmit* de [`WafoForm`](#wafoform). |
+| name | String | **Yes** |  | This will be used as the key to identify the component on the form. Must be unique to the current form. |
+| **type** | String | No | "text" | Specifies the type of `<input>` the component will generate. More about [Input Types.](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) |
+| customClass | String | No | "" | Class to be added to the component |
+| label | String | No | "" | Label that shows with the `<input>` tag. If omitted the label won't be rendered. |
+| placeholder | String | No | "" | Text to be shown when no values have been introduced. |
+| extraProps | Object | No | {} | Extra props to be passed onto the `<input>` tag; which can be the tag attributes or any other. Example: *autoComplete: 'off'*. |
+| onChangeCallback | Function | No | f => f | Callback function to be executed when the onChange event is fired. It receives the raw event as a prop. |
+| onBlurCallback | Function | No | f => f | Callback function to be executed when the onBlur event is fired. It receives the raw event as a prop. |
+| validations | Object | No | {} | Validation object to be tested against the current value. Validation it's done in the onChange event and onSubmit. Check the Validation Object for more info. |
 
 
 ### WafoFormSelect
-Este componente permite mostrar una lista de opciones entre las cuales el usuario puede elegir. Ofrece funciones similares a las de la etiqueta [`<select>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select) de HTML.
+This component allows you to show a list of options from where the user can choose. Basically the [`<select>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select) tag of HTML.
 
-Ejemplo:
+Example:
 ```javascript
 import React from 'react';
 import { WafoFormSelect } from 'wafo-forms';
@@ -257,21 +259,24 @@ const Example = () => {
 ```
 
 #### Props
-Este componente comparte propiedades con otros componentes de la librería. Las propiedades que no se comparten con el resto estan marcadas en negrita.
+This component shares props with other components of this library. Unique props to this component will be marked in bold.
 
 | Prop | Type | Required | Default value | Description |
 |--|--|--|--|--|
-| name | String | Yes |  | Esta propiedad es utilizada como la llave que identifica al componente dentro de la forma y debe ser único. |
-| customClass | String | No | "" | Clase que será agregada al componente. |
-| label | String | No | "" | Texto que se muestra junto con el `<select>`. De omitirse no se mostrara nada.|
-| **defaultValue** | String | No | "Select an option" | Es la opción que estará seleccionada por default al iniciar (similar a placeholder) y de no seleccionar otra opción retornara un String vacio como valor. |
-| **options** | [Array](#array-options) | No | [] | Array con las opciones a mostrar, entre las cuales podrá elegir el usuario. Este arreglo puede ser modificado incluso después de que el componente sea iniciado, como en el caso de provenir de una fuente asíncrona. |
-| validations | Object | No | {} | Objeto con las validaciones a las que se sometera el valor actual. La validación se realiza cada vez que este cambia o al momento de dispararse *onSubmit* de [`WafoForm`](#wafoform). |
+| name | String | **Yes** | | This will be used as the key to identify the component on the form. Must be unique to the current form. |
+| **defaultValue** | String | No | "Select an option" | Disabled option to be shown when no other option has been selected (similar to placeholder). |
+| **options** | [Array](#array-options) | No | [] | Array with the options from which the user can choose. This array can me modified even after the initial render (useful if the options come from an async function). |
+| customClass | String | No | "" | Class to be added to the component |
+| label | String | No | "" | Label that shows with the `<select>` tag. If omitted the label won't be rendered. |
+| extraProps | Object | No | {} | Extra props to be passed onto the `<select>` tag; which can be the tag attributes or any other |
+| onChangeCallback | Function | No | f => f | Callback function to be executed when the onChange event is fired. It receives the raw event as a prop. |
+| onBlurCallback | Function | No | f => f | Callback function to be executed when the onBlur event is fired. It receives the raw event as a prop. |
+| validations | Object | No | {} | Validation object to be tested against the current value. Validation it's done in the onChange event and onSubmit. Check the Validation Object for more info. |
 
 #### Array options
-Este array esta conformado de objetos sencillos que contienen dos propiedades; el valor a retornar y el texto a mostrar en la interfaz. Si el array se encuentra vacio, simplemente se mostrara la opción proporcionada en *defaultValue* y siempre retornara un string vacio.
+This array is made of simple object with two prop; the value to be returned when selected and a text to show on the UI. If the array it's empty the component will show only the *defaultValue* and it will return an empty string when the form is submited.
 
-Ejemplo:
+Example:
 ```javascript
 [
 	{
@@ -287,9 +292,9 @@ Ejemplo:
 
 
 ### WafoFormTextArea
-Este componente permite introducir grandes cantidades de texto con soporte para multiples lineas. Ofrece funciones similares a las de la etiqueta [`<textarea>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea) de HTML.
+This component allows the user to input big texts with support for multiple lines. Basically the [`<textarea>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea) tag from HTML.
 
-Ejemplo:
+Example:
 ```javascript
 import React from 'react';
 import { WafoFormTextArea } from 'wafo-forms';
@@ -305,84 +310,74 @@ const Example = () => (
 ```
 
 #### Props
-Este componente comparte propiedades con otros componentes de la librería.
+This component shares props with other components of this library. Unique props to this component will be marked in bold.
 
 | Prop | Type | Required | Default value | Description |
 |--|--|--|--|--|
-| name | String | Yes |  | Esta propiedad es utilizada como la llave que identifica al componente dentro de la forma y debe ser único. |
-| placeholder | String | No | "" | Texto que se muestra cuando el valor esta vacio. De omitirse no se mostrara nada. |
-| customClass | String | No | "" | Clase que será agregada al componente. |
-| label | String | No | "" | Texto que se muestra junto con el `<textarea>`. De omitirse no se mostrara nada. |
-| validations | Object | No | {} | Objeto con las validaciones a las que se sometera el valor actual. La validación se realiza cada vez que este cambia o al momento de dispararse *onSubmit* de [`WafoForm`](#wafoform). |
+| name | String | **Yes** |  | This will be used as the key to identify the component on the form. Must be unique to the current form. |
+| customClass | String | No | "" | Class to be added to the component |
+| label | String | No | "" | Label that shows with the `<textarea>` tag. If omitted the label won't be rendered. |
+| placeholder | String | No | "" | Text to be shown when no values have been introduced. |
+| extraProps | Object | No | {} | Extra props to be passed onto the `<textarea>` tag; which can be the tag attributes or any other. Example: *autoComplete: 'off'*. |
+| onChangeCallback | Function | No | f => f | Callback function to be executed when the onChange event is fired. It receives the raw event as a prop. |
+| onBlurCallback | Function | No | f => f | Callback function to be executed when the onBlur event is fired. It receives the raw event as a prop. |
+| validations | Object | No | {} | Validation object to be tested against the current value. Validation it's done in the onChange event and onSubmit. Check the Validation Object for more info. |
 
-### Componentes personalizados
 
-Los `WafoForm Element` incluidos cubren una gran parte de las necesidades que pudieran presentarse, desde fechas hasta opciones mutiples, aún así, pueden presentarse situaciones donde no sean suficiente y necesitemos una solución más especifica. En estos casos, lo recomendado sería crear nuestro propio componente.
+### Custom components
+The `WafoForm Elements` included can help you in a great number of cases, but maybe you need something more specific (like a datepicker or filepicker, to mention some). This is when custom components come in handy.
 
-Para que un componente funcione dentro de [`WafoForm`](#wafoform) debe aceptar algunos props en especifico. Estos le permiten al componente padre manejar el *State* y comunicarse con el.
+For a component to be able to work inside [`WafoForm`](#wafoform) it needs to accept some specific props; this will allows the main component handle the state and comunicate with it.
 
-#### Props
-Las propiedades que son 100% necesarias estan marcadas en negritas. El resto puede ser omitido pero se perderían funcionalidades como la validación.
+#### Needed Props
+The props that are 100% required ar marked in bold. The rest can be omitted, but they're recommended so that you get the full functionality of the component.
 
 | Prop | Type | Description |
 |--|--|--|
-| **name** | String | Esta propiedad es utilizada como llave que identifica al componente dentro de [`WafoForm`](#wafoform) y debe ser único. |
-| **handleInputChange** | Function | Es la forma de comunicación entre el componente y [`WafoForm`](#wafoform). Debe ser llamada en alguna parte de la logica de actualización de tu componente y recibir como parametro un [Objeto](#objeto-handleinputchange) que sera recibido por `WafoForm`. |
-| value | `any` | Indica el valor actual en el *State* de `WafoForm` para este componente. Puede ser útil para introducir el valor inicial o en caso de crear un Functional Component. |
-| valid | Boolean | Indica el valor actual de la validación. De no recibir un Objeto de validaciones, siempre retornará como *True* |
-| touched | Boolean | Indica si el valor ha sido modificado. Solo retorna *False* si el valor inicial no ha cambiado nunca. |
-| errors | Array | Array con los objetos de error provenientes de la validación. De no recibir un Objeto de validaciones, siempre retornará vacío. |
-| validations | Object | Objeto con las validaciones a las que se someterá el valor actual. La validación se realiza cada vez que este cambia o al momento de dispararse onSubmit de [`WafoForm`](#wafoform). |
+| **name** | String | This will be used as the key to identify the component on the form. Must be unique to the current form. |
+| **handleInputChange** | Function | This callback function it's how the component talks to the [`WafoForm`](#wafoform) component. It should be called somewhere in your component (for example when the value of your component it's updated) and accept a [HandleInputChange Object](#handeinputchange-object). |
+| value | `any` | It's the current value for this component in the *State* of `WafoForm`. Could be useful to load the initial value or just to keep track of the current value in a Functional Component. |
+| valid | Boolean | Current validation status. |
+| touched | Boolean | `False` if the *input* value has never been modified, `True` if it has. |
+| errors | Array | Error array from the validation process.  Check the Validation Error Array for more info. |
+| validations | Object | Validation object to be tested against the current value. Validation it's done in the onChange event and onSubmit. Check the Validation Object for more info. |
 
-#### Objeto handeInputChange
-Este es el objeto que debe recibir la función `handleInputChange`:
+#### handeInputChange Object
+This is the Object to be received as a prop on the `handleInputChange` function:
 ```
 {
-	target: {
-		name,
-		value: "Something."
-	}
+	name,
+	value: "Something."
 }
 ```
- - **name:** Debe ser el `name` recibido como prop.
- - **value:** El valor actual que contenga el componente. Podría tratarse de un `WafoForm Element` compuesto de multiples entradas y el valor que se desea manejar sea la combinación de ellas.
+ - **name:** Must be the name prop.
+ - **value:** The value that should be in the state of the main component. (The expected value to be returned when submitted).
 
-#### Ejemplo Class Component
-Vamos a crear un componente `WafoForm Element` que nos permita agregar archivos de imagen y previsualizar la imagen. Nos interesa que la imagen se vaya en conjunto con otros campos y además tenemos la ventaja de que podremos usarlo en cualquier otro formulario `WafoForm`.
+#### Example: Hooks component
+Component that allows us to select an image and see a preview. The image will be submitted alongside the rest of the form and we can reuse this component anywhere.
 
 ```javascript
 import React from 'react';
 
-class ImageSelector extends React.Component {
-	state = {
-		value: '',
-		filename: '',
-		fileUrl: '',
-	}
+function ImageSelector({ name, handleInputChange, valid, touched, errors }) {
+	const [value, setValue] = React.useState('');
+	const [filename, setFilename] = React.useState('');
+	const [fileUrl, setFileUrl] = React.useState('');
 
-	handleOnChange = (event) => {
+	function handleOnChange(event) {
 		const { target: { files, value } } = event;
-		const { name, handleInputChange } = this.props;
 
-		this.setState({
-			value,
-			filename: files[0].name,
-			fileUrl: URL.createObjectURL(files[0]),
-		}, () => {
-			handleInputChange({
-				target: {
-					name,
-					value: files[0],
-				}
-			});
+		setValue(value);
+		setFilename(files[0].name);
+		setFileUrl(URL.createObjectURL(files[0]));
+
+		handleInputChange({
+			name,
+			value: files[0],
 		});
 	}
 
-	render() {
-		const { name, valid, touched, errors } = this.props;
-		const { value, fileUrl, filename } = this.state;
-
-		return (
+	return (
 			<div>
 				<div className="preview">
 					<img src={fileUrl} alt="Preview" />
@@ -395,7 +390,7 @@ class ImageSelector extends React.Component {
 						type="file"
 						id={name}
 						name={name}
-						onChange={this.handleOnChange}
+						onChange={handleOnChange}
 						value={value}
 						accept=".png, .jpg, .jpeg"
 					/>
@@ -410,12 +405,11 @@ class ImageSelector extends React.Component {
 				}
 			</div>
 		);
-	}
 }
 ```
 
-#### Ejemplo Functional Component
-Este componente nos va permitir introducir hora y minutos por separado y al final recibir el resultado en un objeto con ambos valores.
+#### Example: Functional Component
+Component that allows the input of hours and minutes on different fields but returns both toghether on submit.
 
 ```javascript
 import React from 'react';
@@ -424,12 +418,10 @@ const TimeSelector = ({ name, handleInputChange, value }) => {
 	const handleOnChange = (event) => {
 		const { target: { name: targetName, value: targetValue } } = event;
 		handleInputChange({
-			target: {
-				name,
-				value: {
-					...value,
-					[targetName]: targetValue,
-				},
+			name,
+			value: {
+				...value,
+				[targetName]: targetValue,
 			},
 		});
 	};
@@ -461,8 +453,8 @@ const TimeSelector = ({ name, handleInputChange, value }) => {
 };
 ```
 
-#### Como utilizarlos
-Su utilización es muy similar a como se utilizaría cualquier otro `WafoForm Element`.
+#### How to use a custom component
+Just like any other `WafoForm Element`.
 
 ```javascript
 import React from 'react';
@@ -488,28 +480,20 @@ const Example = () => {
 };
 ```
 
-Los puntos clave a notar en los ejemplos anteriores son el uso de las propiedades **name** y **handleInputChange**, además de el uso de las propiedades que nos permiten mostrar los errores de validación. Otra de las ventajas es que los componentes `WafoForm Element` pueden ser Class Componentes (primer ejemplo) o Functional Components (segundo ejemplo). Puedes ver más sobre los tipos de Componentes en React [aquí.](https://reactjs.org/docs/components-and-props.html)
+## Validation
 
-> **Nota:** No olvides considerar utilizar la propiedad **value** para inicializar el State de tu componente, de lo contrario no podras utilizarlo para editar valores.
+**To-do:** Write this.
 
-### Componentes no WafoFormElement
+## Styles
 
-**To-do:** Escribir esto.
-
-## Validación
-
-**To-do:** Escribir esto.
-**To-do:** Escribir sobre custom errors.
-
-## Estilos
-
-**To-do:** Escribir esto... ¿Cómo añadir estilos default?
+**To-do:** Write this.
 
 ## TODO
 
- - Soporte para imágenes.
- - Soporte para fechas.
- - Soporte para Rich Text  (WYSIWYG).
+ - [ ] Image picker.
+ - [ ] File picker.
+ - [ ] Datepicker.
+ - [ ] Rich Text (WYSIWYG).
  
-### Limitaciones
-Las validaciones disponibles son muy especificas y no cubren todos los casos. Como solución momentánea y para permitir mayor flexibilidad se permite validar mediante expresiones regulares.
+### Limitations
+The validation library it's very simple, but it allows ways to create custom and more robust validations. The included components are very basic and don't cover more complex use cases and thats why it's possible to create custom components.

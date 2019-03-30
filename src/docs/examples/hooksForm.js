@@ -34,7 +34,13 @@ const SimpleForm = () => {
           customClass="mycustomclass"
           placeholder="Apellidos"
           label="Apellidos"
-          validations={{ required: true, minLength: 5, maxLength: 255 }}
+          validations={{
+            required: true,
+            regex: {
+              value: /^([A-Z,Ñ,&]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z|\d]{3})$/,
+              message: 'RFC inválido.',
+            }
+          }}
           onChangeCallback={event => console.log(event)}
           onBlurCallback={event => console.log(event)}
         />
