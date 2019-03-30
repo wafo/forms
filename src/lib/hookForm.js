@@ -113,7 +113,8 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
   }
 
   function handleInputChange(event) {
-    const { target: { name, value } } = event;
+    const { target } = event;
+    const { name, value } = target || event;
     const { [name]: inputState } = state;
 
     const validation = validateField(value, inputState.validations);

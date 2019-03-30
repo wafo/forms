@@ -97,9 +97,10 @@ class WafoForm extends React.Component {
     });
   }
 
-  handleInputChange(input) {
+  handleInputChange(event) {
     // the name of the input is the key
-    const { target: { name, value } } = input;
+    const { target } = event;
+    const { name, value } = target || event;
     const { form: { [name]: inputState } } = this.state;
 
     const validation = validateField(value, inputState.validations);
