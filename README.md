@@ -2,7 +2,7 @@
 UI Component made in React 16.8 and with one purpose in mind: To make my and my co-workers life easier.
 
 ## Demo
-**To-do**: Demo page and examples.
+Click [Here](https://forms.wafo.dev/) to see the live demo page. It showcases the basic functionalities of the component and the example code for it.
 
 ## First steps
 
