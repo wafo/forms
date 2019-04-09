@@ -16,6 +16,7 @@ const SimpleForm = () => {
           customClass="mycustomclass"
           placeholder="Nombre"
           label="Nombre"
+          labelClass="ayy"
           validations={{
             required: true,
             email: true,
