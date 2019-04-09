@@ -219,6 +219,7 @@ This component shares props with other components of this library. Unique props 
 | **type** | String | No | "text" | Specifies the type of `<input>` the component will generate. More about [Input Types.](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) |
 | customClass | String | No | "" | Class to be added to the component |
 | label | String | No | "" | Label that shows with the `<input>` tag. If omitted the label won't be rendered. |
+| labelClass | String | No | "" | Class to be added to the label |
 | placeholder | String | No | "" | Text to be shown when no values have been introduced. |
 | extraProps | Object | No | {} | Extra props to be passed onto the `<input>` tag; which can be the tag attributes or any other. Example: *autoComplete: 'off'*. |
 | onChangeCallback | Function | No | f => f | Callback function to be executed when the onChange event is fired. It receives the raw event as a prop. |
@@ -268,6 +269,7 @@ This component shares props with other components of this library. Unique props 
 | **options** | [Array](#array-options) | No | [] | Array with the options from which the user can choose. This array can me modified even after the initial render (useful if the options come from an async function). |
 | customClass | String | No | "" | Class to be added to the component |
 | label | String | No | "" | Label that shows with the `<select>` tag. If omitted the label won't be rendered. |
+| labelClass | String | No | "" | Class to be added to the label |
 | extraProps | Object | No | {} | Extra props to be passed onto the `<select>` tag; which can be the tag attributes or any other |
 | onChangeCallback | Function | No | f => f | Callback function to be executed when the onChange event is fired. It receives the raw event as a prop. |
 | onBlurCallback | Function | No | f => f | Callback function to be executed when the onBlur event is fired. It receives the raw event as a prop. |
@@ -317,6 +319,7 @@ This component shares props with other components of this library. Unique props 
 | name | String | **Yes** |  | This will be used as the key to identify the component on the form. Must be unique to the current form. |
 | customClass | String | No | "" | Class to be added to the component |
 | label | String | No | "" | Label that shows with the `<textarea>` tag. If omitted the label won't be rendered. |
+| labelClass | String | No | "" | Class to be added to the label |
 | placeholder | String | No | "" | Text to be shown when no values have been introduced. |
 | extraProps | Object | No | {} | Extra props to be passed onto the `<textarea>` tag; which can be the tag attributes or any other. Example: *autoComplete: 'off'*. |
 | onChangeCallback | Function | No | f => f | Callback function to be executed when the onChange event is fired. It receives the raw event as a prop. |

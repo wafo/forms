@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const WafoFormInput = ({
-  type, customClass, name, label, placeholder, extraProps, children,
+  type, customClass, name, label, labelClass, placeholder, extraProps, children,
   value, handleInputChange, onChangeCallback, onBlurCallback,
   valid, touched, errors,
 }) => (
   <div className={`form-group wafo-input ${customClass}`}>
-    {label && <label htmlFor={name}>{label}</label>}
+    {label && <label htmlFor={name} className={labelClass}>{label}</label>}
     <input
       type={type}
       className="form-control"
@@ -38,6 +38,7 @@ WafoFormInput.propTypes = {
   customClass: PropTypes.string,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
+  labelClass: PropTypes.string,
   placeholder: PropTypes.string,
   extraProps: PropTypes.any,
   children: PropTypes.oneOfType([
@@ -60,6 +61,7 @@ WafoFormInput.defaultProps = {
   type: 'text',
   customClass: '',
   label: undefined,
+  labelClass: '',
   placeholder: '',
   extraProps: {},
   children: null,
