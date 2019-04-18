@@ -73,7 +73,7 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
 
   useEffect(() => {
     setLocale(locale);
-  }, []);
+  }, [locale]);
 
   function handleSubmit(event) {
     if (event) { event.preventDefault(); }
