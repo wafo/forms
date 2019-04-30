@@ -11,7 +11,7 @@ Click [Here](https://forms.wafo.dev/) to see the live demo page. It showcases th
 **To-do:** Small description
 
 ### Dependencies
-This component has one dependency *[prop-types](https://www.npmjs.com/package/prop-types)* (besides *react* and *react-dom*).
+This component has 0 dependencies! (You need react and react-dom ^16.8).
 
 > **Note:** The component is designed to be used with *[Bootstrap](https://getbootstrap.com/)* and although it is not required, it can benefit from it being included.
 
