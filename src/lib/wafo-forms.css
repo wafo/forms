@@ -62,6 +62,7 @@ label {
   margin: 0;
   padding-left: 0;
   list-style: none;
+  overflow-y: auto;
 }
 
 .wafoformautocomplete>.results ul li {
@@ -79,7 +80,7 @@ label {
   background-color: #eee;
 }
 
-.wafoformautocomplete>.results ul .footer {
+.wafoformautocomplete>.results .footer {
   font-size: 0.8em;
   font-weight: bold;
   color: #777;

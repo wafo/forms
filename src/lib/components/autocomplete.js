@@ -147,7 +147,7 @@ export default class WafoFormAutocomplete extends React.Component {
     const { query, suggestions } = this.state;
     const {
       customClass, name, label, placeholder, extraProps,
-      valid, touched, errors, customItemFN, itemsLimit, showLimit,
+      valid, touched, errors, customItemFN, items, itemsLimit, showLimit,
     } = this.props;
 
     return (
@@ -178,6 +178,7 @@ export default class WafoFormAutocomplete extends React.Component {
           && (
             <Suggestions
               suggestions={suggestions}
+              itemsLength={items.length}
               handleKeys={this.handleKeys}
               handleBlur={this.handleBlur}
               onSelected={this.itemSelected}
@@ -240,24 +241,43 @@ WafoFormAutocomplete.defaultProps = {
 /** Lista de sugerencias */
 
 const Suggestions = ({
-  suggestions, handleKeys, handleBlur, onSelected, customItem, itemsLimit, showLimit,
+  suggestions, itemsLength, handleKeys, handleBlur, onSelected, customItem, itemsLimit, showLimit,
 }) => {
-  const list = suggestions.slice(0, itemsLimit).map((item, index) => (
-    <li key={index} tabIndex="-1" onKeyDown={handleKeys} onBlur={handleBlur} onClick={() => { onSelected(item); }}>
-      {customItem(item)}
-    </li>
-  ));
+  const [itemHeight, setItemHeight] = React.useState(0);
+  const itemRef = React.useRef(null);
+
+  // Getting height of list element
+  React.useEffect(() => {
+    if (itemRef) {
+      setItemHeight(itemRef.current.clientHeight);
+    }
+  }, []);
+
+  // Getting height of list.
+  function listHeight() {
+    if (itemsLimit === 0) {
+      return 'auto';
+    }
+    if (suggestions.length < itemsLimit) {
+      return itemHeight * suggestions.length;
+    }
+    return itemHeight * itemsLimit;
+  }
 
   return (
     <div className="results">
-      <ul id="wafoformautocomplete-list">
-        {list}
-        {showLimit && (
-          <li className="footer">
-            <span>Showing {list.length} of {suggestions.length} matches</span>
+      <ul id="wafoformautocomplete-list" style={{ height: listHeight() }}>
+        {suggestions.map((item, index) => (
+          <li ref={itemRef} key={index} tabIndex="-1" onKeyDown={handleKeys} onBlur={handleBlur} onClick={() => { onSelected(item); }}>
+            {customItem(item)}
           </li>
-        )}
+        ))}
       </ul>
+      {showLimit && (
+        <div className="footer">
+          <span>Showing {suggestions.length} of {itemsLength} items</span>
+        </div>
+      )}
     </div>
   );
 };

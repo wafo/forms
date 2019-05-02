@@ -97,6 +97,7 @@ export default class AutocompleteForm extends React.Component {
           label="Autocomplete"
           placeholder="Escribele compa..."
           items={items}
+          itemsLimit={5}
           filterItemsFN={this.filterItems}
           customInputFN={this.customInput}
           customItemFN={this.customItem}
