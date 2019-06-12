@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import validateField, { setLocale } from './validation';
 
@@ -59,8 +59,11 @@ function reducer(state, action) {
 }
 
 function WafoForm({ children, values, onSubmit, formId, buttonText, locale, ignoreEmpty }) {
+  const [validations, setValidations] = useState({});
   const [state, dispatch] = useReducer(reducer, {});
+
   useEffect(() => {
+    // setting form on start or if a children changes
     dispatch({
       type: 'reset',
       payload: {
@@ -69,11 +72,35 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
         values,
       },
     });
+    // creating validation object
+    const newValidations = {};
+    React.Children.forEach(children, (child) => {
+      newValidations[child.props.name] = child.props.validations || {};
+    });
+    setValidations(newValidations);
   }, [children]);
 
   useEffect(() => {
     setLocale(locale);
   }, [locale]);
+
+  const handleInputChange = React.useCallback((event) => {
+    const { target } = event;
+    const { name, value } = target || event;
+
+    const validation = validateField(value, validations[name]);
+
+    dispatch({
+      type: 'inputChange',
+      payload: {
+        name,
+        value,
+        touched: true,
+        valid: validation.valid,
+        errors: validation.errors,
+      },
+    });
+  }, [validations]);
 
   function handleSubmit(event) {
     if (event) { event.preventDefault(); }
@@ -110,25 +137,6 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
       payload: newState,
     });
     onSubmit(form, formValues);
-  }
-
-  function handleInputChange(event) {
-    const { target } = event;
-    const { name, value } = target || event;
-    const { [name]: inputState } = state;
-
-    const validation = validateField(value, inputState.validations);
-
-    dispatch({
-      type: 'inputChange',
-      payload: {
-        name,
-        value,
-        touched: true,
-        valid: validation.valid,
-        errors: validation.errors,
-      },
-    });
   }
 
   const renderChildren = React.Children.map(children, (child) => {
