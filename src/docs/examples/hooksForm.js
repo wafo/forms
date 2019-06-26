@@ -2,6 +2,8 @@ import React from 'react';
 import { WafoFormHooks, WafoFormInput } from '../../../lib';
 
 const SimpleForm = () => {
+  const [required, setRequired] = React.useState(false);
+
   const onSubmit = (form, values) => {
     console.log(form);
     console.log(values);
@@ -36,7 +38,7 @@ const SimpleForm = () => {
           placeholder="Apellidos"
           label="Apellidos"
           validations={{
-            required: true,
+            required,
             regex: {
               value: /^([A-Z,Ñ,&]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z|\d]{3})$/,
               message: 'RFC inválido.',
@@ -46,6 +48,8 @@ const SimpleForm = () => {
           onBlurCallback={event => console.log(event)}
         />
       </WafoFormHooks>
+
+      <button type="button" onClick={() => setRequired(prevState => !prevState)}>Change required</button>
     </div>
   );
 };

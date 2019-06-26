@@ -111,7 +111,8 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
 
     Object.keys(state).forEach((field) => {
       const { [field]: inputState } = state;
-      const validation = validateField(inputState.value, inputState.validations);
+
+      const validation = validateField(inputState.value, validations[field]);
       if (!validation.valid) { form.valid = false; }
 
       form[field] = {
