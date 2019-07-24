@@ -84,9 +84,12 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
     setLocale(locale);
   }, [locale]);
 
-  const handleInputChange = React.useCallback((event) => {
+  /* const handleInputChange = React.useCallback((event) => {
     const { target } = event;
     const { name, value } = target || event;
+
+    const v = validations[name];
+    const ayy = v.track ? { value, tracking: state[v.track].value } : value;
 
     const validation = validateField(value, validations[name]);
 
@@ -100,7 +103,27 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
         errors: validation.errors,
       },
     });
-  }, [validations]);
+  }, [validations]); */
+
+  function handleInputChange(event) {
+    const { target } = event;
+    const { name, value } = target || event;
+
+    const iValidations = validations[name];
+    const vValue = iValidations.track ? { value, tracking: state[iValidations.track].value } : value;
+    const validation = validateField(vValue, iValidations);
+
+    dispatch({
+      type: 'inputChange',
+      payload: {
+        name,
+        value,
+        touched: true,
+        valid: validation.valid,
+        errors: validation.errors,
+      },
+    });
+  }
 
   function handleSubmit(event) {
     if (event) { event.preventDefault(); }
@@ -112,7 +135,9 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
     Object.keys(state).forEach((field) => {
       const { [field]: inputState } = state;
 
-      const validation = validateField(inputState.value, validations[field]);
+      const iValidations = validations[field];
+      const vValue = iValidations.track ? { value: inputState.value, tracking: state[iValidations.track].value } : inputState.value;
+      const validation = validateField(vValue, iValidations);
       if (!validation.valid) { form.valid = false; }
 
       form[field] = {

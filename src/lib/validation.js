@@ -38,15 +38,19 @@ export const setLocale = (newLocale) => {
  * Checks for specific types of validations and returns (custom) error objects.
  * @param {string} type key from the object validation. Ex: required.
  * @param {any} validation the value for this key. Ex: required: true, maxLength: 5, required: { value: true, message: '' },
- * @param {any} value value from the input field, value to be tested.
+ * @param {any} inputValue value from the input field, value to be tested.
  */
-function checkValidations(type, validation, value) {
+function checkValidations(type, validation, inputValue) {
   const validationType = type;
   let validationValue = validation;
   let customErrorMessage;
   if (typeof validation === 'object') {
     validationValue = validation.value;
     customErrorMessage = validation.message;
+  }
+  let value = inputValue;
+  if (typeof inputValue === 'object') {
+    value = inputValue.value; // eslint-disable-line
   }
 
   switch (validationType) {
@@ -139,7 +143,7 @@ function checkValidations(type, validation, value) {
     }
     case 'validationFunction': {
       // validationValue should be a function that returns false if the validations fails and true if it passes.
-      const result = validationValue(value);
+      const result = validationValue(inputValue);
       if (!result) {
         return {
           error: 'function',
