@@ -49,7 +49,7 @@ function checkValidations(type, validation, inputValue) {
     customErrorMessage = validation.message;
   }
   let value = inputValue;
-  if (typeof inputValue === 'object') {
+  if (typeof inputValue === 'object' && Object.prototype.hasOwnProperty.call(inputValue, 'tracking')) {
     value = inputValue.value; // eslint-disable-line
   }
 

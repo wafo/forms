@@ -1,5 +1,5 @@
 import React from 'react';
-import { WafoFormHooks, WafoFormInput } from '../../../lib';
+import { WafoFormHooks, WafoFormInput, WafoFormAutocomplete } from '../../../lib';
 
 const SimpleForm = () => {
   const [required, setRequired] = React.useState(false);
@@ -42,10 +42,25 @@ const SimpleForm = () => {
             regex: {
               value: /^([A-Z,Ñ,&]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z|\d]{3})$/,
               message: 'RFC inválido.',
-            }
+            },
           }}
           onChangeCallback={event => console.log(event)}
           onBlurCallback={event => console.log(event)}
+        />
+
+        <WafoFormAutocomplete
+          name="level"
+          label="Nivel"
+          placeholder="Seleccione el nivel"
+          customClass="col-12 col-md-4"
+          items={[
+            { display: 'Notificación importante', topic: 'importante' },
+            { display: 'Aviso general', topic: 'general' },
+          ]}
+          filterItemsFN={(items, query) => items.filter(x => x.display.toLowerCase().indexOf(query.toLowerCase()) !== -1)}
+          customInputFN={item => item.display}
+          customItemFN={item => item.display}
+          validations={{ required: true }}
         />
       </WafoFormHooks>
 
