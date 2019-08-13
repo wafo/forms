@@ -3,6 +3,7 @@ import { WafoFormHooks, WafoFormInput, WafoFormAutocomplete } from '../../../lib
 
 const SimpleForm = () => {
   const [required, setRequired] = React.useState(false);
+  const [test, setTest] = React.useState(false);
 
   const onSubmit = (form, values) => {
     console.log(form);
@@ -12,24 +13,27 @@ const SimpleForm = () => {
   return (
     <div className="hooks-form">
       <WafoFormHooks buttonText="Submit" onSubmit={onSubmit} locale="es" ignoreEmpty>
-        <WafoFormInput
-          type="text"
-          name="name"
-          customClass="mycustomclass"
-          placeholder="Nombre"
-          label="Nombre"
-          labelClass="ayy"
-          validations={{
-            required: true,
-            email: true,
-            validationFunction: value => value === 'lmao',
-          }}
-          extraProps={{
-            autoComplete: 'off',
-          }}
-        >
-          <small>Esta forma esta bien fea</small>
-        </WafoFormInput>
+
+        {test && (
+          <WafoFormInput
+            type="text"
+            name="name"
+            customClass="mycustomclass"
+            placeholder="Ayylmao"
+            label="Nombre"
+            labelClass="ayy"
+            validations={{
+              required: true,
+              email: true,
+              validationFunction: value => value === 'lmao',
+            }}
+            extraProps={{
+              autoComplete: 'off',
+            }}
+          >
+            <small>Esta forma esta bien fea</small>
+          </WafoFormInput>
+        )}
 
         <WafoFormInput
           type="text"
@@ -64,7 +68,7 @@ const SimpleForm = () => {
         />
       </WafoFormHooks>
 
-      <button type="button" onClick={() => setRequired(prevState => !prevState)}>Change required</button>
+      <button type="button" onClick={() => setTest(prevState => !prevState)}>Change required</button>
     </div>
   );
 };

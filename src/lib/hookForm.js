@@ -28,7 +28,9 @@ function setUpState(payload) {
     }
   });
   // Removing elements that no longer are in children.
-  const childrenKeys = React.Children.map(children, child => child.props.name);
+  const childrenKeys = React.Children.toArray(children) // .map(children, child => child.props.name);
+    .filter(c => c)
+    .map(child => child.props.name);
   Object.keys(newState).forEach((key) => {
     // Elemento ya no es un hijo.
     if (childrenKeys.findIndex(x => x === key) === -1) {
@@ -75,7 +77,9 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
     // creating validation object
     const newValidations = {};
     React.Children.forEach(children, (child) => {
-      newValidations[child.props.name] = child.props.validations || {};
+      if (child && child.props) {
+        newValidations[child.props.name] = child.props.validations || {};
+      }
     });
     setValidations(newValidations);
   }, [children]);
