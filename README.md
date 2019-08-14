@@ -1,4 +1,4 @@
-# Wafo-forms
+# @wafo/forms
 UI Component made in React 16.8 and with one purpose in mind: To make my and my co-workers life easier.
 
 ## Demo
@@ -6,7 +6,7 @@ Click [Here](https://forms.wafo.dev/) to see the live demo page. It showcases th
 
 ## First steps
 
-    $ npm install --save wafo-forms
+    $ npm install --save @wafo/forms
 
 **To-do:** Small description
 
@@ -20,7 +20,7 @@ This example shows one of the easiest way this component can be used. For more s
 
 ```javascript
 import React from 'react';
-import { WafoForm, WafoFormInput } from 'wafo-forms';
+import { WafoForm, WafoFormInput } from '@wafo/forms';
 
 const ExampleComponent = () => {
 	const handleSubmit = (form, values) => {
@@ -58,7 +58,7 @@ The main component, is the equivalent to the [`<form>`](https://developer.mozill
 Example:
 ```javascript
 import React from 'react';
-import { WafoForm } from 'wafo-forms';
+import { WafoForm } from '@wafo/forms';
 
 const Example = ({ handleFormSubmit }) => (
 	<WafoForm
@@ -139,7 +139,7 @@ Example:
 Usage example:
 ```javascript
 import React from 'react';
-import { WafoForm, WafoFormInput } = 'wafo-forms';
+import { WafoForm, WafoFormInput } = '@wafo/forms';
 
 const Example = () => {
 	const user = {
@@ -175,7 +175,7 @@ At its core [`WafoForm`](#wafoform) it's just an HTML form, which can be submitt
 Example:
 ```javascript
 import React from 'react';
-import { WafoForm } from 'wafo-forms';
+import { WafoForm } from '@wafo/forms';
 
 const Example = ({ handleSubmit }) => (
 	<div>
@@ -198,7 +198,7 @@ Probably the component that will be used the most; it can be used to input any t
 Example:
 ```javascript
 import React from 'react';
-import { WafoFormInput } from 'wafo-forms';
+import { WafoFormInput } from '@wafo/forms';
 
 const Example = () => (
 	<WafoFormInput
@@ -233,7 +233,7 @@ This component allows you to show a list of options from where the user can choo
 Example:
 ```javascript
 import React from 'react';
-import { WafoFormSelect } from 'wafo-forms';
+import { WafoFormSelect } from '@wafo/forms';
 
 const Example = () => {
 	const options = [
@@ -299,7 +299,7 @@ This component allows the user to input big texts with support for multiple line
 Example:
 ```javascript
 import React from 'react';
-import { WafoFormTextArea } from 'wafo-forms';
+import { WafoFormTextArea } from '@wafo/forms';
 
 const Example = () => (
 	<WafoFormTextArea
@@ -461,7 +461,7 @@ Just like any other `WafoForm Element`.
 
 ```javascript
 import React from 'react';
-import { WafoForm } from 'wafo-forms';
+import { WafoForm } from '@wafo/forms';
 import { TimeSelector, ImageSelector } from './example';
 
 const Example = () => {

@@ -1,5 +1,5 @@
 {
-  "name": "wafo-forms",
+  "name": "@wafo/forms",
   "version": "0.5.11",
   "description": "I don't want to configure an input ever.",
   "main": "lib/index.js",
