@@ -68,7 +68,7 @@ const SimpleForm = () => {
         />
       </WafoFormHooks>
 
-      <button type="button" onClick={() => setTest(prevState => !prevState)}>Change required</button>
+      <button type="button" onClick={() => setRequired(prevState => !prevState)}>Change required</button>
     </div>
   );
 };

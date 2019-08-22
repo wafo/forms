@@ -58,6 +58,31 @@ class WafoForm extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
+  static getDerivedStateFromProps(props, state) {
+    const { children } = props;
+    let newState = state;
+    React.Children.forEach(children, (child) => {
+      if (child && child.props && child.props.name) {
+        const validation = validateField(state.form[child.props.name].value, child.props.validations || {});
+
+        const { form } = newState;
+        newState = {
+          ...newState,
+          form: {
+            ...form,
+            [child.props.name]: {
+              ...newState.form[child.props.name],
+              validations: child.props.validations || {},
+              valid: validation.valid,
+              errors: validation.errors,
+            },
+          }
+        };
+      }
+    });
+    return newState;
+  }
+
   onSubmit(event) {
     if (event) { event.preventDefault(); } // event can be undefined if the function is not called normally
 

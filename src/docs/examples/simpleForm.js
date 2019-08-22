@@ -2,7 +2,9 @@ import React from 'react';
 import { WafoForm, WafoFormInput, WafoFormSelect, WafoFormTextArea } from '../../../lib';
 import '../styles.css';
 
-const initialState = {};
+const initialState = {
+  required: true,
+};
 
 class SimpleForm extends React.Component {
   constructor(props) {
@@ -13,6 +15,13 @@ class SimpleForm extends React.Component {
   handleFormSubmit = (form, values) => {
     console.log(form);
     console.log(values);
+  }
+
+  toggleRequired = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      required: !prevState.required,
+    }));
   }
 
   render() {
@@ -40,8 +49,8 @@ class SimpleForm extends React.Component {
             customClass="mycustomclass"
             placeholder="A placeholder"
             label="An input field"
-            validations={{ required: true, minLength: 2, maxLength: 255 }}
-            customErrors={[{ error: 'custom', message: 'Error customizado' }]}
+            validations={{ required: this.state.required, minLength: 2, maxLength: 255 }}
+            // customErrors={[{ error: 'custom', message: 'Error customizado' }]}
             onChangeCallback={event => console.log(event)}
             extraProps={{ maxLength: 5 }}
           />
@@ -72,6 +81,8 @@ class SimpleForm extends React.Component {
           />
 
         </WafoForm>
+        <button type="button" onClick={this.toggleRequired}>Toggle required</button>
+        <span>Required is: {this.state.required ? 'True' : 'False'}</span>
       </div>
     );
   }

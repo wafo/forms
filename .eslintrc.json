@@ -1,26 +1,32 @@
 {
-    "extends": "airbnb",
-    "parser": "babel-eslint",
-    "globals": {
-        "document": true
+    "env": {
+        "browser": true,
+        "es6": true,
+        "jest": true,
+        "node": true
     },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "react-hooks"
+    ],
     "rules": {
-        "react/jsx-filename-extension": [1, {
-            "extensions": [".js", ".jsx"]
-        }],
-        "object-curly-newline": "warn",
-        "no-confusing-arrow": "warn",
-        "max-len": "warn",
-        "no-underscore-dangle": "warn",
-        "no-plusplus": "warn",
-        "react/no-array-index-key": "warn",
-        "jsx-a11y/label-has-associated-control": "warn",
-        "jsx-a11y/label-has-for": "warn",
-        "react/sort-comp": "off",
-        "jsx-a11y/no-noninteractive-element-interactions": "warn",
-        "react/prop-types": "warn",
-        "prefer-template": "warn",
-        "react/jsx-one-expression-per-line": "off",
-        "react/forbid-prop-types": "warn"
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "react/prop-types": "warn"
     }
 }
