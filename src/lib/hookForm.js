@@ -88,7 +88,7 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
     setLocale(locale);
   }, [locale]);
 
-  /* function handleInputChange(event) {
+  function handleInputChange(event) {
     const { target } = event;
     const { name, value } = target || event;
 
@@ -106,9 +106,9 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
         errors: validation.errors,
       },
     });
-  } */
+  }
 
-  const handleInputChange = React.useCallback((event) => {
+  /* const handleInputChange = React.useCallback((event) => {
     const { target } = event;
     const { name, value } = target || event;
 
@@ -127,7 +127,7 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
         errors: validation.errors,
       },
     });
-  }, [validations]);
+  }, [validations]); */
 
   function handleSubmit(event) {
     if (event) { event.preventDefault(); }

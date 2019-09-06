@@ -5,15 +5,7 @@ const WafoFormSelect = ({
   customClass, name, label, labelClass, defaultValue, options, extraProps, children,
   value, handleInputChange, onChangeCallback, onBlurCallback,
   valid, touched, errors,
-}) => {
-  React.useEffect(() => {
-    handleInputChange({
-      name,
-      value: ''
-    });
-  }, [name, options, handleInputChange]);
-
-  return (
+}) => (
     <div className={`form-group wafo-input ${customClass}`}>
       {label && <label htmlFor={name} className={labelClass}>{label}</label>}
       <select
@@ -44,8 +36,6 @@ const WafoFormSelect = ({
       }
     </div>
   );
-}
-
 
 WafoFormSelect.propTypes = {
   customClass: PropTypes.string,
