@@ -1,9 +1,21 @@
 import React from 'react';
-import { WafoFormHooks, WafoFormInput, WafoFormAutocomplete } from '../../../lib';
+import { WafoFormHooks, WafoFormInput, WafoFormAutocomplete, WafoFormSelect } from '../../../lib';
 
 const SimpleForm = () => {
   const [required, setRequired] = React.useState(false);
   const [test, setTest] = React.useState(false);
+
+  const [items, setItems] = React.useState([
+    { value: '1', display: 'Train Station' },
+    { value: '2', display: 'Customs (MX)' },
+    { value: '3', display: 'Harbor (MX)' },
+  ]);
+
+  const alterItems = () => setItems([
+    { value: '1', display: 'Estación de tren' },
+    { value: '2', display: 'Aduana (MX)' },
+    { value: '3', display: 'Puerto (MX)' },
+  ]);
 
   const onSubmit = (form, values) => {
     console.log(form);
@@ -66,9 +78,17 @@ const SimpleForm = () => {
           customItemFN={item => item.display}
           validations={{ required: true }}
         />
+
+        <WafoFormSelect
+          name="type"
+          label="Select"
+          defaultValue="Select an item"
+          customClass="ayylmao"
+          options={items}
+        />
       </WafoFormHooks>
 
-      <button type="button" onClick={() => setRequired(prevState => !prevState)}>Change required</button>
+      <button type="button" onClick={() => alterItems()}>Alter select items</button>
     </div>
   );
 };

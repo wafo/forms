@@ -88,28 +88,7 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
     setLocale(locale);
   }, [locale]);
 
-  /* const handleInputChange = React.useCallback((event) => {
-    const { target } = event;
-    const { name, value } = target || event;
-
-    const v = validations[name];
-    const ayy = v.track ? { value, tracking: state[v.track].value } : value;
-
-    const validation = validateField(value, validations[name]);
-
-    dispatch({
-      type: 'inputChange',
-      payload: {
-        name,
-        value,
-        touched: true,
-        valid: validation.valid,
-        errors: validation.errors,
-      },
-    });
-  }, [validations]); */
-
-  function handleInputChange(event) {
+  /* function handleInputChange(event) {
     const { target } = event;
     const { name, value } = target || event;
 
@@ -127,7 +106,28 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
         errors: validation.errors,
       },
     });
-  }
+  } */
+
+  const handleInputChange = React.useCallback((event) => {
+    const { target } = event;
+    const { name, value } = target || event;
+
+    const iValidations = validations[name];
+    // const vValue = iValidations.track ? { value, tracking: state[iValidations.track].value } : value;
+    const vValue = value;
+    const validation = validateField(vValue, iValidations);
+
+    dispatch({
+      type: 'inputChange',
+      payload: {
+        name,
+        value,
+        touched: true,
+        valid: validation.valid,
+        errors: validation.errors,
+      },
+    });
+  }, [validations]);
 
   function handleSubmit(event) {
     if (event) { event.preventDefault(); }
