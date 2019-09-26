@@ -1,10 +1,10 @@
-import React from "react";
-import NewForm from "../../lib/testForm";
-import { WafoFormInput } from "../../../lib";
+import React from 'react';
+import { WafoFormHooks, WafoFormInput } from '../../../lib';
 
 const initialValues = {
-  eluno: "A ver pues",
-  elanidado: "Y el anidado"
+  eluno: 'A ver pues',
+  elanidado: 'Y el anidado',
+  maximoanidados: 'ojala',
 };
 
 const TestForm = () => {
@@ -13,30 +13,29 @@ const TestForm = () => {
 
   return (
     <div>
-      <NewForm initialValues={initialValues}>
-        {show && (
-          <WafoFormInput
-            name="eluno"
-            placeholder="Uno"
-            validations={{ required: test }}
-          />
-        )}
+      <WafoFormHooks values={initialValues}>
+        {show && <WafoFormInput name="eluno" placeholder="Uno" validations={{ required: test }} />}
         <input type="text" name="eldos" placeholder="Dos" ignoreinput="true" />
         <div>
           <WafoFormInput name="elanidado" placeholder="Anidado" />
         </div>
         <div>
-          <div>
+          <div className="Ayy">
             <div>
               <WafoFormInput
                 name="maximoanidado"
                 placeholder="Anidado"
                 validations={{ minLength: 2, maxLength: 255 }}
               />
+              <WafoFormInput
+                name="maximoanidados"
+                placeholder="Anidados"
+                validations={{ minLength: 2, maxLength: 255 }}
+              />
             </div>
           </div>
         </div>
-      </NewForm>
+      </WafoFormHooks>
 
       <button type="button" onClick={() => setShow(prevState => !prevState)}>
         Toggle input

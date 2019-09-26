@@ -194,12 +194,14 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
     return React.Children.map(children, child => {
       if (
         !child ||
+        !child.props ||
         !state.form[child.props.name] ||
         !Object.prototype.hasOwnProperty.call(child.props, 'name') ||
         Object.prototype.hasOwnProperty.call(child.props, 'ignoreinput')
       ) {
         if (child && child.props && child.props.children) {
-          return prepareRender(child.props.children);
+          const nestedChildren = prepareRender(child.props.children);
+          return React.cloneElement(child, [], [nestedChildren]);
         }
         return child;
       }
