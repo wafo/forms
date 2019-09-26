@@ -11,11 +11,12 @@ const SimpleForm = () => {
     { value: '3', display: 'Harbor (MX)' },
   ]);
 
-  const alterItems = () => setItems([
-    { value: '1', display: 'Estación de tren' },
-    { value: '2', display: 'Aduana (MX)' },
-    { value: '3', display: 'Puerto (MX)' },
-  ]);
+  const alterItems = () =>
+    setItems([
+      { value: '1', display: 'Estación de tren' },
+      { value: '2', display: 'Aduana (MX)' },
+      { value: '3', display: 'Puerto (MX)' },
+    ]);
 
   const onSubmit = (form, values) => {
     console.log(form);
@@ -25,7 +26,6 @@ const SimpleForm = () => {
   return (
     <div className="hooks-form">
       <WafoFormHooks buttonText="Submit" onSubmit={onSubmit} locale="es" ignoreEmpty>
-
         {test && (
           <WafoFormInput
             type="text"
@@ -73,7 +73,9 @@ const SimpleForm = () => {
             { display: 'Notificación importante', topic: 'importante' },
             { display: 'Aviso general', topic: 'general' },
           ]}
-          filterItemsFN={(items, query) => items.filter(x => x.display.toLowerCase().indexOf(query.toLowerCase()) !== -1)}
+          filterItemsFN={(items, query) =>
+            items.filter(x => x.display.toLowerCase().indexOf(query.toLowerCase()) !== -1)
+          }
           customInputFN={item => item.display}
           customItemFN={item => item.display}
           validations={{ required: true }}
@@ -87,9 +89,23 @@ const SimpleForm = () => {
           customClass="ayylmao"
           options={items}
         />
+
+        <div className="btn-group col-12" role="group">
+          <button type="button" className="btn btn-secondary">
+            Información
+          </button>
+          <button type="button" className="btn btn-secondary">
+            Direcciones
+          </button>
+          <button type="button" className="btn btn-secondary">
+            POI
+          </button>
+        </div>
       </WafoFormHooks>
 
-      <button type="button" onClick={() => alterItems()}>Alter select items</button>
+      <button type="button" onClick={() => alterItems()}>
+        Alter select items
+      </button>
     </div>
   );
 };
