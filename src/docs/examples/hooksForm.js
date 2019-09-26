@@ -60,8 +60,8 @@ const SimpleForm = () => {
               message: 'RFC inválido.',
             },
           }}
-          onChangeCallback={event => console.log(event)}
-          onBlurCallback={event => console.log(event)}
+          // onChangeCallback={event => console.log(event)}
+          // onBlurCallback={event => console.log(event)}
         />
 
         <WafoFormAutocomplete
@@ -77,6 +77,7 @@ const SimpleForm = () => {
           customInputFN={item => item.display}
           customItemFN={item => item.display}
           validations={{ required: true }}
+          handleChange
         />
 
         <WafoFormSelect

@@ -1,44 +1,66 @@
-import React, { useReducer, useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import validateField, { setLocale } from './validation';
 
 const initialInputState = {
-  value: '',
+  errors: [],
   touched: false,
   valid: false,
-  errors: [],
-  validations: {},
+  value: '',
 };
 
-function setUpState(payload) {
-  const { state, children, values } = payload;
+function setUpState({ children, state, initialValues, childrenKeys = [] }) {
   let newState = state;
+  let keys = childrenKeys;
+  let validations = {};
   // Setting up state object.
-  React.Children.forEach(children, (child) => {
-    if (child && child.props && child.props.name && !newState[child.props.name]) {
-      newState = {
-        ...newState,
-        [child.props.name]: {
-          ...initialInputState,
-          // cheking if initial values exist
-          value: (values && values[child.props.name]) ? values[child.props.name] : initialInputState.value,
-          validations: child.props.validations || {},
-        },
-      };
+  React.Children.forEach(children, child => {
+    if (child && child.props) {
+      if (child.props.name && !child.props.ignoreinput) {
+        keys = [...keys, child.props.name];
+      }
+      // if child is not already on state
+      if (child.props.name && !child.props.ignoreinput) {
+        if (!newState[child.props.name]) {
+          newState = {
+            ...newState,
+            [child.props.name]: {
+              ...initialInputState,
+              // Checking if initial value exists
+              value:
+                initialValues && initialValues[child.props.name]
+                  ? initialValues[child.props.name]
+                  : initialInputState.value,
+            },
+          };
+        }
+        validations = {
+          ...validations,
+          [child.props.name]: child.props.validations || {},
+        };
+      }
+      // if child has childrens
+      if (child.props.children) {
+        const { newState: stateFragment, keys: keysFragment, validations: validationsFragment } = setUpState({
+          children: child.props.children,
+          state: {},
+          initialValues,
+          childrenKeys: [],
+        });
+        newState = { ...newState, ...stateFragment };
+        keys = [...keys, ...keysFragment];
+        validations = { ...validations, ...validationsFragment };
+      }
     }
   });
-  // Removing elements that no longer are in children.
-  const childrenKeys = React.Children.toArray(children) // .map(children, child => child.props.name);
-    .filter(c => c)
-    .map(child => child.props.name);
-  Object.keys(newState).forEach((key) => {
-    // Elemento ya no es un hijo.
-    if (childrenKeys.findIndex(x => x === key) === -1) {
+  // removing elements that no longer are in children.
+  Object.keys(newState).forEach(key => {
+    if (keys.findIndex(x => x === key) === -1) {
       delete newState[key];
     }
   });
-  // Returning new state object.
-  return newState;
+  // Returning state object and valid keys.
+  return { newState, keys, validations };
 }
 
 function reducer(state, action) {
@@ -46,103 +68,102 @@ function reducer(state, action) {
     case 'inputChange':
       return {
         ...state,
-        [action.payload.name]: {
-          ...state[action.payload.name],
-          ...action.payload,
+        form: {
+          ...state.form,
+          [action.payload.name]: {
+            ...state.form[action.payload.name],
+            ...action.payload.input,
+          },
         },
       };
     case 'formChange':
-      return { ...action.payload };
-    case 'reset':
-      return setUpState(action.payload);
+      return {
+        ...state,
+        form: action.payload,
+      };
+    case 'reset': {
+      const { newState, validations } = setUpState({
+        state: state.form,
+        ...action.payload,
+      });
+      return {
+        ...state,
+        form: newState,
+        validations,
+      };
+    }
     default:
       throw new Error();
   }
 }
 
 function WafoForm({ children, values, onSubmit, formId, buttonText, locale, ignoreEmpty }) {
-  const [validations, setValidations] = useState({});
-  const [state, dispatch] = useReducer(reducer, {});
+  const [state, dispatch] = React.useReducer(reducer, {
+    form: {},
+    validations: {},
+  });
 
-  useEffect(() => {
-    // setting form on start or if a children changes
+  React.useEffect(() => {
+    // Setup or rebuilding form state on form changes.
     dispatch({
       type: 'reset',
       payload: {
-        state,
         children,
-        values,
+        initialValues: values,
       },
     });
-    // creating validation object
-    const newValidations = {};
-    React.Children.forEach(children, (child) => {
-      if (child && child.props) {
-        newValidations[child.props.name] = child.props.validations || {};
-      }
-    });
-    setValidations(newValidations);
-  }, [children]);
+  }, [children, values]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setLocale(locale);
   }, [locale]);
 
-  function handleInputChange(event) {
+  function handleOnChange(event) {
     const { target } = event;
-    const { name, value } = target || event;
+    const { name, value, attributes } = target || event;
+    if (!attributes || !attributes.ignoreinput) {
+      const iValidations = state.validations[name];
+      const vValue = iValidations.track ? { value, tracking: state.form[iValidations.track].value } : value;
+      const validation = validateField(vValue, iValidations);
 
-    const iValidations = validations[name];
-    const vValue = iValidations.track ? { value, tracking: state[iValidations.track].value } : value;
-    const validation = validateField(vValue, iValidations);
-
-    dispatch({
-      type: 'inputChange',
-      payload: {
-        name,
-        value,
-        touched: true,
-        valid: validation.valid,
-        errors: validation.errors,
-      },
-    });
+      dispatch({
+        type: 'inputChange',
+        payload: {
+          name,
+          input: {
+            value,
+            touched: true,
+            valid: validation.valid,
+            errors: validation.errors,
+          },
+        },
+      });
+    }
   }
 
-  /* const handleInputChange = React.useCallback((event) => {
-    const { target } = event;
-    const { name, value } = target || event;
-
-    const iValidations = validations[name];
-    // const vValue = iValidations.track ? { value, tracking: state[iValidations.track].value } : value;
-    const vValue = value;
-    const validation = validateField(vValue, iValidations);
-
-    dispatch({
-      type: 'inputChange',
-      payload: {
-        name,
-        value,
-        touched: true,
-        valid: validation.valid,
-        errors: validation.errors,
-      },
-    });
-  }, [validations]); */
-
   function handleSubmit(event) {
-    if (event) { event.preventDefault(); }
+    if (event) {
+      event.preventDefault();
+    }
 
     const form = { valid: true };
     const formValues = {};
     const newState = {};
 
-    Object.keys(state).forEach((field) => {
-      const { [field]: inputState } = state;
+    Object.keys(state.form).forEach(field => {
+      const { [field]: inputState } = state.form;
 
-      const iValidations = validations[field];
-      const vValue = iValidations.track ? { value: inputState.value, tracking: state[iValidations.track].value } : inputState.value;
+      const iValidations = state.validations[field];
+      const vValue = iValidations.track
+        ? {
+            value: inputState.value,
+            tracking: state.form[iValidations.track].value,
+          }
+        : inputState.value;
       const validation = validateField(vValue, iValidations);
-      if (!validation.valid) { form.valid = false; }
+      if (!validation.valid) {
+        form.valid = false;
+      }
 
       form[field] = {
         value: inputState.value,
@@ -156,9 +177,9 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
 
       newState[field] = {
         ...inputState,
+        errors: validation.errors,
         touched: true,
         valid: validation.valid,
-        errors: validation.errors,
       };
     });
 
@@ -169,32 +190,45 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
     onSubmit(form, formValues);
   }
 
-  const renderChildren = React.Children.map(children, (child) => {
-    // If !child || child not in state || child !== WafoFormElement
-    if (!child || !state[child.props.name] || !Object.prototype.hasOwnProperty.call(child.props, 'name')) {
-      return child;
-    }
+  function prepareRender(children) {
+    return React.Children.map(children, child => {
+      if (
+        !child ||
+        !state.form[child.props.name] ||
+        !Object.prototype.hasOwnProperty.call(child.props, 'name') ||
+        Object.prototype.hasOwnProperty.call(child.props, 'ignoreinput')
+      ) {
+        if (child && child.props && child.props.children) {
+          return prepareRender(child.props.children);
+        }
+        return child;
+      }
 
-    const { [child.props.name]: { value, valid, touched, errors } } = state;
-    // Check if custom errors are provided (not from wafo-forms validation).
-    const hasCustomErrors = Object.prototype.hasOwnProperty.call(child.props, 'customErrors');
+      const {
+        [child.props.name]: { value, valid, touched, errors },
+      } = state.form;
+      const hasCustomErrors = Object.prototype.hasOwnProperty.call(child.props, 'customErrors');
 
-    return React.cloneElement(child, {
-      handleInputChange,
-      value,
-      valid: hasCustomErrors ? false : valid,
-      touched: hasCustomErrors ? true : touched,
-      errors: hasCustomErrors ? [...errors, ...child.props.customErrors] : errors,
+      return React.cloneElement(child, {
+        ...(child.props.handleChange && { handleInputChange: handleOnChange }),
+        value,
+        valid: hasCustomErrors ? false : valid,
+        touched: hasCustomErrors ? true : touched,
+        errors: hasCustomErrors ? [...errors, ...child.props.customErrors] : errors,
+      });
     });
-  });
+  }
+  const renderChildren = prepareRender(children);
 
   return (
-    <form id={formId} onSubmit={handleSubmit}>
-      <div className="row">
-        {renderChildren}
-      </div>
+    <form id={formId} onChange={handleOnChange} onSubmit={handleSubmit}>
+      <div className="row">{renderChildren}</div>
       {/** Only show the button if text is provided */}
-      {buttonText && <button type="submit" className="btn btn-primary btn-submit">{buttonText}</button>}
+      {buttonText && (
+        <button type="submit" className="btn btn-primary btn-submit">
+          {buttonText}
+        </button>
+      )}
     </form>
   );
 }

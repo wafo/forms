@@ -25,15 +25,23 @@ export default class WafoFormAutocomplete extends React.Component {
     }
   }
 
-  handleQueryChange = (event) => {
+  handleQueryChange = event => {
+    if (event && event.stopPropagation) {
+      event.stopPropagation();
+    }
     const { selected } = this.state;
     const { items, filterItemsFN } = this.props;
-    const { target: { value } } = event;
+    const {
+      target: { value },
+    } = event;
 
     if (value.length === 0 && selected) {
-      this.setState({
-        ...defaultState,
-      }, this.sendToWafoForm);
+      this.setState(
+        {
+          ...defaultState,
+        },
+        this.sendToWafoForm,
+      );
     }
 
     const suggestions = filterItemsFN(items, value.toLowerCase());
@@ -43,11 +51,13 @@ export default class WafoFormAutocomplete extends React.Component {
       suggestions,
       cursor: -1,
     });
-  }
+  };
 
-  handleKeys = (event) => {
+  handleKeys = event => {
     const { suggestions, cursor } = this.state;
-    if (suggestions.length === 0) { return; }
+    if (suggestions.length === 0) {
+      return;
+    }
     const ul = document.getElementById('wafoformautocomplete-list');
     switch (event.key) {
       case 'ArrowDown':
@@ -55,7 +65,7 @@ export default class WafoFormAutocomplete extends React.Component {
         if (cursor === -1) {
           ul.childNodes[0].focus();
           this.setState({ cursor: 0 });
-        } else if ((cursor + 1) < ul.childNodes.length) {
+        } else if (cursor + 1 < ul.childNodes.length) {
           ul.childNodes[cursor + 1].focus();
           this.setState({ cursor: cursor + 1 });
         }
@@ -63,7 +73,7 @@ export default class WafoFormAutocomplete extends React.Component {
       case 'ArrowUp':
         event.preventDefault();
         if (cursor > 0) {
-          if ((cursor - 1) >= 0) {
+          if (cursor - 1 >= 0) {
             ul.childNodes[cursor - 1].focus();
             this.setState({ cursor: cursor - 1 });
           }
@@ -77,26 +87,19 @@ export default class WafoFormAutocomplete extends React.Component {
       case 'Escape':
         this.setState({ ...defaultState });
         break;
-      default: break;
+      default:
+        break;
     }
-  }
+  };
 
-  handleBlur = (event) => {
+  handleBlur = event => {
     const { relatedTarget } = event;
     const { selected } = this.state;
     const { onBlurClear, customInputFN } = this.props;
 
-    if (
-      (!relatedTarget || (relatedTarget && relatedTarget.tagName !== 'LI'))
-      && !selected
-      && onBlurClear
-    ) {
+    if ((!relatedTarget || (relatedTarget && relatedTarget.tagName !== 'LI')) && !selected && onBlurClear) {
       this.setState({ ...defaultState }, this.sendToWafoForm);
-    } else if (
-      selected
-      && (!relatedTarget || (relatedTarget && relatedTarget.tagName !== 'LI'))
-      && onBlurClear
-    ) {
+    } else if (selected && (!relatedTarget || (relatedTarget && relatedTarget.tagName !== 'LI')) && onBlurClear) {
       this.setState(prevState => ({
         ...prevState,
         query: customInputFN(prevState.selected),
@@ -104,18 +107,21 @@ export default class WafoFormAutocomplete extends React.Component {
         cursor: -1,
       }));
     }
-  }
+  };
 
-  itemSelected = (item) => {
+  itemSelected = item => {
     const { customInputFN } = this.props;
-    this.setState({
-      ...defaultState,
-      query: customInputFN(item),
-      selected: item,
-    }, this.sendToWafoForm);
-  }
+    this.setState(
+      {
+        ...defaultState,
+        query: customInputFN(item),
+        selected: item,
+      },
+      this.sendToWafoForm,
+    );
+  };
 
-  onInputFocus = (event) => {
+  onInputFocus = event => {
     event.target.select();
     const { query } = this.state;
     this.handleQueryChange({
@@ -123,7 +129,7 @@ export default class WafoFormAutocomplete extends React.Component {
         value: query,
       },
     });
-  }
+  };
 
   sendToWafoForm = () => {
     const { name, handleInputChange, onSelectCallback } = this.props;
@@ -134,20 +140,35 @@ export default class WafoFormAutocomplete extends React.Component {
         name,
         value: selected,
       },
+      type: 'change',
     });
     // callback que puede ser disparado desde fuera de wafoforms al seleccionar algo.
     onSelectCallback(selected);
-  }
+  };
 
-  clearForm = () => this.setState({
-    ...defaultState,
-  }, this.sendToWafoForm);
+  clearForm = () =>
+    this.setState(
+      {
+        ...defaultState,
+      },
+      this.sendToWafoForm,
+    );
 
   render() {
     const { query, suggestions } = this.state;
     const {
-      customClass, name, label, placeholder, extraProps,
-      valid, touched, errors, customItemFN, items, itemsLimit, showLimit,
+      customClass,
+      name,
+      label,
+      placeholder,
+      extraProps,
+      valid,
+      touched,
+      errors,
+      customItemFN,
+      items,
+      itemsLimit,
+      showLimit,
     } = this.props;
 
     return (
@@ -163,31 +184,28 @@ export default class WafoFormAutocomplete extends React.Component {
           onKeyDown={this.handleKeys}
           onBlur={this.handleBlur}
           onClick={this.onInputFocus}
-          autoComplete="none"
+          autoComplete="off"
           {...extraProps}
         />
-        {!valid && touched
-          && (
-            <ul className="errors">
-              {errors.map(error => (<li key={error.error}>{error.message}</li>))}
-            </ul>
-          )
-        }
-        {
-          suggestions.length > 0
-          && (
-            <Suggestions
-              suggestions={suggestions}
-              itemsLength={items.length}
-              handleKeys={this.handleKeys}
-              handleBlur={this.handleBlur}
-              onSelected={this.itemSelected}
-              customItem={customItemFN}
-              itemsLimit={itemsLimit}
-              showLimit={showLimit}
-            />
-          )
-        }
+        {!valid && touched && (
+          <ul className="errors">
+            {errors.map(error => (
+              <li key={error.error}>{error.message}</li>
+            ))}
+          </ul>
+        )}
+        {suggestions.length > 0 && (
+          <Suggestions
+            suggestions={suggestions}
+            itemsLength={items.length}
+            handleKeys={this.handleKeys}
+            handleBlur={this.handleBlur}
+            onSelected={this.itemSelected}
+            customItem={customItemFN}
+            itemsLimit={itemsLimit}
+            showLimit={showLimit}
+          />
+        )}
       </div>
     );
   }
@@ -241,7 +259,14 @@ WafoFormAutocomplete.defaultProps = {
 /** Lista de sugerencias */
 
 const Suggestions = ({
-  suggestions, itemsLength, handleKeys, handleBlur, onSelected, customItem, itemsLimit, showLimit,
+  suggestions,
+  itemsLength,
+  handleKeys,
+  handleBlur,
+  onSelected,
+  customItem,
+  itemsLimit,
+  showLimit,
 }) => {
   const [itemHeight, setItemHeight] = React.useState(0);
   const itemRef = React.useRef(null);
@@ -268,14 +293,25 @@ const Suggestions = ({
     <div className="results">
       <ul id="wafoformautocomplete-list" style={{ height: listHeight() }}>
         {suggestions.map((item, index) => (
-          <li ref={itemRef} key={index} tabIndex="-1" onKeyDown={handleKeys} onBlur={handleBlur} onClick={() => { onSelected(item); }}>
+          <li
+            ref={itemRef}
+            key={index}
+            tabIndex="-1"
+            onKeyDown={handleKeys}
+            onBlur={handleBlur}
+            onClick={() => {
+              onSelected(item);
+            }}
+          >
             {customItem(item)}
           </li>
         ))}
       </ul>
       {showLimit && (
         <div className="footer">
-          <span>Showing {suggestions.length} of {itemsLength} items</span>
+          <span>
+            Showing {suggestions.length} of {itemsLength} items
+          </span>
         </div>
       )}
     </div>

@@ -11,6 +11,7 @@ const initialInputState = {
 function setUpState({ children, state, initialValues, childrenKeys = [] }) {
   let newState = state;
   let keys = childrenKeys;
+  let validations = {};
   // Setting up state object.
   React.Children.forEach(children, (child) => {
     if (child && child.props) {
@@ -18,19 +19,25 @@ function setUpState({ children, state, initialValues, childrenKeys = [] }) {
         keys = [...keys, child.props.name];
       }
       // if child is not already on state
-      if ((child.props.name && !child.props.ignoreinput) && !newState[child.props.name]) {
-        newState = {
-          ...newState,
-          [child.props.name]: {
-            ...initialInputState,
-            // Checking if initial value exists
-            value: (initialValues && initialValues[child.props.name]) ? initialValues[child.props.name] : initialInputState.value,
-          },
-        };
+      if ((child.props.name && !child.props.ignoreinput)) {
+        if (!newState[child.props.name]) {
+          newState = {
+            ...newState,
+            [child.props.name]: {
+              ...initialInputState,
+              // Checking if initial value exists
+              value: (initialValues && initialValues[child.props.name]) ? initialValues[child.props.name] : initialInputState.value,
+            },
+          };
+        }
+        validations = {
+          ...validations,
+          [child.props.name]: child.props.validations || {},
+        }
       }
       // if child has childrens
       if (child.props.children) {
-        const { newState: stateFragment, keys: keysFragment } = setUpState({
+        const { newState: stateFragment, keys: keysFragment, validations: validationsFragment } = setUpState({
           children: child.props.children,
           state: {},
           initialValues,
@@ -38,6 +45,7 @@ function setUpState({ children, state, initialValues, childrenKeys = [] }) {
         });
         newState = { ...newState, ...stateFragment };
         keys = [...keys, ...keysFragment];
+        validations = { ...validations, ...validationsFragment};
       }
     }
   });
@@ -48,17 +56,21 @@ function setUpState({ children, state, initialValues, childrenKeys = [] }) {
     }
   });
   // Returning state object and valid keys.
-  return { newState, keys };
+  return { newState, keys, validations };
 }
 
 function reducer(state, action) {
   switch (action.type) {
     case 'reset': {
-      const { newState } = setUpState({
-        state,
+      const { newState, validations } = setUpState({
+        state: state.form,
         ...action.payload,
       });
-      return newState;
+      return {
+        ...state,
+        form: newState,
+        validations,
+      };
     }
     default:
       throw new Error();
@@ -66,7 +78,7 @@ function reducer(state, action) {
 }
 
 function TestForm({ children, initialValues }) {
-  const [state, dispatch] = React.useReducer(reducer, {});
+  const [state, dispatch] = React.useReducer(reducer, {form: {}, validations: {}});
 
   React.useEffect(() => {
     // Setup or rebuilding form state on form changes.
@@ -88,21 +100,21 @@ function TestForm({ children, initialValues }) {
 
   function prepareRender(children) {
     return React.Children.map(children, (child) => {
-      if (!child || !state[child.props.name] || !Object.prototype.hasOwnProperty.call(child.props, 'name') || !Object.prototype.hasOwnProperty.call(child.props, 'ignoreinput')) {
-        if (child || child.props || child.props.children) {
-          const test = prepareRender(child.props.children);
-          // How to alter nested children ?
+      if (!child || !state.form[child.props.name] || !Object.prototype.hasOwnProperty.call(child.props, "name") || Object.prototype.hasOwnProperty.call(child.props, 'ignoreinput')) {
+        if (child && child.props && child.props.children) {
+          return prepareRender(child.props.children);
         }
         return child;
       }
-  
-      const { [child.props.name]: { value, valid, touched, errors } } = state;
+      
+      const { [child.props.name]: { value, valid, touched, errors } } = state.form;
+      const hasCustomErrors = Object.prototype.hasOwnProperty.call(child.props, 'customErrors');
   
       return React.cloneElement(child, {
         value,
-        valid,
-        touched,
-        errors,
+        valid: hasCustomErrors ? false : valid,
+        touched: hasCustomErrors ? true : touched,
+        errors: hasCustomErrors ? [...errors, ...child.props.customErrors] : errors,
       });
     });
   }
