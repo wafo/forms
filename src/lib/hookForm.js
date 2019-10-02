@@ -43,7 +43,7 @@ function setUpState({ children, state, initialValues, childrenKeys = [] }) {
       if (child.props.children) {
         const { newState: stateFragment, keys: keysFragment, validations: validationsFragment } = setUpState({
           children: child.props.children,
-          state: {},
+          state: newState,
           initialValues,
           childrenKeys: [],
         });
@@ -51,12 +51,6 @@ function setUpState({ children, state, initialValues, childrenKeys = [] }) {
         keys = [...keys, ...keysFragment];
         validations = { ...validations, ...validationsFragment };
       }
-    }
-  });
-  // removing elements that no longer are in children.
-  Object.keys(newState).forEach(key => {
-    if (keys.findIndex(x => x === key) === -1) {
-      delete newState[key];
     }
   });
   // Returning state object and valid keys.
@@ -82,9 +76,15 @@ function reducer(state, action) {
         form: action.payload,
       };
     case 'reset': {
-      const { newState, validations } = setUpState({
+      const { newState, keys, validations } = setUpState({
         state: state.form,
         ...action.payload,
+      });
+      // Removing elements from state object that are no longer in the form.
+      Object.keys(newState).forEach(key => {
+        if (keys.findIndex(x => x === key) === -1) {
+          delete newState[key];
+        }
       });
       return {
         ...state,

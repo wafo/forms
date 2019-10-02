@@ -10,6 +10,7 @@ const initialValues = {
 const TestForm = () => {
   const [show, setShow] = React.useState(true);
   const [test, setTest] = React.useState(true);
+  const [hide, setHide] = React.useState(false);
 
   return (
     <div>
@@ -35,12 +36,15 @@ const TestForm = () => {
             </div>
           </div>
         </div>
+        <div style={{ ...(hide && { display: 'none' }) }}>
+          <WafoFormInput type="number" name="elhidden" placeholder="El hidden" />
+        </div>
       </WafoFormHooks>
 
       <button type="button" onClick={() => setShow(prevState => !prevState)}>
         Toggle input
       </button>
-      <button type="button" onClick={() => setTest(prevState => !prevState)}>
+      <button type="button" onClick={() => setHide(prevState => !prevState)}>
         Toggle validation
       </button>
     </div>
