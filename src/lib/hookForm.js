@@ -33,6 +33,12 @@ function setUpState({ children, state, initialValues, childrenKeys = [] }) {
                   : initialInputState.value,
             },
           };
+        } else if (newState[child.props.name] && !newState[child.props.name].value && initialValues[child.props.name]) {
+          // If already on state, but initial value changes and input doesn't have a value.
+          newState[child.props.name] = {
+            ...newState[child.props.name],
+            value: initialValues[child.props.name],
+          };
         }
         validations = {
           ...validations,

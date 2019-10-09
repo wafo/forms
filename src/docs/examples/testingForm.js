@@ -1,16 +1,23 @@
 import React from 'react';
 import { WafoFormHooks, WafoFormInput } from '../../../lib';
 
-const initialValues = {
-  eluno: 'A ver pues',
-  elanidado: 'Y el anidado',
-  maximoanidados: 'ojala',
-};
-
 const TestForm = () => {
+  const [initialValues, setInitialValues] = React.useState({
+    eluno: '',
+    elanidado: 'Y el anidado',
+    maximoanidados: 'ojala',
+  });
+
   const [show, setShow] = React.useState(true);
   const [test, setTest] = React.useState(true);
   const [hide, setHide] = React.useState(false);
+
+  const changeValues = () =>
+    setInitialValues(prevValues => ({
+      ...prevValues,
+      eluno: 'A ver pues',
+      maximoanidados: 'Ayylmao, este no debería cambiar',
+    }));
 
   return (
     <div>
@@ -46,6 +53,9 @@ const TestForm = () => {
       </button>
       <button type="button" onClick={() => setHide(prevState => !prevState)}>
         Toggle validation
+      </button>
+      <button type="button" onClick={changeValues}>
+        Change values
       </button>
     </div>
   );
