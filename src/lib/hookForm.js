@@ -127,7 +127,7 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
   function handleOnChange(event) {
     const { target } = event;
     const { name, value, attributes } = target || event;
-    if (!attributes || !attributes.ignoreinput) {
+    if ((attributes && !attributes.ignoreinput) || !attributes) {
       const iValidations = state.validations[name];
       const vValue = iValidations.track ? { value, tracking: state.form[iValidations.track].value } : value;
       const validation = validateField(vValue, iValidations);
