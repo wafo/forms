@@ -46,7 +46,10 @@ WafoFormInput.propTypes = {
     PropTypes.element.isRequired,
     () => null,
   ]),
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
   handleInputChange: PropTypes.func, // wafoform
   onChangeCallback: PropTypes.func,
   onBlurCallback: PropTypes.func,
