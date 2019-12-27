@@ -1,5 +1,5 @@
 import React from 'react';
-import { WafoFormHooks, WafoFormInput } from '../../../lib';
+import { WafoFormHooks, WafoFormInput, WafoFormMultiSelect } from '../../../lib';
 
 const TestForm = () => {
   const [initialValues, setInitialValues] = React.useState({
@@ -46,6 +46,19 @@ const TestForm = () => {
         <div style={{ ...(hide && { display: 'none' }) }}>
           <WafoFormInput type="number" name="elhidden" placeholder="El hidden" />
         </div>
+
+        <WafoFormMultiSelect
+          name="city"
+          customClass="col-md-4"
+          label="Ciudad"
+          placeholder="Seleccione ciudad"
+          itemKey="id_city"
+          items={[{ name: 'lmao', id_city: '1' }]}
+          renderItem={item => item.name}
+          renderInput={item => item.name}
+          handleChange
+          validations={{ required: true }}
+        />
       </WafoFormHooks>
 
       <button type="button" onClick={() => setShow(prevState => !prevState)}>
