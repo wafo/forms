@@ -44,59 +44,6 @@ label {
 }
 
 /** *********************************** */
-/** Autocomplete */
-/** *********************************** */
-
-.wafoformautocomplete {
-  position: relative;
-}
-
-.wafoformautocomplete > .results {
-  position: absolute;
-  z-index: 100000;
-  width: 100%;
-  top: 65px;
-  /*padding: 0 15px;*/
-}
-
-.wafoformautocomplete > .results ul {
-  background-color: #fff;
-  border: 1px solid #f5f5f5;
-  margin: 0;
-  padding-left: 0;
-  list-style: none;
-  overflow-y: auto;
-}
-
-.wafoformautocomplete > .results ul li {
-  padding: 0.5rem 0.25rem;
-  border-bottom: 1px solid #f2f2f2;
-  cursor: pointer !important;
-}
-
-.wafoformautocomplete > .results ul li:last-child {
-  border-bottom: none;
-}
-
-.wafoformautocomplete > .results ul li:hover,
-.wafoformautocomplete > .results ul li:focus {
-  background-color: #eee;
-}
-
-.wafoformautocomplete > .results .footer {
-  font-size: 0.8em;
-  font-weight: bold;
-  color: #777;
-  padding: 0.25rem;
-  background-color: #f5f5f5;
-  cursor: default !important;
-}
-
-.wafoformautocomplete > .results ul .footer:hover {
-  background-color: #f5f5f5;
-}
-
-/** *********************************** */
 /** Multiselect */
 /** *********************************** */
 
@@ -144,7 +91,7 @@ label {
 
 .wafoformmultiselect > .list-wrapper > ul {
   list-style: none;
-  margin-bottom: 0;
+  margin: 0;
   padding: 0.5rem;
   max-height: 10rem;
   overflow-y: auto;
@@ -168,4 +115,46 @@ label {
   background-color: #fff;
   padding: 0.25rem 1rem;
   color: #4f4f4f;
+}
+
+/** *********************************** */
+/** Autocomplete */
+/** *********************************** */
+
+.wafoformautocomplete {
+  position: relative;
+}
+
+.wafoformautocomplete > .list-wrapper {
+  background-color: #fff;
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  border: 1px solid #ccc;
+  border-top: none;
+  z-index: 100;
+  position: absolute;
+  width: calc(100% - 32px);
+}
+
+.wafoformautocomplete > .list-wrapper > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 10rem;
+  overflow-y: auto;
+}
+
+.wafoformautocomplete > .list-wrapper > ul > li {
+  cursor: pointer;
+}
+
+.wafoformautocomplete > .list-wrapper > ul > li:hover,
+.wafoformautocomplete > .list-wrapper > ul > li:focus,
+.wafoformautocomplete > .list-wrapper > ul > li.active {
+  background-color: #eee;
+}
+
+.wafoformautocomplete > .list-wrapper > .footer {
+  background-color: #efefef;
+  padding: .25rem .5rem;
 }
