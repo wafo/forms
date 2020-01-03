@@ -18,6 +18,7 @@ const WafoFormAutocomplete = ({
   renderItem,
   renderInput,
   filterItems,
+  onSelectCallback,
 }) => {
   const [cursor, setCursor] = React.useState(-1);
   const [dropdown, setDropdown] = React.useState(false);
@@ -47,6 +48,7 @@ const WafoFormAutocomplete = ({
       name,
       value: item,
     });
+    onSelectCallback(item);
   };
 
   const handleKeys = event => {
@@ -172,6 +174,7 @@ WafoFormAutocomplete.propTypes = {
   renderItem: PropTypes.func,
   renderInput: PropTypes.func,
   filterItems: PropTypes.func,
+  onSelectCallback: PropTypes.func,
 };
 
 WafoFormAutocomplete.defaultProps = {
@@ -184,6 +187,7 @@ WafoFormAutocomplete.defaultProps = {
   renderItem: item => (typeof item === 'string' ? item : 'Item option'),
   renderInput: item => (typeof item === 'string' ? item : 'Item selected'),
   filterItems: f => f,
+  onSelectCallback: f => f,
   // filterItems: (items, query) => items.filter(item => item.toLowerCase().indexOf(query.toLowerCase()) !== -1),
 };
 
