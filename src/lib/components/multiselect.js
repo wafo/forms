@@ -84,7 +84,6 @@ const WafoFormMultiSelect = ({
           {dropdown ? <CaretUp width={'1rem'} height={'1rem'} /> : <CaretDown width={'1rem'} height={'1rem'} />}
         </button>
       </div>
-      {children}
       {dropdown && (
         <div className="list-wrapper">
           {items.length > 0 && (
@@ -108,6 +107,7 @@ const WafoFormMultiSelect = ({
           )}
         </div>
       )}
+      {children}
       {!valid && touched && (
         <ul className="errors">
           {errors.map(error => (

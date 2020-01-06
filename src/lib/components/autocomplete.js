@@ -129,7 +129,6 @@ const WafoFormAutocomplete = ({
         autoComplete="off"
         {...extraProps}
       />
-      {children}
       {dropdown && (
         <div className="list-wrapper">
           {suggestions.length > 0 && (
@@ -148,6 +147,7 @@ const WafoFormAutocomplete = ({
           </div>
         </div>
       )}
+      {children}
       {!valid && touched && (
         <ul className="errors">
           {errors.map(error => (
