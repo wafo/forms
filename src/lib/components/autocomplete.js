@@ -13,6 +13,7 @@ const WafoFormAutocomplete = ({
   valid,
   touched,
   errors,
+  children,
   // Autocomplete
   items,
   renderItem,
@@ -128,6 +129,7 @@ const WafoFormAutocomplete = ({
         autoComplete="off"
         {...extraProps}
       />
+      {children}
       {dropdown && (
         <div className="list-wrapper">
           {suggestions.length > 0 && (
@@ -169,6 +171,11 @@ WafoFormAutocomplete.propTypes = {
   valid: PropTypes.bool,
   touched: PropTypes.bool,
   errors: PropTypes.arrayOf(PropTypes.any),
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element).isRequired,
+    PropTypes.element.isRequired,
+    () => null,
+  ]),
   // Autocomplete
   items: PropTypes.array,
   renderItem: PropTypes.func,
@@ -182,6 +189,7 @@ WafoFormAutocomplete.defaultProps = {
   valid: false,
   touched: false,
   errors: [],
+  children: null,
   validations: {},
   items: [],
   renderItem: item => (typeof item === 'string' ? item : 'Item option'),

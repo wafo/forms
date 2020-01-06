@@ -20,6 +20,7 @@ const WafoFormMultiSelect = ({
   valid,
   touched,
   errors,
+  children,
 }) => {
   const [dropdown, setDropdown] = React.useState(false);
   const toggleDropdown = () => setDropdown(dd => !dd);
@@ -83,6 +84,7 @@ const WafoFormMultiSelect = ({
           {dropdown ? <CaretUp width={'1rem'} height={'1rem'} /> : <CaretDown width={'1rem'} height={'1rem'} />}
         </button>
       </div>
+      {children}
       {dropdown && (
         <div className="list-wrapper">
           {items.length > 0 && (
@@ -131,6 +133,11 @@ WafoFormMultiSelect.propTypes = {
   valid: PropTypes.bool,
   touched: PropTypes.bool,
   errors: PropTypes.arrayOf(PropTypes.any),
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element).isRequired,
+    PropTypes.element.isRequired,
+    () => null,
+  ]),
 };
 
 WafoFormMultiSelect.defaultProps = {
@@ -146,6 +153,7 @@ WafoFormMultiSelect.defaultProps = {
   valid: false,
   touched: false,
   errors: [],
+  children: null,
 };
 
 export default WafoFormMultiSelect;
