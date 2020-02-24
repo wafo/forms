@@ -98,9 +98,9 @@ export default class AutocompleteForm extends React.Component {
           placeholder="Escribele compa..."
           items={items}
           itemsLimit={5}
-          filterItemsFN={this.filterItems}
-          customInputFN={this.customInput}
-          customItemFN={this.customItem}
+          filterItems={this.filterItems}
+          renderInput={this.customInput}
+          renderItem={this.customItem}
           onBlurClear={false}
           value={form.exampleautocomplete}
           handleInputChange={this.handleChange}
@@ -108,6 +108,7 @@ export default class AutocompleteForm extends React.Component {
           extraProps={{
             autoComplete: 'off',
           }}
+          handleChange
         />
 
         <button type="button" onClick={this.clear}>Clear</button>

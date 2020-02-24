@@ -133,6 +133,7 @@ const TestForm = () => {
             )
           }
           validations={{ required: true }}
+          onQueryChange={query => console.log('query: ', query)}
           handleChange
         />
       </WafoFormHooks>

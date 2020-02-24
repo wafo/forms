@@ -6,7 +6,7 @@ import WafoFormTextArea from './components/textarea';
 import WafoFormAutocomplete from './components/autocomplete';
 import WafoFormMultiSelect from './components/multiselect';
 
-module.exports = ({
+module.exports = {
   WafoForm,
   WafoFormHooks,
   WafoFormInput,
@@ -14,4 +14,4 @@ module.exports = ({
   WafoFormTextArea,
   WafoFormAutocomplete,
   WafoFormMultiSelect,
-});
+};
