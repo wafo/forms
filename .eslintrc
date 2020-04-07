@@ -1,15 +1,16 @@
 {
   "parser": "babel-eslint",
   "extends": [
-    "standard",
-    "standard-react",
-    "plugin:prettier/recommended",
-    "prettier/standard",
-    "prettier/react",
-    "plugin:react-hooks/recommended"
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "plugins": [
+    "react",
+    "react-hooks"
   ],
   "env": {
-    "node": true
+    "node": true,
+    "browser": true
   },
   "parserOptions": {
     "ecmaVersion": 2020,
@@ -24,11 +25,10 @@
     }
   },
   "rules": {
-    "react/jsx-handler-names": 0,
-    "react/jsx-fragments": 0,
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/prop-types": "warn",
-    "react/display-name": "off"
+    "react/display-name": "off",
+    "no-useless-escape": 0
   }
 }

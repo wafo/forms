@@ -49,7 +49,7 @@ const WafoFormAutocomplete = ({
     }
   }, [cursor]);
 
-  const onInputFocus = () => {
+  const onInputFocus = event => {
     event.target.select();
     setDropdown(true);
     if (typeof value !== 'object') {

@@ -15,7 +15,7 @@ const TestForm = () => {
   });
 
   const [show, setShow] = React.useState(true);
-  const [test, setTest] = React.useState(true);
+  const [test] = React.useState(true);
   const [hide, setHide] = React.useState(false);
 
   const changeValues = () => {
