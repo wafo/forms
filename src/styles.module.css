@@ -1,9 +1,170 @@
 /* add css module styles here (optional) */
 
-.test {
-  margin: 2em;
-  padding: 0.5em;
-  border: 2px solid #000;
-  font-size: 2em;
-  text-align: center;
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  /* margin-left: -15px;
+  margin-right: -15px; */
 }
+
+.form-group {
+  margin-bottom: 1rem;
+  padding: 0 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: calc(2.25rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  box-sizing: border-box;
+}
+
+.errors {
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+  padding-left: 1.25rem;
+  font-size: 0.85em;
+  font-weight: 700;
+  color: #eb5757;
+  list-style-type: square;
+}
+
+.svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/** *********************************** */
+/** Multiselect */
+/** *********************************** */
+
+.multiselect {
+  position: relative;
+}
+
+.multiselect-input-wrapper {
+  display: flex;
+}
+
+.multiselect-input-wrapper > input {
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  background-color: #fff !important;
+}
+
+.multiselect-input-wrapper > button {
+  border: 1px solid #ccc;
+  border-left: none;
+  border-radius: 0.25rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.multiselect-input-wrapper:global.down > input {
+  border-bottom-left-radius: 0;
+}
+
+.multiselect-input-wrapper:global.down > button {
+  border-bottom-right-radius: 0;
+}
+
+.multiselect-list-wrapper {
+  background-color: #efefef;
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  border: 1px solid #ccc;
+  border-top: none;
+  z-index: 100;
+  position: absolute;
+  width: calc(100% - 32px);
+}
+
+.multiselect-list-wrapper > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem;
+  max-height: 10rem;
+  overflow-y: auto;
+}
+
+.multiselect-list-wrapper > ul > li {
+  background-color: #fff;
+  padding: 0.25rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #efefef;
+  cursor: pointer;
+}
+
+.multiselect-list-empty {
+  padding: 0.5rem;
+}
+
+.multiselect-list-empty > div {
+  background-color: #fff;
+  padding: 0.25rem 1rem;
+  color: #4f4f4f;
+}
+
+/** *********************************** */
+/** Autocomplete */
+/** *********************************** */
+
+.autocomplete {
+  position: relative;
+}
+
+.autocomplete-wrapper {
+  background-color: #fff;
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  border: 1px solid #ccc;
+  border-top: none;
+  z-index: 100;
+  position: absolute;
+  width: calc(100% - 32px);
+}
+
+.autocomplete-wrapper > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 10rem;
+  overflow-y: auto;
+}
+
+.autocomplete-wrapper > ul > li {
+  cursor: pointer;
+}
+
+.autocomplete-wrapper > ul > li:hover,
+.autocomplete-wrapper > ul > li:focus,
+.autocomplete-wrapper > ul > li.active {
+  background-color: #eee;
+}
+
+.autocomplete-footer {
+  background-color: #efefef;
+  padding: .25rem .5rem;
+}
+
+/** *********************************** */
+/** Multiselect */
+/** *********************************** */
+
+
