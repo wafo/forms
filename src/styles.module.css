@@ -1,23 +1,23 @@
 /* add css module styles here (optional) */
 
-.row {
+.wafo-form :global .row {
   display: flex;
   flex-wrap: wrap;
   margin-left: -15px;
   margin-right: -15px;
 }
 
-.form-group {
+.wafo-form :global .form-group {
   margin-bottom: 1rem;
   padding: 0 15px;
 }
 
-label {
+.wafo-form label {
   display: block;
   margin-bottom: 0.5rem;
 }
 
-.form-control {
+.wafo-form :global .form-control {
   display: block;
   width: 100%;
   height: calc(2.25rem + 2px);
@@ -32,7 +32,7 @@ label {
   box-sizing: border-box;
 }
 
-.errors {
+.wafo-form :global .errors {
   margin-top: 0.25rem;
   margin-bottom: 0;
   padding-left: 1.25rem;
@@ -59,7 +59,7 @@ label {
   display: flex;
 }
 
-.multiselect-input-wrapper > input {
+.multiselect-input-wrapper > :global.form-control {
   border-right: none;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -162,9 +162,3 @@ label {
   background-color: #efefef;
   padding: .25rem .5rem;
 }
-
-/** *********************************** */
-/** Multiselect */
-/** *********************************** */
-
-

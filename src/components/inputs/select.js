@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from '../../styles.module.css'
 
 const WafoFormSelect = ({
   customClass, name, label, labelClass, defaultValue, options, extraProps, children,
   value, handleInputChange, onChangeCallback, onBlurCallback,
   valid, touched, errors,
 }) => (
-    <div className={`wafo-input ${styles['form-group']} ${customClass}`}>
+    <div className={`wafo-input form-group ${customClass}`}>
       {label && <label htmlFor={name} className={labelClass}>{label}</label>}
       <select
-        className={styles['form-control']}
+        className="form-control"
         name={name}
         value={value}
         onChange={(event) => {
@@ -30,7 +29,7 @@ const WafoFormSelect = ({
       {children}
       {!valid && touched
         && (
-          <ul className={styles.errors}>
+          <ul className="errors">
             {errors.map(error => (<li key={error.error}>{error.message}</li>))}
           </ul>
         )

@@ -134,11 +134,11 @@ const WafoFormAutocomplete = ({
   }, [items, value, filterItems]);
 
   return (
-    <div ref={clickRef} className={`wafo-input ${styles.autocomplete} ${styles['form-group']} ${customClass}`}>
+    <div ref={clickRef} className={`wafo-input form-group ${styles.autocomplete} ${customClass}`}>
       {label && <label htmlFor={name}>{label}</label>}
       <input
         type="text"
-        className={styles['form-control']}
+        className="form-control"
         name={name}
         placeholder={placeholder}
         value={queryValue}
@@ -169,7 +169,7 @@ const WafoFormAutocomplete = ({
       )}
       {children}
       {!valid && touched && (
-        <ul className={styles.errors}>
+        <ul className="errors">
           {errors.map(error => (
             <li key={error.error}>{error.message}</li>
           ))}

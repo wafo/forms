@@ -235,8 +235,8 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
   const renderChildren = prepareRender(children);
 
   return (
-    <form id={formId} onChange={handleOnChange} onSubmit={handleSubmit}>
-      <div className={styles.row}>{renderChildren}</div>
+    <form id={formId} className={styles['wafo-form']} onChange={handleOnChange} onSubmit={handleSubmit}>
+      <div className="row">{renderChildren}</div>
       {/** Only show the button if text is provided */}
       {buttonText && (
         <button type="submit" className="btn btn-primary btn-submit">

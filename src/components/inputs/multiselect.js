@@ -72,7 +72,7 @@ const WafoFormMultiSelect = ({
   return (
     <div
       ref={clickRef}
-      className={`wafo-input ${styles.multiselect} ${styles["form-group"]} ${customClass}`}
+      className={`wafo-input form-group ${styles.multiselect} ${customClass}`}
     >
       {label && <label htmlFor={name}>{label}</label>}
       <div className={`${styles['multiselect-input-wrapper']} ${dropdown && "down"}`}>
@@ -81,7 +81,7 @@ const WafoFormMultiSelect = ({
           id={name}
           name={name}
           placeholder={placeholder}
-          className={styles["form-control"]}
+          className="form-control"
           value={display.inputDisplay}
           onClick={toggleDropdown}
           readOnly
@@ -123,7 +123,7 @@ const WafoFormMultiSelect = ({
       )}
       {children}
       {!valid && touched && (
-        <ul className={styles.errors}>
+        <ul className="errors">
           {errors.map(error => (
             <li key={error.error}>{error.message}</li>
           ))}
