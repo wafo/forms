@@ -6,7 +6,7 @@ const WafoFormTextArea = ({
   value, handleInputChange, onChangeCallback, onBlurCallback,
   valid, touched, errors,
 }) => (
-  <div className={`wafo-input form-group ${customClass}`}>
+  <div className={`wafo-input wafo-textarea form-group ${customClass}`}>
     {label && <label htmlFor={name} className={labelClass}>{label}</label>}
     <textarea
       className="form-control"

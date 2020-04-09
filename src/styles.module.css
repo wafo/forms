@@ -47,6 +47,10 @@
   height: 1rem;
 }
 
+.wafo-form :global .wafo-textarea .form-control {
+  height: auto;
+}
+
 /** *********************************** */
 /** Multiselect */
 /** *********************************** */
@@ -160,5 +164,5 @@
 
 .autocomplete-footer {
   background-color: #efefef;
-  padding: .25rem .5rem;
+  padding: 0.25rem 0.5rem;
 }

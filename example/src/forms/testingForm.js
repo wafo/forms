@@ -3,7 +3,8 @@ import {
   WafoForm,
   WafoFormInput,
   WafoFormMultiSelect,
-  WafoFormAutocomplete
+  WafoFormAutocomplete,
+  WafoFormTextArea
 } from "forms";
 
 const TestForm = () => {
@@ -79,7 +80,7 @@ const TestForm = () => {
             { name: "lmao", id_city: "6" },
             { name: "lmao", id_city: "7" },
             { name: "lmao", id_city: "8" },
-            { name: "lmao", id_city: "9" },
+            { name: "lmao", id_city: "9" }
           ]}
           renderItem={item => item.name}
           renderInput={item => item.name}
@@ -130,6 +131,14 @@ const TestForm = () => {
           validations={{ required: true }}
           onQueryChange={query => console.log("query: ", query)}
           handleChange
+        />
+
+        <WafoFormTextArea
+          name="about"
+          customClass="col-xs-12 col-md-12"
+          placeholder="Tell us something about you."
+          label="About you"
+          extraProps={{ rows: 3 }}
         />
       </WafoForm>
 
