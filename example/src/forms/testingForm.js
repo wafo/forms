@@ -29,7 +29,7 @@ const TestForm = () => {
 
   return (
     <div>
-      <WafoForm values={initialValues}>
+      <WafoForm values={initialValues} locale="en">
         {show && (
           <WafoFormInput
             name="eluno"
@@ -131,6 +131,7 @@ const TestForm = () => {
           validations={{ required: true }}
           onQueryChange={query => console.log("query: ", query)}
           handleChange
+          locale="es"
         />
 
         <WafoFormTextArea

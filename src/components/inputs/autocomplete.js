@@ -235,7 +235,7 @@ WafoFormAutocomplete.defaultProps = {
   errors: [],
   children: null,
   validations: {},
-  locale: "en",
+  locale: "",
   items: [],
   renderItem: item => (typeof item === "string" ? item : "Item option"),
   renderInput: item => (typeof item === "string" ? item : "Item selected"),

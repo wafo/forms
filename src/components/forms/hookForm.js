@@ -246,7 +246,7 @@ function WafoForm({
 
       return React.cloneElement(child, {
         ...(child.props.handleChange && { handleInputChange: handleOnChange }),
-        locale,
+        ...(!child.props.locale && { locale }),
         value,
         valid: hasCustomErrors ? false : valid,
         touched: hasCustomErrors ? true : touched,
