@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import validateField, { setLocale } from '../../utils/validation';
-import styles from '../../styles.module.css'
+import React from "react";
+import PropTypes from "prop-types";
+import validateField, { setLocale } from "../../utils/validation";
+import styles from "../../styles.module.css";
 
 const initialInputState = {
   errors: [],
   touched: false,
   valid: false,
-  value: '',
+  value: ""
 };
 
 function setUpState({ children, state, initialValues, childrenKeys = [] }) {
@@ -31,8 +31,8 @@ function setUpState({ children, state, initialValues, childrenKeys = [] }) {
               value:
                 initialValues && initialValues[child.props.name]
                   ? initialValues[child.props.name]
-                  : initialInputState.value,
-            },
+                  : initialInputState.value
+            }
           };
         } else if (
           newState[child.props.name] &&
@@ -43,21 +43,25 @@ function setUpState({ children, state, initialValues, childrenKeys = [] }) {
           // If already on state, but initial value changes and input doesn't have a value.
           newState[child.props.name] = {
             ...newState[child.props.name],
-            value: initialValues[child.props.name],
+            value: initialValues[child.props.name]
           };
         }
         validations = {
           ...validations,
-          [child.props.name]: child.props.validations || {},
+          [child.props.name]: child.props.validations || {}
         };
       }
       // if child has childrens
       if (child.props.children) {
-        const { newState: stateFragment, keys: keysFragment, validations: validationsFragment } = setUpState({
+        const {
+          newState: stateFragment,
+          keys: keysFragment,
+          validations: validationsFragment
+        } = setUpState({
           children: child.props.children,
           state: newState,
           initialValues,
-          childrenKeys: [],
+          childrenKeys: []
         });
         newState = { ...newState, ...stateFragment };
         keys = [...keys, ...keysFragment];
@@ -71,26 +75,26 @@ function setUpState({ children, state, initialValues, childrenKeys = [] }) {
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'inputChange':
+    case "inputChange":
       return {
         ...state,
         form: {
           ...state.form,
           [action.payload.name]: {
             ...state.form[action.payload.name],
-            ...action.payload.input,
-          },
-        },
+            ...action.payload.input
+          }
+        }
       };
-    case 'formChange':
+    case "formChange":
       return {
         ...state,
-        form: action.payload,
+        form: action.payload
       };
-    case 'reset': {
+    case "reset": {
       const { newState, keys, validations } = setUpState({
         state: state.form,
-        ...action.payload,
+        ...action.payload
       });
       // Removing elements from state object that are no longer in the form.
       Object.keys(newState).forEach(key => {
@@ -101,7 +105,7 @@ function reducer(state, action) {
       return {
         ...state,
         form: newState,
-        validations,
+        validations
       };
     }
     default:
@@ -109,20 +113,28 @@ function reducer(state, action) {
   }
 }
 
-function WafoForm({ children, values, onSubmit, formId, buttonText, locale, ignoreEmpty }) {
+function WafoForm({
+  children,
+  values,
+  onSubmit,
+  formId,
+  buttonText,
+  locale,
+  ignoreEmpty
+}) {
   const [state, dispatch] = React.useReducer(reducer, {
     form: {},
-    validations: {},
+    validations: {}
   });
 
   React.useEffect(() => {
     // Setup or rebuilding form state on form changes.
     dispatch({
-      type: 'reset',
+      type: "reset",
       payload: {
         children,
-        initialValues: values,
-      },
+        initialValues: values
+      }
     });
   }, [children, values]);
 
@@ -133,22 +145,28 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
   function handleOnChange(event) {
     const { target } = event;
     const { name, value, attributes } = target || event;
-    if (state.form[name] && state.validations[name] && ((attributes && !attributes.ignoreinput) || !attributes)) {
+    if (
+      state.form[name] &&
+      state.validations[name] &&
+      ((attributes && !attributes.ignoreinput) || !attributes)
+    ) {
       const iValidations = state.validations[name];
-      const vValue = iValidations.track ? { value, tracking: state.form[iValidations.track].value } : value;
+      const vValue = iValidations.track
+        ? { value, tracking: state.form[iValidations.track].value }
+        : value;
       const validation = validateField(vValue, iValidations);
 
       dispatch({
-        type: 'inputChange',
+        type: "inputChange",
         payload: {
           name,
           input: {
             value,
             touched: true,
             valid: validation.valid,
-            errors: validation.errors,
-          },
-        },
+            errors: validation.errors
+          }
+        }
       });
     }
   }
@@ -169,7 +187,7 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
       const vValue = iValidations.track
         ? {
             value: inputState.value,
-            tracking: state.form[iValidations.track].value,
+            tracking: state.form[iValidations.track].value
           }
         : inputState.value;
       const validation = validateField(vValue, iValidations);
@@ -180,7 +198,7 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
       form[field] = {
         value: inputState.value,
         valid: validation.valid,
-        errors: validation.errors,
+        errors: validation.errors
       };
 
       if (!ignoreEmpty || (ignoreEmpty && inputState.value)) {
@@ -191,13 +209,13 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
         ...inputState,
         errors: validation.errors,
         touched: true,
-        valid: validation.valid,
+        valid: validation.valid
       };
     });
 
     dispatch({
-      type: 'formChange',
-      payload: newState,
+      type: "formChange",
+      payload: newState
     });
     onSubmit(form, formValues);
   }
@@ -208,8 +226,8 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
         !child ||
         !child.props ||
         !state.form[child.props.name] ||
-        !Object.prototype.hasOwnProperty.call(child.props, 'name') ||
-        Object.prototype.hasOwnProperty.call(child.props, 'ignoreinput')
+        !Object.prototype.hasOwnProperty.call(child.props, "name") ||
+        Object.prototype.hasOwnProperty.call(child.props, "ignoreinput")
       ) {
         if (child && child.props && child.props.children) {
           const nestedChildren = prepareRender(child.props.children);
@@ -219,23 +237,35 @@ function WafoForm({ children, values, onSubmit, formId, buttonText, locale, igno
       }
 
       const {
-        [child.props.name]: { value, valid, touched, errors },
+        [child.props.name]: { value, valid, touched, errors }
       } = state.form;
-      const hasCustomErrors = Object.prototype.hasOwnProperty.call(child.props, 'customErrors');
+      const hasCustomErrors = Object.prototype.hasOwnProperty.call(
+        child.props,
+        "customErrors"
+      );
 
       return React.cloneElement(child, {
         ...(child.props.handleChange && { handleInputChange: handleOnChange }),
+        locale,
         value,
         valid: hasCustomErrors ? false : valid,
         touched: hasCustomErrors ? true : touched,
-        errors: hasCustomErrors ? [...errors, ...child.props.customErrors] : errors,
+        errors: hasCustomErrors
+          ? [...errors, ...child.props.customErrors]
+          : errors
       });
     });
   }
+
   const renderChildren = prepareRender(children);
 
   return (
-    <form id={formId} className={styles['wafo-form']} onChange={handleOnChange} onSubmit={handleSubmit}>
+    <form
+      id={formId}
+      className={styles["wafo-form"]}
+      onChange={handleOnChange}
+      onSubmit={handleSubmit}
+    >
       <div className="row">{renderChildren}</div>
       {/** Only show the button if text is provided */}
       {buttonText && (
@@ -251,23 +281,23 @@ WafoForm.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element).isRequired,
     PropTypes.element.isRequired,
-    () => null,
+    () => null
   ]).isRequired,
   values: PropTypes.any,
   onSubmit: PropTypes.func,
   formId: PropTypes.string,
   buttonText: PropTypes.string,
   locale: PropTypes.string,
-  ignoreEmpty: PropTypes.bool,
+  ignoreEmpty: PropTypes.bool
 };
 
 WafoForm.defaultProps = {
   values: undefined,
   onSubmit: f => f,
-  formId: 'wafoform',
-  buttonText: '',
-  locale: 'en',
-  ignoreEmpty: false,
+  formId: "wafoform",
+  buttonText: "",
+  locale: "en",
+  ignoreEmpty: false
 };
 
 export default WafoForm;

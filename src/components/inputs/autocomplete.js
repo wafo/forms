@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import useClickOutside from '../../hooks/useClickOutside';
-import styles from '../../styles.module.css'
+import React from "react";
+import PropTypes from "prop-types";
+import useClickOutside from "../../hooks/useClickOutside";
+import styles from "../../styles.module.css";
 
 const WafoFormAutocomplete = ({
   name,
@@ -15,13 +15,14 @@ const WafoFormAutocomplete = ({
   touched,
   errors,
   children,
+  locale,
   // Autocomplete
   items,
   renderItem,
   renderInput,
   filterItems,
   onSelectCallback,
-  onQueryChange,
+  onQueryChange
 }) => {
   const [cursor, setCursor] = React.useState(-1);
   const [dropdown, setDropdown] = React.useState(false);
@@ -35,10 +36,10 @@ const WafoFormAutocomplete = ({
   const listRef = React.useRef();
 
   React.useEffect(() => {
-    if (!dropdown && value && typeof value === 'string') {
+    if (!dropdown && value && typeof value === "string") {
       handleInputChange({
         name,
-        value: '',
+        value: ""
       });
     }
   }, [dropdown, handleInputChange, name, value]);
@@ -52,8 +53,8 @@ const WafoFormAutocomplete = ({
   const onInputFocus = event => {
     event.target.select();
     setDropdown(true);
-    if (typeof value !== 'object') {
-      onQueryChange('');
+    if (typeof value !== "object") {
+      onQueryChange("");
     }
   };
 
@@ -61,7 +62,7 @@ const WafoFormAutocomplete = ({
     setDropdown(false);
     handleInputChange({
       name,
-      value: item,
+      value: item
     });
     onSelectCallback(item);
   };
@@ -69,7 +70,7 @@ const WafoFormAutocomplete = ({
   const handleKeys = event => {
     if (suggestions.length > 0) {
       switch (event.key) {
-        case 'ArrowDown':
+        case "ArrowDown":
           event.preventDefault();
           if (cursor === -1) {
             setCursor(0);
@@ -77,24 +78,24 @@ const WafoFormAutocomplete = ({
             setCursor(prev => prev + 1);
           }
           break;
-        case 'ArrowUp':
+        case "ArrowUp":
           event.preventDefault();
           if (cursor > 0 && cursor - 1 >= 0) {
             setCursor(prev => prev - 1);
           }
           break;
-        case 'Enter':
+        case "Enter":
           if (cursor !== -1) {
             onItemSelect(suggestions[cursor]);
           }
           break;
-        case 'Escape':
+        case "Escape":
           setDropdown(false);
           setCursor(-1);
-          if (typeof value === 'string') {
+          if (typeof value === "string") {
             handleInputChange({
               name,
-              value: '',
+              value: ""
             });
           }
           break;
@@ -120,21 +121,24 @@ const WafoFormAutocomplete = ({
   };
 
   const queryValue = React.useMemo(() => {
-    if (typeof value === 'object') {
+    if (typeof value === "object") {
       return renderInput(value);
     }
     return value;
   }, [value, renderInput]);
 
   const suggestions = React.useMemo(() => {
-    if (typeof value === 'string') {
+    if (typeof value === "string") {
       return filterItems(items, value);
     }
     return items;
   }, [items, value, filterItems]);
 
   return (
-    <div ref={clickRef} className={`wafo-input form-group ${styles.autocomplete} ${customClass}`}>
+    <div
+      ref={clickRef}
+      className={`wafo-input form-group ${styles.autocomplete} ${customClass}`}
+    >
       {label && <label htmlFor={name}>{label}</label>}
       <input
         type="text"
@@ -150,19 +154,37 @@ const WafoFormAutocomplete = ({
         {...extraProps}
       />
       {dropdown && (
-        <div className={styles['autocomplete-wrapper']}>
+        <div className={styles["autocomplete-wrapper"]}>
+          {/** TODO: Cambiar este id por clase, no se deben repetir ids... */}
           {suggestions.length > 0 && (
             <ul ref={listRef} id="wafoformautocomplete-list">
               {suggestions.map((item, i) => (
-                <li key={i} tabIndex="-1" onKeyDown={handleKeys} onClick={() => onItemSelect(item, i)}>
+                <li
+                  key={i}
+                  tabIndex="-1"
+                  onKeyDown={handleKeys}
+                  onClick={() => onItemSelect(item, i)}
+                >
                   {renderItem(item)}
                 </li>
               ))}
             </ul>
           )}
-          <div className={styles['autocomplete-footer']}>
+          <div
+            className={`wafoformautocomplete-footer ${styles["autocomplete-footer"]}`}
+          >
+            {/** TODO: Hotfix super cochino. */}
             <span>
-              Showing {suggestions.length} of {items.length} items
+              {locale === "es" && (
+                <React.Fragment>
+                  Mostrando {suggestions.length} de {items.length} elementos
+                </React.Fragment>
+              )}
+              {(locale === "en" || locale !== "es") && (
+                <React.Fragment>
+                  Showing {suggestions.length} of {items.length} items
+                </React.Fragment>
+              )}
             </span>
           </div>
         </div>
@@ -194,15 +216,16 @@ WafoFormAutocomplete.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element).isRequired,
     PropTypes.element.isRequired,
-    () => null,
+    () => null
   ]),
+  locale: PropTypes.string,
   // Autocomplete
   items: PropTypes.array,
   renderItem: PropTypes.func,
   renderInput: PropTypes.func,
   filterItems: PropTypes.func,
   onSelectCallback: PropTypes.func,
-  onQueryChange: PropTypes.func,
+  onQueryChange: PropTypes.func
 };
 
 WafoFormAutocomplete.defaultProps = {
@@ -212,12 +235,13 @@ WafoFormAutocomplete.defaultProps = {
   errors: [],
   children: null,
   validations: {},
+  locale: "en",
   items: [],
-  renderItem: item => (typeof item === 'string' ? item : 'Item option'),
-  renderInput: item => (typeof item === 'string' ? item : 'Item selected'),
+  renderItem: item => (typeof item === "string" ? item : "Item option"),
+  renderInput: item => (typeof item === "string" ? item : "Item selected"),
   filterItems: f => f,
   onSelectCallback: f => f,
-  onQueryChange: f => f,
+  onQueryChange: f => f
   // filterItems: (items, query) => items.filter(item => item.toLowerCase().indexOf(query.toLowerCase()) !== -1),
 };
 
