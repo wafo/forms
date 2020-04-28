@@ -262,7 +262,7 @@ function WafoForm({
   return (
     <form
       id={formId}
-      className={styles["wafo-form"]}
+      className={`wafo-form ${styles["wafo-form"]}`}
       onChange={handleOnChange}
       onSubmit={handleSubmit}
     >
