@@ -70,57 +70,63 @@ const WafoFormMultiSelect = ({
   }, [items, itemKey, renderInput, value]);
 
   return (
-    <div
-      ref={clickRef}
-      className={`wafo-input form-group ${styles.multiselect} ${customClass}`}
-    >
-      {label && <label htmlFor={name}>{label}</label>}
-      <div className={`${styles['multiselect-input-wrapper']} ${dropdown && "down"}`}>
-        <input
-          type="text"
-          id={name}
-          name={name}
-          placeholder={placeholder}
-          className="form-control"
-          value={display.inputDisplay}
-          onClick={toggleDropdown}
-          readOnly
-        />
-        <button
-          type="button"
-          className="btn btn-light"
-          onClick={toggleDropdown}
+    <div ref={clickRef} className={`wafo-wrapper ${customClass}`}>
+      <div className={`wafo-input form-group ${styles.multiselect}`}>
+        {label && <label htmlFor={name}>{label}</label>}
+        <div
+          className={`${styles["multiselect-input-wrapper"]} ${dropdown &&
+            "down"}`}
         >
-          {dropdown ? (
-            <img src={CaretUp} alt="icon" className={styles.svg} />
-          ) : (
-            <img src={CaretDown} alt="icon" className={styles.svg} />
-          )}
-        </button>
-      </div>
-      {dropdown && (
-        <div className={styles['multiselect-list-wrapper']}>
-          {items.length > 0 && (
-            <ul>
-              {display.itemsDisplay.map((item, i) => (
-                <li key={i} onClick={() => handleItemClick(item)}>
-                  <span>{renderItem(item)}</span>
-                  {item.wafoSelected ? (
-                    <img src={CheckSquare} alt="icon" className={styles.svg} />
-                  ) : (
-                    <img src={Square} alt="icon" className={styles.svg} />
-                  )}
-                </li>
-              ))}
-            </ul>
-          )}
-          {items.length === 0 && (
-            <div className={styles['multiselect-list-empty']}>
-              <div>Sin elementos a elegir</div>
-            </div>
-          )}
+          <input
+            type="text"
+            id={name}
+            name={name}
+            placeholder={placeholder}
+            className="form-control"
+            value={display.inputDisplay}
+            onClick={toggleDropdown}
+            readOnly
+          />
+          <button
+            type="button"
+            className="btn btn-light"
+            onClick={toggleDropdown}
+          >
+            {dropdown ? (
+              <img src={CaretUp} alt="icon" className={styles.svg} />
+            ) : (
+              <img src={CaretDown} alt="icon" className={styles.svg} />
+            )}
+          </button>
         </div>
-      )}
+        {dropdown && (
+          <div className={styles["multiselect-list-wrapper"]}>
+            {items.length > 0 && (
+              <ul>
+                {display.itemsDisplay.map((item, i) => (
+                  <li key={i} onClick={() => handleItemClick(item)}>
+                    <span>{renderItem(item)}</span>
+                    {item.wafoSelected ? (
+                      <img
+                        src={CheckSquare}
+                        alt="icon"
+                        className={styles.svg}
+                      />
+                    ) : (
+                      <img src={Square} alt="icon" className={styles.svg} />
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {items.length === 0 && (
+              <div className={styles["multiselect-list-empty"]}>
+                <div>Sin elementos a elegir</div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
       {children}
       {!valid && touched && (
         <ul className="errors">

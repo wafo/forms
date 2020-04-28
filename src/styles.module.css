@@ -8,8 +8,12 @@
 }
 
 .wafo-form :global .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 0rem;
   padding: 0 15px;
+}
+
+.wafo-form :global .wafo-wrapper {
+  margin-bottom: 1rem;
 }
 
 .wafo-form label {
@@ -35,7 +39,7 @@
 .wafo-form :global .errors {
   margin-top: 0.25rem;
   margin-bottom: 0;
-  padding-left: 1.25rem;
+  padding-left: 2rem;
   font-size: 0.85em;
   font-weight: 700;
   color: #eb5757;

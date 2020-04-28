@@ -135,60 +135,59 @@ const WafoFormAutocomplete = ({
   }, [items, value, filterItems]);
 
   return (
-    <div
-      ref={clickRef}
-      className={`wafo-input form-group ${styles.autocomplete} ${customClass}`}
-    >
-      {label && <label htmlFor={name}>{label}</label>}
-      <input
-        type="text"
-        className="form-control"
-        name={name}
-        placeholder={placeholder}
-        value={queryValue}
-        onChange={handleOnChange}
-        onClick={onInputFocus}
-        onKeyDown={handleKeys}
-        onBlur={handleBlur}
-        autoComplete="off"
-        {...extraProps}
-      />
-      {dropdown && (
-        <div className={styles["autocomplete-wrapper"]}>
-          {/** TODO: Cambiar este id por clase, no se deben repetir ids... */}
-          {suggestions.length > 0 && (
-            <ul ref={listRef} id="wafoformautocomplete-list">
-              {suggestions.map((item, i) => (
-                <li
-                  key={i}
-                  tabIndex="-1"
-                  onKeyDown={handleKeys}
-                  onClick={() => onItemSelect(item, i)}
-                >
-                  {renderItem(item)}
-                </li>
-              ))}
-            </ul>
-          )}
-          <div
-            className={`wafoformautocomplete-footer ${styles["autocomplete-footer"]}`}
-          >
-            {/** TODO: Hotfix super cochino. */}
-            <span>
-              {locale === "es" && (
-                <React.Fragment>
-                  Mostrando {suggestions.length} de {items.length} elementos
-                </React.Fragment>
-              )}
-              {(locale === "en" || locale !== "es") && (
-                <React.Fragment>
-                  Showing {suggestions.length} of {items.length} items
-                </React.Fragment>
-              )}
-            </span>
+    <div ref={clickRef} className={`wafo-wrapper ${customClass}`}>
+      <div className={`wafo-input form-group ${styles.autocomplete}`}>
+        {label && <label htmlFor={name}>{label}</label>}
+        <input
+          type="text"
+          className="form-control"
+          name={name}
+          placeholder={placeholder}
+          value={queryValue}
+          onChange={handleOnChange}
+          onClick={onInputFocus}
+          onKeyDown={handleKeys}
+          onBlur={handleBlur}
+          autoComplete="off"
+          {...extraProps}
+        />
+        {dropdown && (
+          <div className={styles["autocomplete-wrapper"]}>
+            {/** TODO: Cambiar este id por clase, no se deben repetir ids... */}
+            {suggestions.length > 0 && (
+              <ul ref={listRef} id="wafoformautocomplete-list">
+                {suggestions.map((item, i) => (
+                  <li
+                    key={i}
+                    tabIndex="-1"
+                    onKeyDown={handleKeys}
+                    onClick={() => onItemSelect(item, i)}
+                  >
+                    {renderItem(item)}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <div
+              className={`wafoformautocomplete-footer ${styles["autocomplete-footer"]}`}
+            >
+              {/** TODO: Hotfix super cochino. */}
+              <span>
+                {locale === "es" && (
+                  <React.Fragment>
+                    Mostrando {suggestions.length} de {items.length} elementos
+                  </React.Fragment>
+                )}
+                {(locale === "en" || locale !== "es") && (
+                  <React.Fragment>
+                    Showing {suggestions.length} of {items.length} items
+                  </React.Fragment>
+                )}
+              </span>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
       {children}
       {!valid && touched && (
         <ul className="errors">

@@ -1,33 +1,50 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 const WafoFormTextArea = ({
-  customClass, name, label, labelClass, placeholder, extraProps, children,
-  value, handleInputChange, onChangeCallback, onBlurCallback,
-  valid, touched, errors,
+  customClass,
+  name,
+  label,
+  labelClass,
+  placeholder,
+  extraProps,
+  children,
+  value,
+  handleInputChange,
+  onChangeCallback,
+  onBlurCallback,
+  valid,
+  touched,
+  errors
 }) => (
-  <div className={`wafo-input wafo-textarea form-group ${customClass}`}>
-    {label && <label htmlFor={name} className={labelClass}>{label}</label>}
-    <textarea
-      className="form-control"
-      name={name}
-      placeholder={placeholder}
-      value={value}
-      onChange={(event) => {
-        handleInputChange(event);
-        onChangeCallback(event);
-      }}
-      onBlur={onBlurCallback}
-      {...extraProps}
-    />
+  <div className={`wafo-wrapper ${customClass}`}>
+    <div className="wafo-input wafo-textarea form-group">
+      {label && (
+        <label htmlFor={name} className={labelClass}>
+          {label}
+        </label>
+      )}
+      <textarea
+        className="form-control"
+        name={name}
+        placeholder={placeholder}
+        value={value}
+        onChange={event => {
+          handleInputChange(event);
+          onChangeCallback(event);
+        }}
+        onBlur={onBlurCallback}
+        {...extraProps}
+      />
+    </div>
     {children}
-    {!valid && touched
-      && (
-        <ul className="errors">
-          {errors.map(error => (<li key={error.error}>{error.message}</li>))}
-        </ul>
-      )
-    }
+    {!valid && touched && (
+      <ul className="errors">
+        {errors.map(error => (
+          <li key={error.error}>{error.message}</li>
+        ))}
+      </ul>
+    )}
   </div>
 );
 
@@ -41,7 +58,7 @@ WafoFormTextArea.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element).isRequired,
     PropTypes.element.isRequired,
-    () => null,
+    () => null
   ]),
   value: PropTypes.string,
   handleInputChange: PropTypes.func,
@@ -50,24 +67,24 @@ WafoFormTextArea.propTypes = {
   valid: PropTypes.bool,
   touched: PropTypes.bool,
   errors: PropTypes.arrayOf(PropTypes.any),
-  validations: PropTypes.object,
+  validations: PropTypes.object
 };
 
 WafoFormTextArea.defaultProps = {
-  customClass: '',
+  customClass: "",
   label: undefined,
-  labelClass: '',
-  placeholder: '',
+  labelClass: "",
+  placeholder: "",
   extraProps: {},
   children: null,
-  value: '',
+  value: "",
   handleInputChange: f => f,
   onChangeCallback: f => f,
   onBlurCallback: f => f,
   valid: false,
   touched: false,
   errors: [],
-  validations: {},
+  validations: {}
 };
 
 export default WafoFormTextArea;

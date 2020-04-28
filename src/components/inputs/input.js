@@ -1,34 +1,52 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 const WafoFormInput = ({
-  type, customClass, name, label, labelClass, placeholder, extraProps, children,
-  value, handleInputChange, onChangeCallback, onBlurCallback,
-  valid, touched, errors,
+  type,
+  customClass,
+  name,
+  label,
+  labelClass,
+  placeholder,
+  extraProps,
+  children,
+  value,
+  handleInputChange,
+  onChangeCallback,
+  onBlurCallback,
+  valid,
+  touched,
+  errors
 }) => (
-  <div className={`wafo-input form-group ${customClass}`}>
-    {label && <label htmlFor={name} className={labelClass}>{label}</label>}
-    <input
-      type={type}
-      className="form-control"
-      name={name}
-      placeholder={placeholder}
-      value={value}
-      onChange={(event) => {
-        handleInputChange(event);
-        onChangeCallback(event);
-      }}
-      onBlur={onBlurCallback}
-      {...extraProps}
-    />
+  <div className={`wafo-wrapper ${customClass}`}>
+    <div className="wafo-input form-group">
+      {label && (
+        <label htmlFor={name} className={labelClass}>
+          {label}
+        </label>
+      )}
+      <input
+        type={type}
+        className="form-control"
+        name={name}
+        placeholder={placeholder}
+        value={value}
+        onChange={event => {
+          handleInputChange(event);
+          onChangeCallback(event);
+        }}
+        onBlur={onBlurCallback}
+        {...extraProps}
+      />
+    </div>
     {children}
-    {!valid && touched
-      && (
-        <ul className="errors">
-          {errors.map(error => (<li key={error.error}>{error.message}</li>))}
-        </ul>
-      )
-    }
+    {!valid && touched && (
+      <ul className="errors">
+        {errors.map(error => (
+          <li key={error.error}>{error.message}</li>
+        ))}
+      </ul>
+    )}
   </div>
 );
 
@@ -44,38 +62,35 @@ WafoFormInput.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element).isRequired,
     PropTypes.element.isRequired,
-    () => null,
+    () => null
   ]),
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   handleInputChange: PropTypes.func, // wafoform
   onChangeCallback: PropTypes.func,
   onBlurCallback: PropTypes.func,
   valid: PropTypes.bool,
   touched: PropTypes.bool,
   errors: PropTypes.arrayOf(PropTypes.any),
-  validations: PropTypes.object,
+  validations: PropTypes.object
 };
 
 WafoFormInput.defaultProps = {
   wafoformelement: true,
-  type: 'text',
-  customClass: '',
+  type: "text",
+  customClass: "",
   label: undefined,
-  labelClass: '',
-  placeholder: '',
+  labelClass: "",
+  placeholder: "",
   extraProps: {},
   children: null,
-  value: '',
+  value: "",
   handleInputChange: f => f,
   onChangeCallback: f => f,
   onBlurCallback: f => f,
   valid: false,
   touched: false,
   errors: [],
-  validations: {},
+  validations: {}
 };
 
 export default WafoFormInput;

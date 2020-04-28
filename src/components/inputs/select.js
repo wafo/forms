@@ -1,41 +1,61 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 const WafoFormSelect = ({
-  customClass, name, label, labelClass, defaultValue, options, extraProps, children,
-  value, handleInputChange, onChangeCallback, onBlurCallback,
-  valid, touched, errors,
+  customClass,
+  name,
+  label,
+  labelClass,
+  defaultValue,
+  options,
+  extraProps,
+  children,
+  value,
+  handleInputChange,
+  onChangeCallback,
+  onBlurCallback,
+  valid,
+  touched,
+  errors
 }) => (
-    <div className={`wafo-input form-group ${customClass}`}>
-      {label && <label htmlFor={name} className={labelClass}>{label}</label>}
+  <div className={`wafo-wrapper ${customClass}`}>
+    <div className="wafo-input form-group">
+      {label && (
+        <label htmlFor={name} className={labelClass}>
+          {label}
+        </label>
+      )}
       <select
         className="form-control"
         name={name}
         value={value}
-        onChange={(event) => {
+        onChange={event => {
           handleInputChange(event);
           onChangeCallback(event);
         }}
         onBlur={onBlurCallback}
         {...extraProps}
       >
-        <option value="" disabled>{defaultValue}</option>
-        {
-          options.map(option => (
-            <option key={option.value} value={option.value}>{option.display}</option>
-          ))
-        }
+        <option value="" disabled>
+          {defaultValue}
+        </option>
+        {options.map(option => (
+          <option key={option.value} value={option.value}>
+            {option.display}
+          </option>
+        ))}
       </select>
-      {children}
-      {!valid && touched
-        && (
-          <ul className="errors">
-            {errors.map(error => (<li key={error.error}>{error.message}</li>))}
-          </ul>
-        )
-      }
     </div>
-  );
+    {children}
+    {!valid && touched && (
+      <ul className="errors">
+        {errors.map(error => (
+          <li key={error.error}>{error.message}</li>
+        ))}
+      </ul>
+    )}
+  </div>
+);
 
 WafoFormSelect.propTypes = {
   customClass: PropTypes.string,
@@ -43,15 +63,17 @@ WafoFormSelect.propTypes = {
   label: PropTypes.string,
   labelClass: PropTypes.string,
   defaultValue: PropTypes.string,
-  options: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.string,
-    display: PropTypes.node,
-  })),
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string,
+      display: PropTypes.node
+    })
+  ),
   extraProps: PropTypes.any,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element).isRequired,
     PropTypes.element.isRequired,
-    () => null,
+    () => null
   ]),
   value: PropTypes.string,
   handleInputChange: PropTypes.func,
@@ -60,25 +82,25 @@ WafoFormSelect.propTypes = {
   valid: PropTypes.bool,
   touched: PropTypes.bool,
   errors: PropTypes.arrayOf(PropTypes.any),
-  validations: PropTypes.object,
+  validations: PropTypes.object
 };
 
 WafoFormSelect.defaultProps = {
-  customClass: '',
+  customClass: "",
   label: undefined,
-  labelClass: '',
-  defaultValue: 'Select an option',
+  labelClass: "",
+  defaultValue: "Select an option",
   options: [],
   extraProps: {},
   children: null,
-  value: '',
+  value: "",
   handleInputChange: f => f,
   onChangeCallback: f => f,
   onBlurCallback: f => f,
   valid: false,
   touched: false,
   errors: [],
-  validations: {},
+  validations: {}
 };
 
 export default WafoFormSelect;
