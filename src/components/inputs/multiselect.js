@@ -100,7 +100,9 @@ const WafoFormMultiSelect = ({
           </button>
         </div>
         {dropdown && (
-          <div className={styles["multiselect-list-wrapper"]}>
+          <div
+            className={`wafoformmultiselect-list-wrapper ${styles["multiselect-list-wrapper"]}`}
+          >
             {items.length > 0 && (
               <ul>
                 {display.itemsDisplay.map((item, i) => (

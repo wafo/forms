@@ -152,7 +152,7 @@ const WafoFormAutocomplete = ({
           {...extraProps}
         />
         {dropdown && (
-          <div className={styles["autocomplete-wrapper"]}>
+          <div className={`wafoformautocomplete-list-wrapper ${styles["autocomplete-wrapper"]}`}>
             {/** TODO: Cambiar este id por clase, no se deben repetir ids... */}
             {suggestions.length > 0 && (
               <ul ref={listRef} id="wafoformautocomplete-list">
