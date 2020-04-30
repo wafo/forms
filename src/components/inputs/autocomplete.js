@@ -155,7 +155,7 @@ const WafoFormAutocomplete = ({
           <div className={`wafoformautocomplete-list-wrapper ${styles["autocomplete-wrapper"]}`}>
             {/** TODO: Cambiar este id por clase, no se deben repetir ids... */}
             {suggestions.length > 0 && (
-              <ul ref={listRef} id="wafoformautocomplete-list">
+              <ul ref={listRef} className="wafoformautocomplete-list">
                 {suggestions.map((item, i) => (
                   <li
                     key={i}
