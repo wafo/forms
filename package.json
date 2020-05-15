@@ -1,6 +1,6 @@
 {
   "name": "@wafo/forms",
-  "version": "0.7.6",
+  "version": "0.7.7",
   "description": "I don't want to configure state for inputs.",
   "author": "Jose Luis Vega <joseluisvb@outlook.com>",
   "homepage": "https://github.com/wafo/forms",

@@ -9,11 +9,12 @@
 
 .wafo-form :global .form-group {
   margin-bottom: 0rem;
-  padding: 0 15px;
+  /* padding: 0 15px; */
 }
 
 .wafo-form :global .wafo-wrapper {
   margin-bottom: 1rem;
+  padding: 0 15px;
 }
 
 .wafo-form label {
