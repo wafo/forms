@@ -41,8 +41,9 @@ const WafoFormAutocomplete = ({
         name,
         value: ""
       });
+      onSelectCallback("", "change");
     }
-  }, [dropdown, handleInputChange, name, value]);
+  }, [dropdown, handleInputChange, name, value, onSelectCallback]);
 
   React.useEffect(() => {
     if (listRef.current && listRef.current.children[cursor]) {
@@ -64,7 +65,7 @@ const WafoFormAutocomplete = ({
       name,
       value: item
     });
-    onSelectCallback(item);
+    onSelectCallback(item, "selected");
   };
 
   const handleKeys = event => {
@@ -152,7 +153,9 @@ const WafoFormAutocomplete = ({
           {...extraProps}
         />
         {dropdown && (
-          <div className={`wafoformautocomplete-list-wrapper ${styles["autocomplete-wrapper"]}`}>
+          <div
+            className={`wafoformautocomplete-list-wrapper ${styles["autocomplete-wrapper"]}`}
+          >
             {/** TODO: Cambiar este id por clase, no se deben repetir ids... */}
             {suggestions.length > 0 && (
               <ul ref={listRef} className="wafoformautocomplete-list">
