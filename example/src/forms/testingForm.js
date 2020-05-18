@@ -130,6 +130,9 @@ const TestForm = () => {
           }
           validations={{ required: true }}
           onQueryChange={query => console.log("query: ", query)}
+          onSelectCallback={(select, type) =>
+            console.log(`[${type}] Select: ${select}`)
+          }
           handleChange
           locale="es"
         />

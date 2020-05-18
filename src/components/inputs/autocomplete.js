@@ -119,6 +119,9 @@ const WafoFormAutocomplete = ({
   const handleOnChange = change => {
     onQueryChange(change.target.value);
     handleInputChange(change);
+    if (!change.target.value) {
+      onSelectCallback("", "change");
+    }
   };
 
   const queryValue = React.useMemo(() => {
