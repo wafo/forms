@@ -10,13 +10,42 @@ const initialInputState = {
   value: ""
 };
 
-function setUpState({ children, state, initialValues, childrenKeys = [] }) {
+function setUpState({
+  children,
+  state,
+  initialValues,
+  childrenKeys = [],
+  group = false
+}) {
   let newState = state;
   let keys = childrenKeys;
   let validations = {};
+
   // Setting up state object.
   React.Children.forEach(children, child => {
     if (child && child.props) {
+      if (child.props.groupName) {
+        const {
+          // keys: keysFragment,
+          newState: stateFragment,
+          validations: validationsFragment
+        } = setUpState({
+          children: child.props.children,
+          state: {},
+          initialValues: {},
+          group: child.props.groupName
+        });
+
+        keys = [...keys, child.props.groupName];
+        newState = {
+          ...newState,
+          [child.props.groupName]: { ...stateFragment, isGroup: true }
+        };
+        validations = {
+          ...validations,
+          [child.props.groupName]: validationsFragment
+        };
+      }
       if (child.props.name && !child.props.ignoreinput) {
         keys = [...keys, child.props.name];
       }
@@ -27,6 +56,7 @@ function setUpState({ children, state, initialValues, childrenKeys = [] }) {
             ...newState,
             [child.props.name]: {
               ...initialInputState,
+              ...(group && { group }),
               // Checking if initial value exists
               value:
                 initialValues && initialValues[child.props.name]
@@ -46,25 +76,27 @@ function setUpState({ children, state, initialValues, childrenKeys = [] }) {
             value: initialValues[child.props.name]
           };
         }
+        // Validations
         validations = {
           ...validations,
           [child.props.name]: child.props.validations || {}
         };
       }
       // if child has childrens
-      if (child.props.children) {
+      if (child.props.children && !child.props.groupName) {
         const {
-          newState: stateFragment,
           keys: keysFragment,
+          newState: stateFragment,
           validations: validationsFragment
         } = setUpState({
           children: child.props.children,
           state: newState,
           initialValues,
-          childrenKeys: []
+          group
         });
-        newState = { ...newState, ...stateFragment };
+
         keys = [...keys, ...keysFragment];
+        newState = { ...newState, ...stateFragment };
         validations = { ...validations, ...validationsFragment };
       }
     }
@@ -75,17 +107,31 @@ function setUpState({ children, state, initialValues, childrenKeys = [] }) {
 
 function reducer(state, action) {
   switch (action.type) {
-    case "inputChange":
+    case "inputChange": {
+      const isGroup = !!action.payload.group;
       return {
         ...state,
         form: {
           ...state.form,
-          [action.payload.name]: {
-            ...state.form[action.payload.name],
-            ...action.payload.input
-          }
+          ...(isGroup
+            ? {
+                [action.payload.group]: {
+                  ...state.form[action.payload.group],
+                  [action.payload.name]: {
+                    ...state.form[action.payload.name],
+                    ...action.payload.input
+                  }
+                }
+              }
+            : {
+                [action.payload.name]: {
+                  ...state.form[action.payload.name],
+                  ...action.payload.input
+                }
+              })
         }
       };
+    }
     case "formChange":
       return {
         ...state,
@@ -96,7 +142,11 @@ function reducer(state, action) {
         state: state.form,
         ...action.payload
       });
+
+      // TODO: How to remove elements from groups
+      console.log(keys);
       // Removing elements from state object that are no longer in the form.
+      // This is outside of the set up function because of recursion
       Object.keys(newState).forEach(key => {
         if (keys.findIndex(x => x === key) === -1) {
           delete newState[key];
@@ -142,23 +192,29 @@ function WafoForm({
     setLocale(locale);
   }, [locale]);
 
-  function handleOnChange(event) {
+  function handleOnChange(event, group) {
     const { target } = event;
     const { name, value, attributes } = target || event;
+
+    const inState = group ? !!state.form[group][name] : !!state.form[name];
+    const inValidations = group
+      ? !!state.validations[group][name]
+      : !!state.validations[name];
+
     if (
-      state.form[name] &&
-      state.validations[name] &&
+      inState &&
+      inValidations &&
       ((attributes && !attributes.ignoreinput) || !attributes)
     ) {
-      const iValidations = state.validations[name];
-      const vValue = iValidations.track
-        ? { value, tracking: state.form[iValidations.track].value }
-        : value;
-      const validation = validateField(vValue, iValidations);
+      const iValidations = group
+        ? state.validations[group][name]
+        : state.validations[name];
+      const validation = validateField(value, iValidations);
 
       dispatch({
         type: "inputChange",
         payload: {
+          group,
           name,
           input: {
             value,
@@ -178,76 +234,110 @@ function WafoForm({
 
     const form = { valid: true };
     const formValues = {};
-    const newState = {};
+    const formState = {};
 
-    Object.keys(state.form).forEach(field => {
-      const { [field]: inputState } = state.form;
-
-      const iValidations = state.validations[field];
-      const vValue = iValidations.track
-        ? {
-            value: inputState.value,
-            tracking: state.form[iValidations.track].value
-          }
-        : inputState.value;
-      const validation = validateField(vValue, iValidations);
+    function checkInput(inputState, validations) {
+      const validation = validateField(inputState.value, validations);
       if (!validation.valid) {
         form.valid = false;
       }
 
-      form[field] = {
+      return {
         value: inputState.value,
         valid: validation.valid,
-        errors: validation.errors
-      };
-
-      if (!ignoreEmpty || (ignoreEmpty && inputState.value)) {
-        formValues[field] = inputState.value;
-      }
-
-      newState[field] = {
-        ...inputState,
         errors: validation.errors,
-        touched: true,
-        valid: validation.valid
+        touched: true
       };
+    }
+
+    Object.keys(state.form).forEach(key => {
+      let { [key]: inputState } = state.form;
+      const isGroup = inputState.isGroup;
+
+      let testedValue = null;
+      if (isGroup) {
+        Object.keys(inputState)
+          .filter(x => x !== "isGroup")
+          .forEach(childKey => {
+            testedValue = {
+              ...testedValue,
+              [childKey]: checkInput(
+                inputState[childKey],
+                state.validations[key][childKey]
+              )
+            };
+          });
+        form[key] = { ...testedValue };
+        formState[key] = { ...inputState, ...testedValue };
+        
+        Object.entries(testedValue).forEach(([childKey, x]) => {
+          if (!ignoreEmpty || (ignoreEmpty && x.value)) {
+            formValues[key] = {
+              ...formValues[key],
+              [childKey]: x.value
+            };
+          }
+        });
+      } else {
+        testedValue = checkInput(inputState, state.validations[key]);
+        form[key] = { ...testedValue };
+        formState[key] = { ...testedValue };
+
+        if (!ignoreEmpty || (ignoreEmpty && inputState.value)) {
+          formValues[key] = inputState.value;
+        }
+      }
     });
 
     dispatch({
       type: "formChange",
-      payload: newState
+      payload: formState
     });
     onSubmit(form, formValues);
   }
 
-  function prepareRender(children) {
+  function prepareRender(children, group) {
     return React.Children.map(children, child => {
       if (
         !child ||
         !child.props ||
-        !state.form[child.props.name] ||
+        (!group && !state.form[child.props.name]) ||
+        (group &&
+          (!state.form[group] || !state.form[group][child.props.name])) ||
         !Object.prototype.hasOwnProperty.call(child.props, "name") ||
         Object.prototype.hasOwnProperty.call(child.props, "ignoreinput")
       ) {
         if (child && child.props && child.props.children) {
-          const nestedChildren = prepareRender(child.props.children);
+          const nestedChildren = prepareRender(
+            child.props.children,
+            child.props.groupName || group
+          );
           return React.cloneElement(child, [], [nestedChildren]);
         }
         return child;
       }
 
-      const {
-        [child.props.name]: { value, valid, touched, errors }
-      } = state.form;
+      // If group check state inside group.
+      const input = group
+        ? state.form[group][child.props.name]
+        : state.form[child.props.name];
+      const { value, valid, touched, errors } = input;
+
       const hasCustomErrors = Object.prototype.hasOwnProperty.call(
         child.props,
         "customErrors"
       );
 
       return React.cloneElement(child, {
-        ...(child.props.handleChange && { handleInputChange: handleOnChange }),
+        ...(child.props.handleChange && {
+          handleInputChange: event => {
+            // Add the group key alongside the event.
+            handleOnChange(event, group);
+          }
+        }),
         ...(!child.props.locale && { locale }),
         value,
+        groupKey: group,
         valid: hasCustomErrors ? false : valid,
         touched: hasCustomErrors ? true : touched,
         errors: hasCustomErrors
@@ -263,7 +353,6 @@ function WafoForm({
     <form
       id={formId}
       className={`wafo-form ${styles["wafo-form"]}`}
-      onChange={handleOnChange}
       onSubmit={handleSubmit}
     >
       <div className="row">{renderChildren}</div>

@@ -142,6 +142,7 @@ const WafoFormMultiSelect = ({
 };
 
 WafoFormMultiSelect.propTypes = {
+  handleChange: PropTypes.bool,
   name: PropTypes.string.isRequired,
   customClass: PropTypes.string,
   label: PropTypes.string,
@@ -163,6 +164,7 @@ WafoFormMultiSelect.propTypes = {
 };
 
 WafoFormMultiSelect.defaultProps = {
+  handleChange: true,
   customClass: "",
   label: "",
   placeholder: "",

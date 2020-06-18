@@ -58,6 +58,7 @@ const WafoFormSelect = ({
 );
 
 WafoFormSelect.propTypes = {
+  handleChange: PropTypes.bool,
   customClass: PropTypes.string,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
@@ -86,6 +87,7 @@ WafoFormSelect.propTypes = {
 };
 
 WafoFormSelect.defaultProps = {
+  handleChange: true,
   customClass: "",
   label: undefined,
   labelClass: "",

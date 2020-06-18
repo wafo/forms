@@ -207,6 +207,7 @@ const WafoFormAutocomplete = ({
 };
 
 WafoFormAutocomplete.propTypes = {
+  handleChange: PropTypes.bool,
   name: PropTypes.string.isRequired,
   customClass: PropTypes.string,
   label: PropTypes.string,
@@ -234,6 +235,7 @@ WafoFormAutocomplete.propTypes = {
 };
 
 WafoFormAutocomplete.defaultProps = {
+  handleChange: true,
   handleInputChange: f => f,
   valid: false,
   touched: false,

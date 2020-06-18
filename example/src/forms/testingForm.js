@@ -29,6 +29,7 @@ const TestForm = () => {
 
   return (
     <div>
+      <h3>Testing Form Example</h3>
       <WafoForm values={initialValues} locale="en">
         {show && (
           <WafoFormInput
@@ -84,7 +85,6 @@ const TestForm = () => {
           ]}
           renderItem={item => item.name}
           renderInput={item => item.name}
-          handleChange
           validations={{ required: true }}
         />
 
@@ -133,7 +133,6 @@ const TestForm = () => {
           onSelectCallback={(select, type) =>
             console.log(`[${type}] Select: ${select}`)
           }
-          handleChange
           locale="es"
         />
 

@@ -49,6 +49,7 @@ const WafoFormTextArea = ({
 );
 
 WafoFormTextArea.propTypes = {
+  handleChange: PropTypes.bool,
   customClass: PropTypes.string,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
@@ -71,6 +72,7 @@ WafoFormTextArea.propTypes = {
 };
 
 WafoFormTextArea.defaultProps = {
+  handleChange: true,
   customClass: "",
   label: undefined,
   labelClass: "",
