@@ -9,7 +9,7 @@ const ArrayForm = () => {
   const [hide, setHide] = React.useState(false);
 
   const handleForm = (form, values) => {
-    console.log(form);
+    console.log(values);
   };
 
   return (
@@ -33,7 +33,7 @@ const ArrayForm = () => {
         <div style={styles.full_width}>
           <h5>User info:</h5>
         </div>
-        <div style={styles.full_width} groupName="user">
+        <div style={styles.full_width} groupname="user">
           <div className="row">
             <WafoFormInput
               name="name"
@@ -47,11 +47,28 @@ const ArrayForm = () => {
               customClass="col-md-4"
               validations={{ required: true }}
             />
-            <WafoFormInput
-              name="color"
-              placeholder="Favorite color"
-              customClass="col-md-4"
-            />
+            {!hide && (
+              <WafoFormInput
+                name="color"
+                placeholder="Favorite color"
+                customClass="col-md-4"
+              />
+            )}
+            <div style={styles.full_width} groupname="address">
+              <div className="row">
+                <WafoFormInput
+                  name="street"
+                  placeholder="Street"
+                  customClass="col-md-4"
+                  validations={{ required: true }}
+                />
+                <WafoFormInput
+                  name="ZipCode"
+                  placeholder="Zip Code"
+                  customClass="col-md-4"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
