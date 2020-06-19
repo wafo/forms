@@ -128,7 +128,10 @@ function setUpState({
   // Setting up state object.
   React.Children.forEach(children, child => {
     if (child && child.props) {
-      if (child.props.groupname) {
+      const isGroup =
+        child.props.groupname !== null && child.props.groupname !== undefined;
+
+      if (isGroup) {
         const {
           keys: keysFragment,
           newState: stateFragment,
@@ -190,7 +193,7 @@ function setUpState({
         };
       }
       // if child has childrens
-      if (child.props.children && !child.props.groupname) {
+      if (child.props.children && !isGroup) {
         const {
           keys: keysFragment,
           newState: stateFragment,
@@ -339,9 +342,11 @@ function WafoForm({
           Object.prototype.hasOwnProperty.call(child.props, "ignoreinput")
         ) {
           if (child && child.props && child.props.children) {
-            const g = child.props.groupname
-              ? [...group, child.props.groupname]
-              : group;
+            const g =
+              child.props.groupname !== undefined &&
+              child.props.groupname !== null
+                ? [...group, child.props.groupname]
+                : group;
             const nestedChildren = prepareRender(child.props.children, g);
             return React.cloneElement(child, [], [nestedChildren]);
           }
@@ -382,6 +387,7 @@ function WafoForm({
         });
       });
     } catch (error) {
+      console.error("WafoForm: Render error");
       console.error(error);
       return null;
     }

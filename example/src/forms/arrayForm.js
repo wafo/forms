@@ -6,10 +6,19 @@ const styles = {
 };
 
 const ArrayForm = () => {
-  const [hide, setHide] = React.useState(false);
+  const [items, setItems] = React.useState([]);
+  const removeItem = index => {
+    setItems(prev => {
+      const dummy = [...prev];
+      dummy.splice(index, 1);
+      return dummy;
+    });
+  };
 
   const handleForm = (form, values) => {
     console.log(values);
+    const products = Object.entries(values.products).map(([, value]) => value);
+    console.log(products);
   };
 
   return (
@@ -21,63 +30,46 @@ const ArrayForm = () => {
           placeholder="Title"
           validations={{ required: true }}
         />
-        <div>
-          {!hide && (
-            <WafoFormInput
-              name="desc"
-              placeholder="Description"
-              validations={{ required: true }}
-            />
-          )}
-        </div>
-        <div style={styles.full_width}>
-          <h5>User info:</h5>
-        </div>
-        <div style={styles.full_width} groupname="user">
-          <div className="row">
-            <WafoFormInput
-              name="name"
-              placeholder="Name"
-              customClass="col-md-4"
-              validations={{ required: true }}
-            />
-            <WafoFormInput
-              name="last_name"
-              placeholder="Last name"
-              customClass="col-md-4"
-              validations={{ required: true }}
-            />
-            {!hide && (
-              <WafoFormInput
-                name="color"
-                placeholder="Favorite color"
-                customClass="col-md-4"
-              />
-            )}
-            <div style={styles.full_width} groupname="address">
+
+        <button type="button" onClick={() => setItems(prev => [...prev, {}])}>
+          Add product +
+        </button>
+
+        <div style={styles.full_width} groupname="products">
+          {items.map((item, i) => (
+            <div key={i} style={styles.full_width} groupname={i}>
               <div className="row">
                 <WafoFormInput
-                  name="street"
-                  placeholder="Street"
+                  name="name"
+                  placeholder="Name"
                   customClass="col-md-4"
                   validations={{ required: true }}
                 />
                 <WafoFormInput
-                  name="ZipCode"
-                  placeholder="Zip Code"
+                  name="description"
+                  placeholder="Description"
                   customClass="col-md-4"
+                  validations={{ required: false }}
                 />
+                <WafoFormInput
+                  type="number"
+                  name="quantity"
+                  placeholder="Quantity"
+                  customClass="col-md-4"
+                  validations={{ required: false }}
+                />
+                <button type="button" onClick={() => removeItem(i)}>
+                  X
+                </button>
               </div>
             </div>
-          </div>
+          ))}
         </div>
 
         <div style={styles.full_width}>
           <button type="submit">Submit form</button>
         </div>
       </WafoForm>
-
-      <button onClick={() => setHide(prev => !prev)}>Toggle description</button>
     </div>
   );
 };
