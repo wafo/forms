@@ -9,7 +9,7 @@ const GroupsForm = () => {
   const [hide, setHide] = React.useState(false);
 
   const handleForm = (form, values) => {
-    console.log(values);
+    console.log(form);
   };
 
   return (

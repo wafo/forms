@@ -63,8 +63,8 @@ function checkInput(inputState, validations) {
 function validateForm(
   { form: iForm = {}, values: iValues = {}, state: iState = {} },
   validations,
-  iValid = true,
-  ignoreEmpty = false
+  ignoreEmpty = false,
+  iValid = true
 ) {
   const form = { ...iForm };
   const formValues = { ...iValues };
