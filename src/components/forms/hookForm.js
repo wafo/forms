@@ -83,6 +83,7 @@ function validateForm(
             state: formState[key]
           },
           validations[key],
+          ignoreEmpty,
           valid
         );
         form[key] = testedForm.form;
