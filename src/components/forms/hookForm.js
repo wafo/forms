@@ -140,7 +140,7 @@ function setUpState({
         } = setUpState({
           children: child.props.children,
           state: newState[child.props.groupname] || {},
-          initialValues: {},
+          initialValues: initialValues[child.props.groupname] || {},
           group: child.props.groupname
         });
 
