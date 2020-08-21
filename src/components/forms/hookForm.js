@@ -123,8 +123,6 @@ function setUpState({
   childrenKeys = {},
   group = false
 }) {
-  console.log("override: ", valuesOverride);
-
   let newState = state;
   let keys = childrenKeys;
   let validations = {};
