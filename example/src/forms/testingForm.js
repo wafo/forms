@@ -30,12 +30,13 @@ const TestForm = () => {
   return (
     <div>
       <h3>Testing Form Example</h3>
-      <WafoForm values={initialValues} locale="en">
+      <WafoForm values={initialValues} valuesOverride={false} locale="en">
         {show && (
           <WafoFormInput
             name="eluno"
             placeholder="Uno"
             validations={{ required: test }}
+            valuesOverride={false}
           />
         )}
         <input type="text" name="eldos" placeholder="Dos" ignoreinput="true" />

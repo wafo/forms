@@ -119,9 +119,12 @@ function setUpState({
   children,
   state,
   initialValues,
+  valuesOverride,
   childrenKeys = {},
   group = false
 }) {
+  console.log("override: ", valuesOverride);
+
   let newState = state;
   let keys = childrenKeys;
   let validations = {};
@@ -141,6 +144,7 @@ function setUpState({
           children: child.props.children,
           state: newState[child.props.groupname] || {},
           initialValues: initialValues[child.props.groupname] || {},
+          valuesOverride,
           group: child.props.groupname
         });
 
@@ -176,10 +180,13 @@ function setUpState({
             }
           };
         } else if (
-          newState[child.props.name] &&
-          !newState[child.props.name].value &&
-          initialValues &&
-          initialValues[child.props.name]
+          // TODO: idea para poder modificar defualt values.
+          valuesOverride ||
+          child.props.valuesOverride ||
+          (newState[child.props.name] &&
+            !newState[child.props.name].value &&
+            initialValues &&
+            initialValues[child.props.name])
         ) {
           // If already on state, but initial value changes and input doesn't have a value.
           newState[child.props.name] = {
@@ -203,6 +210,7 @@ function setUpState({
           children: child.props.children,
           state: newState,
           initialValues,
+          valuesOverride,
           group
         });
 
@@ -258,6 +266,7 @@ function reducer(state, action) {
 function WafoForm({
   children,
   values,
+  valuesOverride,
   onSubmit,
   formId,
   buttonText,
@@ -275,10 +284,11 @@ function WafoForm({
       type: "reset",
       payload: {
         children,
-        initialValues: values
+        initialValues: values,
+        valuesOverride
       }
     });
-  }, [children, values]);
+  }, [children, values, valuesOverride]);
 
   React.useEffect(() => {
     setLocale(locale);
@@ -420,6 +430,7 @@ WafoForm.propTypes = {
     () => null
   ]).isRequired,
   values: PropTypes.any,
+  valuesOverride: PropTypes.bool,
   onSubmit: PropTypes.func,
   formId: PropTypes.string,
   buttonText: PropTypes.string,
@@ -429,6 +440,7 @@ WafoForm.propTypes = {
 
 WafoForm.defaultProps = {
   values: undefined,
+  valuesOverride: false,
   onSubmit: f => f,
   formId: "wafoform",
   buttonText: "",
