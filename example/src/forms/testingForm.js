@@ -27,15 +27,32 @@ const TestForm = () => {
     }));
   };
 
+  const handleSubmit = async (form, values) => {
+    console.log(form);
+    console.log(values);
+  };
+
   return (
     <div>
       <h3>Testing Form Example</h3>
-      <WafoForm values={initialValues} valuesOverride={false} locale="en">
+      <WafoForm
+        values={initialValues}
+        valuesOverride={false}
+        locale="en"
+        onSubmit={handleSubmit}
+      >
         {show && (
           <WafoFormInput
             name="eluno"
             placeholder="Uno"
-            validations={{ required: test }}
+            validations={{
+              required: false,
+              regex: {
+                // VEBL931202Q80
+                value: /^([A-Z,Ñ,&]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])([A-Z\d]{3}))$/g,
+                message: "RFC inválido"
+              }
+            }}
             valuesOverride={false}
           />
         )}
@@ -144,6 +161,10 @@ const TestForm = () => {
           label="About you"
           extraProps={{ rows: 3 }}
         />
+
+        <div className="col-12">
+          <button type="submit">Submit form</button>
+        </div>
       </WafoForm>
 
       <button type="button" onClick={() => setShow(prevState => !prevState)}>
