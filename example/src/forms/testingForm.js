@@ -28,8 +28,8 @@ const TestForm = () => {
   };
 
   const handleSubmit = async (form, values) => {
-    console.log(form);
-    console.log(values);
+    // console.log(form);
+    // console.log(values);
   };
 
   return (

@@ -91,7 +91,7 @@ function validateForm(
         formValues[key] = testedForm.formValues;
         valid = testedForm.valid;
       } else {
-        const testedValue = checkInput(value.value ? value.value : value, validations[key]);
+        const testedValue = checkInput(value, validations[key]);
         form[key] = testedValue;
         formState[key] = testedValue;
         if (!ignoreEmpty || (ignoreEmpty && value.value)) {

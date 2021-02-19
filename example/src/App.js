@@ -16,7 +16,7 @@ const styles = {
 };
 
 const App = () => {
-  const [form, setForm] = React.useState("array");
+  const [form, setForm] = React.useState("test");
 
   return (
     <div>

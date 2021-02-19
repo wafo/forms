@@ -69,8 +69,10 @@ function checkValidations(type, validation, inputValue) {
       break;
     }
     case "regex": {
-      const regEx = RegExp(validationValue);
-      if (!regEx.test(value)) {
+      const regEx = new RegExp(validationValue);
+      const result = regEx.test(value);
+      if (!result) {
+        console.log("hay error");
         return {
           error: "regex",
           message: customErrorMessage || locale[validationType]
