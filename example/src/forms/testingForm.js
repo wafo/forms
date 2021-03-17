@@ -104,6 +104,10 @@ const TestForm = () => {
           renderItem={item => item.name}
           renderInput={item => item.name}
           validations={{ required: true }}
+          /* iconButtonClosed={<span>A</span>}
+          iconButtonOpen={<span>B</span>}
+          iconUnselected={<span>n</span>}
+          iconSelected={<span>s</span>} */
         />
 
         <WafoFormAutocomplete

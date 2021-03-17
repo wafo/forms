@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import useClickOutside from "../../hooks/useClickOutside";
 import CaretUp from "../../assets/caret-up-solid.svg";
@@ -96,10 +96,17 @@ const WafoFormMultiSelect = ({
             className="btn btn-light"
             onClick={toggleDropdown}
           >
-            {dropdown ? (
-              <img src={iconButtonOpen} alt="icon" className={styles.svg} />
-            ) : (
-              <img src={iconButtonClosed} alt="icon" className={styles.svg} />
+            {iconButtonClosed && iconButtonOpen && (
+              <Fragment>
+                {dropdown ? iconButtonOpen : iconButtonClosed}
+              </Fragment>
+            )}
+            {(!iconButtonClosed || !iconButtonOpen) && (
+              <img
+                src={dropdown ? CaretUp : CaretDown}
+                alt="icon"
+                className={styles.svg}
+              />
             )}
           </button>
         </div>
@@ -112,14 +119,17 @@ const WafoFormMultiSelect = ({
                 {display.itemsDisplay.map((item, i) => (
                   <li key={i} onClick={() => handleItemClick(item)}>
                     <span>{renderItem(item)}</span>
-                    {item.wafoSelected ? (
+                    {iconSelected && iconUnselected && (
+                      <Fragment>
+                        {item.wafoSelected ? iconSelected : iconUnselected}
+                      </Fragment>
+                    )}
+                    {(!iconSelected || !iconUnselected) && (
                       <img
-                        src={iconSelected}
+                        src={item.wafoSelected ? CheckSquare : Square}
                         alt="icon"
                         className={styles.svg}
                       />
-                    ) : (
-                      <img src={iconUnselected} alt="icon" className={styles.svg} />
                     )}
                   </li>
                 ))}
@@ -180,10 +190,6 @@ WafoFormMultiSelect.defaultProps = {
   itemsKey: "id",
   renderItem: item => (typeof item === "string" ? item : "Item option"),
   renderInput: item => (typeof item === "string" ? item : "Item option"),
-  iconButtonClosed: CaretDown,
-  iconButtonOpen: CaretUp,
-  iconUnselected: Square,
-  iconSelected: CheckSquare,
   value: false,
   handleInputChange: f => f,
   valid: false,
