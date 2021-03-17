@@ -16,6 +16,10 @@ const WafoFormMultiSelect = ({
   itemKey,
   renderItem,
   renderInput,
+  iconButtonClosed,
+  iconButtonOpen,
+  iconUnselected,
+  iconSelected,
   value,
   handleInputChange,
   valid,
@@ -93,9 +97,9 @@ const WafoFormMultiSelect = ({
             onClick={toggleDropdown}
           >
             {dropdown ? (
-              <img src={CaretUp} alt="icon" className={styles.svg} />
+              <img src={iconButtonOpen} alt="icon" className={styles.svg} />
             ) : (
-              <img src={CaretDown} alt="icon" className={styles.svg} />
+              <img src={iconButtonClosed} alt="icon" className={styles.svg} />
             )}
           </button>
         </div>
@@ -110,12 +114,12 @@ const WafoFormMultiSelect = ({
                     <span>{renderItem(item)}</span>
                     {item.wafoSelected ? (
                       <img
-                        src={CheckSquare}
+                        src={iconSelected}
                         alt="icon"
                         className={styles.svg}
                       />
                     ) : (
-                      <img src={Square} alt="icon" className={styles.svg} />
+                      <img src={iconUnselected} alt="icon" className={styles.svg} />
                     )}
                   </li>
                 ))}
@@ -151,6 +155,10 @@ WafoFormMultiSelect.propTypes = {
   itemKey: PropTypes.string,
   renderItem: PropTypes.func,
   renderInput: PropTypes.func,
+  iconButtonClosed: PropTypes.any,
+  iconButtonOpen: PropTypes.any,
+  iconUnselected: PropTypes.any,
+  iconSelected: PropTypes.any,
   value: PropTypes.any,
   handleInputChange: PropTypes.func,
   valid: PropTypes.bool,
@@ -172,6 +180,10 @@ WafoFormMultiSelect.defaultProps = {
   itemsKey: "id",
   renderItem: item => (typeof item === "string" ? item : "Item option"),
   renderInput: item => (typeof item === "string" ? item : "Item option"),
+  iconButtonClosed: CaretDown,
+  iconButtonOpen: CaretUp,
+  iconUnselected: Square,
+  iconSelected: CheckSquare,
   value: false,
   handleInputChange: f => f,
   valid: false,
