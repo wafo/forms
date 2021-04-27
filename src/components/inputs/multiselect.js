@@ -1,10 +1,6 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import useClickOutside from "../../hooks/useClickOutside";
-import CaretUp from "../../assets/caret-up-solid.svg";
-import CaretDown from "../../assets/caret-down-solid.svg";
-import Square from "../../assets/square-regular.svg";
-import CheckSquare from "../../assets/check-square-regular.svg";
 import styles from "../../styles.module.css";
 
 const WafoFormMultiSelect = ({
@@ -102,11 +98,7 @@ const WafoFormMultiSelect = ({
               </Fragment>
             )}
             {(!iconButtonClosed || !iconButtonOpen) && (
-              <img
-                src={dropdown ? CaretUp : CaretDown}
-                alt="icon"
-                className={styles.svg}
-              />
+              <Fragment>{dropdown ? "^" : "v"}</Fragment>
             )}
           </button>
         </div>
@@ -125,11 +117,7 @@ const WafoFormMultiSelect = ({
                       </Fragment>
                     )}
                     {(!iconSelected || !iconUnselected) && (
-                      <img
-                        src={item.wafoSelected ? CheckSquare : Square}
-                        alt="icon"
-                        className={styles.svg}
-                      />
+                      <Fragment>{item.wafoSelected ? "x" : "o"}</Fragment>
                     )}
                   </li>
                 ))}
