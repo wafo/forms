@@ -269,7 +269,8 @@ function WafoForm({
   formId,
   buttonText,
   locale,
-  ignoreEmpty
+  ignoreEmpty,
+  onValuesUpdate
 }) {
   const [state, dispatch] = React.useReducer(reducer, {
     form: {},
@@ -291,6 +292,11 @@ function WafoForm({
   React.useEffect(() => {
     setLocale(locale);
   }, [locale]);
+
+  React.useEffect(() => {
+    // not doing anything to the object to save on performance, possible O(n)
+    onValuesUpdate(state.form);
+  }, [onValuesUpdate, state.form]);
 
   function handleOnChange(event, group) {
     const { target } = event;
@@ -433,7 +439,8 @@ WafoForm.propTypes = {
   formId: PropTypes.string,
   buttonText: PropTypes.string,
   locale: PropTypes.string,
-  ignoreEmpty: PropTypes.bool
+  ignoreEmpty: PropTypes.bool,
+  onValuesUpdate: PropTypes.func
 };
 
 WafoForm.defaultProps = {
@@ -443,7 +450,8 @@ WafoForm.defaultProps = {
   formId: "wafoform",
   buttonText: "",
   locale: "en",
-  ignoreEmpty: false
+  ignoreEmpty: false,
+  onValuesUpdate: f => f
 };
 
 export default WafoForm;

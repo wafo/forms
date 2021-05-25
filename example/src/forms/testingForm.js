@@ -40,6 +40,7 @@ const TestForm = () => {
         valuesOverride={false}
         locale="en"
         onSubmit={handleSubmit}
+        onValuesUpdate={test => console.log(test)}
       >
         {show && (
           <WafoFormInput
